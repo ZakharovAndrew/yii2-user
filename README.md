@@ -1,4 +1,4 @@
-# yii2-user
+# Yii2 user
 
 [![Latest Stable Version](https://poser.pugx.org/zakharov-andrew/yii2-user/v/stable)](https://packagist.org/packages/zakharov-andrew/yii2-category)
 [![License](https://poser.pugx.org/zakharov-andrew/yii2-user/license)](https://packagist.org/packages/zakharov-andrew/yii2-category)
