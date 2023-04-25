@@ -32,6 +32,42 @@ Subsequently, run
 ./yii migrate/up --migrationPath=@vendor/zakharov-andrew/yii2-user/migrations
 ```
 
+in order to create the settings table in your database.
+
+Or add to console config
+
+```php
+return [
+    // ...
+    'controllerMap' => [
+        // ...
+        'migrate' => [
+            'class' => 'yii\console\controllers\MigrateController',
+            'migrationPath' => [
+                '@console/migrations', // Default migration folder
+                '@vendor/zakharov-andrew/yii2-user/src/migrations'
+            ]
+        ]
+        // ...
+    ]
+    // ...
+];
+```
+
+## Usage
+
+Add this to your main configuration's modules array
+
+```
+    'modules' => [
+        'settings' => [
+            'class' => 'ZakharovAndrew\user\Module',
+            'bootstrapVersion' => 5, // if use bootstrap 5
+        ],
+        // ...
+    ],
+```
+
 ## License
 
-**yii2-category** it is available under a MIT License. Detailed information can be found in the `LICENSE.md`.
+**yii2-user** it is available under a MIT License. Detailed information can be found in the `LICENSE.md`.
