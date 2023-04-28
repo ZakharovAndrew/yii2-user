@@ -18,7 +18,20 @@ use Yii;
  */
 class Module extends \yii\base\Module
 {    
-    public $bootstrapVersion = '';
+    /**
+     * @var string Module version
+     */
+    protected $version = "0.0.1";
+
+    /**
+     * @var string Alias for module
+     */
+    public $alias = "@user";
+    
+    /**
+     * @var string version Bootstrap
+     */
+    protected $bootstrapVersion = '';
  
     public $useTranslite = false;
     
