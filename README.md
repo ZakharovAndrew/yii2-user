@@ -60,7 +60,7 @@ Add this to your main configuration's modules array
 
 ```
     'modules' => [
-        'settings' => [
+        'user' => [
             'class' => 'ZakharovAndrew\user\Module',
             'bootstrapVersion' => 5, // if use bootstrap 5
         ],
