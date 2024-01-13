@@ -13,8 +13,6 @@ class m240112_191311_create_user_roles_table extends Migration
             'user_roles',
             [
                 'id' => $this->primaryKey(),
-                //'title' => $this->string()->notNull(),
-                //'url' => $this->string()->notNull(),
                 'user_id' => $this->integer(),
                 'role_id' => $this->integer(),
                 'note' => $this->string(500),
@@ -22,7 +20,7 @@ class m240112_191311_create_user_roles_table extends Migration
             ]
         );
         
-        // creates index for column `url`
+        // creates index for column `user_id`
         $this->createIndex(
             'idx-user-roles-user-id',
             'user_roles',
