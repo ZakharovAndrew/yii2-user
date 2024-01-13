@@ -4,12 +4,12 @@ namespace ZakharovAndrew\user\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use ZakharovAndrew\user\models\Roles;
+use ZakharovAndrew\user\models\UserRoles;
 
 /**
- * RolesSearch represents the model behind the search form of `app\models\Roles`.
+ * UserRolesSearch represents the model behind the search form of `app\models\UserRoles`.
  */
-class RolesSearch extends Roles
+class UserRolesSearch extends UserRoles
 {
     /**
      * {@inheritdoc}
@@ -17,8 +17,8 @@ class RolesSearch extends Roles
     public function rules()
     {
         return [
-            [['id'], 'integer'],
-            [['title', 'description', 'code', 'created_at'], 'safe'],
+            [['id', 'user_id', 'role_id'], 'integer'],
+            [['note', 'created_at'], 'safe'],
         ];
     }
 
@@ -40,7 +40,7 @@ class RolesSearch extends Roles
      */
     public function search($params)
     {
-        $query = Roles::find();
+        $query = UserRoles::find();
 
         // add conditions that should always apply here
 
@@ -59,12 +59,12 @@ class RolesSearch extends Roles
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
+            'user_id' => $this->user_id,
+            'role_id' => $this->role_id,
             'created_at' => $this->created_at,
         ]);
 
-        $query->andFilterWhere(['like', 'title', $this->title])
-            ->andFilterWhere(['like', 'code', $this->code])
-            ->andFilterWhere(['like', 'description', $this->description]);
+        $query->andFilterWhere(['like', 'note', $this->note]);
 
         return $dataProvider;
     }

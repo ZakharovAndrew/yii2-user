@@ -4,6 +4,7 @@ namespace ZakharovAndrew\user\models;
 
 use Yii;
 use ZakharovAndrew\user\Module;
+use \yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "roles".
@@ -48,5 +49,15 @@ class Roles extends \yii\db\ActiveRecord
             'code' => Module::t('Code'),
             'created_at' => 'Created At',
         ];
+    }
+    
+    public static function getRolesList()
+    {
+        $arr = static::find()
+                ->select(['id', 'title'])
+                ->asArray()
+                ->all();
+        
+        return ArrayHelper::map($arr, 'id', 'title');
     }
 }
