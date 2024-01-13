@@ -31,7 +31,7 @@ class Module extends \yii\base\Module
     /**
      * @var string version Bootstrap
      */
-    protected $bootstrapVersion = '';
+    public $bootstrapVersion = '';
  
     public $useTranslite = false;
     
