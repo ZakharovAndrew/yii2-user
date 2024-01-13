@@ -9,6 +9,8 @@ Yii2 user authentication module for management users and their rights.
 
 - Registration, authorization, password recovery and so on
 - User administration interface
+- Supports role creation
+- Multiple user roles are supported
 
 ## Installation
 
