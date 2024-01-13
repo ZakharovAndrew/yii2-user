@@ -3,7 +3,7 @@
 /**
  * Yii2 User
  * *************
- * Yii2 pages with database module with GUI manager supported.
+ * Yii2 user authentication module for management users and their rights.
  *  
  * @link https://github.com/ZakharovAndrew/yii2-user/
  * @copyright Copyright (c) 2023 Zakharov Andrew
@@ -21,7 +21,7 @@ class Module extends \yii\base\Module
     /**
      * @var string Module version
      */
-    protected $version = "0.0.1";
+    protected $version = "0.0.5";
 
     /**
      * @var string Alias for module

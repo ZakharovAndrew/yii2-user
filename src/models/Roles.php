@@ -3,6 +3,7 @@
 namespace ZakharovAndrew\user\models;
 
 use Yii;
+use ZakharovAndrew\user\Module;
 
 /**
  * This is the model class for table "roles".
@@ -31,7 +32,7 @@ class Roles extends \yii\db\ActiveRecord
             [['title'], 'required'],
             [['description'], 'string'],
             [['created_at'], 'safe'],
-            [['title'], 'string', 'max' => 255],
+            [['title', 'code'], 'string', 'max' => 255],
         ];
     }
 
@@ -42,8 +43,9 @@ class Roles extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'title' => 'Title',
-            'description' => 'Description',
+            'title' => Module::t('Title'),
+            'description' => Module::t('Description'),
+            'code' => Module::t('Code'),
             'created_at' => 'Created At',
         ];
     }
