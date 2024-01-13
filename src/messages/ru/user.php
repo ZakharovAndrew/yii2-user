@@ -21,5 +21,20 @@ return [
     'Title' => 'Название',
     'Description' => 'Описание',
     'Note' => 'Примечание',
-    'Code' => 'Код'
+    'Code' => 'Код',
+    //roles
+    'Role' => 'Роль',
+    'Roles' => 'Роли',
+    'Create Roles' => 'Создать роль',
+    //users
+    'Users' => 'Пользователи',
+    'This email is already taken!' => 'Этот Email уже занят!',
+    'User' => 'Пользователь',
+    'Manager' => 'Менеджер',
+    'Senior manager' => 'Старший менеджер',
+    'Not specified' => 'Не указан',
+    'Male' => 'Мужской',
+    'Female' => 'Женский',
+    // actions
+    'Save' => 'Сохранить',
 ];
