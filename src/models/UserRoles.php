@@ -60,11 +60,21 @@ class UserRoles extends \yii\db\ActiveRecord
      */
     public static function getUserRoles($user_id)
     {
-        return static::find()
+        return Yii::$app->cache->getOrSet('get_users_roles'.$user_id, function () use ($user_id) {
+            return static::find()
                 ->select('user_roles.*, roles.title')
                 ->leftJoin('roles', 'user_roles.role_id = roles.id')
                 ->where(['user_roles.user_id' => $user_id])
-                ->cache(600)
                 ->all();
+        }, 3600);
+    }
+    
+    /**
+     * Reset cache after saving
+     */
+    public function afterSave($insert, $changedAttributes)
+    {
+        parent::afterSave($insert, $changedAttributes);
+        Yii::$app->cache->delete('get_users_roles'.$this->user_id);
     }
 }

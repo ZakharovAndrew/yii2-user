@@ -52,7 +52,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     public function rules()
     {
         return [
-            [['username', 'password', 'fio', 'phone'], 'required'],
+            [['username', 'password', 'name'], 'required'],
             ['email', 'filter', 'filter' => 'trim'],
             ['email', 'required'],
             ['email', 'email'],
@@ -60,7 +60,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
             
             [['birthday', 'auth_key', 'created_at', 'updated_at'], 'safe'],
             [['status', 'sex'], 'integer'],
-            [['username', 'password', 'password_reset_token', 'email', 'fio', 'avatar'], 'string', 'max' => 255],
+            [['username', 'password', 'password_reset_token', 'email', 'name', 'avatar'], 'string', 'max' => 255],
             [['auth_key'], 'string', 'max' => 32],
             [['city'], 'string', 'max' => 150],
             [['address'], 'string', 'max' => 300],
@@ -80,14 +80,14 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     {
         return [
             'id' => 'ID',
-            'username' => 'Login',
+            'username' => Module::t('Login'),
             'auth_key' => 'Auth Key',
             'password' => 'Пароль',
             'password_reset_token' => 'Password Reset Token',
             'email' => 'Email',
             'name' => 'ФИО',
             'avatar' => 'Аватар',
-            'city' => 'Город',
+            'city' => Module::t('City'),
             'address' => 'Адрес',
             'phone' => 'Phone',
             'birthday' => 'День рождения',
@@ -309,7 +309,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
                     self::find()
                     ->where(['in','status', self::GROUP_ALLOW_ADM])
                     ->asArray()
-                    ->all(), 'id', 'fio');
+                    ->all(), 'id', 'name');
         }, 3600);
     }
     
