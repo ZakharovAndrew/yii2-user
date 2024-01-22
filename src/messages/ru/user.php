@@ -29,6 +29,8 @@ return [
     //users
     'Users' => 'Пользователи',
     'This email is already taken!' => 'Этот Email уже занят!',
+    'Login' => 'Логин',
+    'City' => 'Город',
     'User' => 'Пользователь',
     'Manager' => 'Менеджер',
     'Senior manager' => 'Старший менеджер',
