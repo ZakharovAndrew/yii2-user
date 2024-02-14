@@ -2,16 +2,16 @@
 
 namespace ZakharovAndrew\user\controllers;
 
-use ZakharovAndrew\user\models\Roles;
-use ZakharovAndrew\user\models\RolesSearch;
+use app\models\User;
+use ZakharovAndrew\user\models\UserSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * RolesController implements the CRUD actions for Roles model.
+ * UserController implements the CRUD actions for User model.
  */
-class RolesController extends Controller
+class UserController extends Controller
 {
     /**
      * @inheritDoc
@@ -32,13 +32,13 @@ class RolesController extends Controller
     }
 
     /**
-     * Lists all Roles models.
+     * Lists all User models.
      *
      * @return string
      */
     public function actionIndex()
     {
-        $searchModel = new RolesSearch();
+        $searchModel = new UserSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 
         return $this->render('index', [
@@ -48,7 +48,7 @@ class RolesController extends Controller
     }
 
     /**
-     * Displays a single Roles model.
+     * Displays a single User model.
      * @param int $id ID
      * @return string
      * @throws NotFoundHttpException if the model cannot be found
@@ -61,17 +61,17 @@ class RolesController extends Controller
     }
 
     /**
-     * Creates a new Roles model.
+     * Creates a new User model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
      */
     public function actionCreate()
     {
-        $model = new Roles();
+        $model = new User();
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['index']);
+                return $this->redirect(['view', 'id' => $model->id]);
             }
         } else {
             $model->loadDefaultValues();
@@ -83,7 +83,7 @@ class RolesController extends Controller
     }
 
     /**
-     * Updates an existing Roles model.
+     * Updates an existing User model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param int $id ID
      * @return string|\yii\web\Response
@@ -94,7 +94,7 @@ class RolesController extends Controller
         $model = $this->findModel($id);
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['index']);
+            return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('update', [
@@ -103,7 +103,7 @@ class RolesController extends Controller
     }
 
     /**
-     * Deletes an existing Roles model.
+     * Deletes an existing User model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param int $id ID
      * @return \yii\web\Response
@@ -117,15 +117,15 @@ class RolesController extends Controller
     }
 
     /**
-     * Finds the Roles model based on its primary key value.
+     * Finds the User model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param int $id ID
-     * @return Roles the loaded model
+     * @return User the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Roles::findOne(['id' => $id])) !== null) {
+        if (($model = User::findOne(['id' => $id])) !== null) {
             return $model;
         }
 
