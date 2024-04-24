@@ -5,7 +5,7 @@ use yii\db\Migration;
 /**
  * Initializing roles
  */
-class m240111_215911_init_roles extends Migration
+class m240112_215911_init_roles extends Migration
 {
     public function up()
     {
