@@ -38,6 +38,7 @@ class m240111_115911_create_users_table extends Migration
 
         $this->insert('users', [
             'username' => 'admin',
+            'name' => 'Admin',
             'password' => '$2y$13$4j5gDqNVFWnGWFVTQoclaeLTZR62BJ99wtF0N3ohc6UVJZPpUZT3a', // demo123
             'status' => '40',
             'email' => 'please-change-email@test.com',
