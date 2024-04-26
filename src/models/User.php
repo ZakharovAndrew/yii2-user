@@ -111,12 +111,26 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
         ];
     }
     
-    public static function getSexList(){
+    public static function getSexList()
+    {
         return [
             0 => Module::t('Not specified'),
             1 => Module::t('Male'),
             2 => Module::t('Female'),
         ];
+    }
+
+    /**
+     * Checking the ability to perform the action of the selected controller
+     *
+     * @param int $user_id
+     * @param int $controller_id
+     * @param int $action
+     */
+    public static function  isActionAllowed($user_id, $controller_id, $action)
+    {
+        // fix it
+        return true;    
     }
     
     /**
