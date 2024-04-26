@@ -25,7 +25,12 @@ class ParentController extends Controller
                        'allow' => true,
                         'roles' => ['@'],
                         'matchCallback' => function ($rule, $action) {
-                            // need code
+                            // if this action is always available
+                            if (in_array($this->full_access_actions)) {
+                                return true;
+                            }
+                            
+                            return \ZakharovAndrew\user\models\User::isActionAllowed(Yii::$app->user->id, $this->controller_id, $action->id);
                         }
                     ],
                 ],
