@@ -14,24 +14,6 @@ use yii\filters\VerbFilter;
 class UserController extends ParentController
 {
     $controller_id = 1;
-    
-    /**
-     * @inheritDoc
-     */
-    public function behaviors()
-    {
-        return array_merge(
-            parent::behaviors(),
-            [
-                'verbs' => [
-                    'class' => VerbFilter::className(),
-                    'actions' => [
-                        'delete' => ['POST'],
-                    ],
-                ],
-            ]
-        );
-    }
 
     /**
      * Lists all User models.
