@@ -4,15 +4,17 @@ namespace ZakharovAndrew\user\controllers;
 
 use app\models\User;
 use ZakharovAndrew\user\models\UserSearch;
-use yii\web\Controller;
+use ZakharovAndrew\user\controllers\ParentController;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
  * UserController implements the CRUD actions for User model.
  */
-class UserController extends Controller
+class UserController extends ParentController
 {
+    $controller_id = 1;
+    
     /**
      * @inheritDoc
      */
