@@ -29,6 +29,10 @@ class ParentController extends Controller
                             if (in_array($this->full_access_actions)) {
                                 return true;
                             }
+
+                            if (Yii::$app->user->isGuest) {
+                                return false;
+                            }
                             
                             return \ZakharovAndrew\user\models\User::isActionAllowed(Yii::$app->user->id, $this->controller_id, $action->id);
                         }
