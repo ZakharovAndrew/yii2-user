@@ -2,7 +2,9 @@
 
 namespace ZakharovAndrew\user\controllers;
 
+use Yii;
 use yii\web\Controller;
+use yii\filters\AccessControl;
 
 /**
  * Parental controller for access control.
@@ -23,10 +25,10 @@ class ParentController extends Controller
                 'rules' => [
                     [
                        'allow' => true,
-                        'roles' => ['@'],
+                        'roles' => ['?', '@'],
                         'matchCallback' => function ($rule, $action) {
                             // if this action is always available
-                            if (in_array($this->full_access_actions)) {
+                            if (in_array($action->id, $this->full_access_actions)) {
                                 return true;
                             }
 

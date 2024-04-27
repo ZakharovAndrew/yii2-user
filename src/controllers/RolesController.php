@@ -4,14 +4,14 @@ namespace ZakharovAndrew\user\controllers;
 
 use ZakharovAndrew\user\models\Roles;
 use ZakharovAndrew\user\models\RolesSearch;
-use yii\web\Controller;
+use ZakharovAndrew\user\controllers\ParentController;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
  * RolesController implements the CRUD actions for Roles model.
  */
-class RolesController extends Controller
+class RolesController extends ParentController
 {
     /**
      * @inheritDoc

@@ -82,17 +82,15 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
             'id' => 'ID',
             'username' => Module::t('Login'),
             'auth_key' => 'Auth Key',
-            'password' => 'Пароль',
+            'password' => Module::t('Password'),
             'password_reset_token' => 'Password Reset Token',
             'email' => 'Email',
             'name' => 'ФИО',
-            'avatar' => 'Аватар',
+            'avatar' => Module::t('Avatar'),
             'city' => Module::t('City'),
-            'address' => 'Адрес',
-            'phone' => 'Phone',
             'birthday' => 'День рождения',
             'status' => 'Статус',
-            'sex' => 'Пол',
+            'sex' => Module::t('Sex'),
             'roles' => Module::t('Roles'),
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
@@ -105,7 +103,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
             static::STATUS_USER => Module::t('User'),
             static::STATUS_MANAGER => Module::t('Manager'),
             static::STATUS_SENIOR_MANAGER => Module::t('Senior manager'),
-            static::STATUS_ADMIN => "Администратор",
+            static::STATUS_ADMIN => Module::t('Administrator'),
             static::STATUS_SENIOR_ADMIN => "Старший администратор",
             static::STATUS_ROOT => "Root"
         ];
@@ -129,8 +127,27 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
      */
     public static function  isActionAllowed($user_id, $controller_id, $action)
     {
-        // fix it
-        return true;    
+        $roles_id = \yii\helpers\ArrayHelper::getColumn(
+                UserRoles::find()->select('role_id')->where(['user_id' => $user_id])->asArray()->all(),
+                'role_id'
+            );
+        
+        $roles = \yii\helpers\ArrayHelper::getColumn(
+                    Roles::find()
+                    ->select('code')
+                    ->where(['IN', 'id', $roles_id])
+                    ->asArray()
+                    ->all(),
+                    'code'
+                );
+        
+        if (in_array('admin', $roles)) {
+            return true;
+        }
+        
+        //other checking
+        
+        return false;    
     }
     
     /**

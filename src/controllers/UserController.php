@@ -2,18 +2,20 @@
 
 namespace ZakharovAndrew\user\controllers;
 
+use Yii;
 use app\models\User;
 use ZakharovAndrew\user\models\UserSearch;
 use ZakharovAndrew\user\controllers\ParentController;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 
 /**
  * UserController implements the CRUD actions for User model.
  */
 class UserController extends ParentController
 {
-    $controller_id = 1;
+    public $controller_id = 1;
+    
+    public $full_access_actions = ['login', 'logout'];
 
     /**
      * Lists all User models.
@@ -98,6 +100,30 @@ class UserController extends ParentController
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
+    }
+    
+    /**
+     * Login action.
+     *
+     * @return Response|string
+     */
+    public function actionLogin()
+    {
+        $this->layout = 'login';
+        
+        if (!Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+
+        $model = new \app\models\LoginForm();
+        if ($model->load(Yii::$app->request->post()) && $model->login()) {
+            return $this->goBack();
+        }
+
+        $model->password = '';
+        return $this->render('login', [
+            'model' => $model,
+        ]);
     }
 
     /**
