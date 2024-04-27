@@ -361,22 +361,32 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
         
         return $password;
     }
-    
+
     /**
-     * Sends an email with a link, for resetting the password.
+     * Send an email with a password
+     * 
+     * @param string $password
+     * @param string $action
      * @return bool whether the email was send
      */
-    public function sendPasswordEmail($password)
+    public function sendPasswordEmail($password, $action = 'create')
     {
+        $params = [
+            'create' => ["view" => "password-new-html", "subject" => "Регистрация в "],
+            'reset' =>  ["view" => "password-reset-html", "subject" => "Сброс пароля для "], //при сбросе пароля админом
+        ];
+        
+        $action = (isset($params[$action]) ? $action : 'create');
+        
         return Yii::$app
             ->mailer
             ->compose(
-                ['html' => "passwordNew-html"],
+                ['html' => $params[$action]['view']],
                 ['user' => $this, 'password' => $password]
             )
-            ->setFrom([Yii::$app->params['supportEmail']/* => Yii::$app->name . '  99'*/])
+            ->setFrom([Yii::$app->params['supportEmail'] => Yii::$app->name])
             ->setTo($this->email)
-            ->setSubject('New Password')
+            ->setSubject($params[$action]['subject'] . ' '.Yii::$app->name)
             ->send();
     }
     

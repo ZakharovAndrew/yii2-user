@@ -7,6 +7,7 @@ use app\models\User;
 use ZakharovAndrew\user\models\UserSearch;
 use ZakharovAndrew\user\controllers\ParentController;
 use yii\web\NotFoundHttpException;
+use ZakharovAndrew\user\Module;
 
 /**
  * UserController implements the CRUD actions for User model.
@@ -55,10 +56,21 @@ class UserController extends ParentController
     {
         $model = new User();
 
-        if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
+        if ($this->request->isPost && $model->load($this->request->post())) {
+            // generate a random password
+            $password = User::genPassword();
+            
+            // Trying to send the password to the email and save the password
+            if (!$model->sendPasswordEmail($password) || !$model->setPassword($password)) {
+                Yii::$app->session->setFlash('error', Module::t('Error creating user. Error setting password.'));
+                return $this->redirect(['index']);
             }
+            
+            if (!$model->save()) {
+                Yii::$app->session->setFlash('error', Module::t('Error. Failed to save user during creation'));
+            }
+            
+            return $this->redirect(['index']);
         } else {
             $model->loadDefaultValues();
         }

@@ -43,4 +43,8 @@ return [
     'Female' => 'Женский',
     // actions
     'Save' => 'Сохранить',
+    
+    //
+    'Error creating user. Error setting password.' => 'Ошибка создания пользователя. Ошибка установки пароля.',
+    'Error. Failed to save user during creation' => 'Ошибка. Не удалось сохранить пользователя во время создания.'
 ];
