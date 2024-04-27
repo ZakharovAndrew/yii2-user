@@ -6,8 +6,9 @@
 
 use yii\bootstrap5\ActiveForm;
 use yii\bootstrap5\Html;
+use ZakharovAndrew\user\Module;
 
-$this->title = 'Вход';
+$this->title = Module::t('Sign in');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <style>
@@ -97,7 +98,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="content">
     <div class="site-login center">
         <div class="form-login">
-            <h1>Авторизация</h1>
+            <h1><?= $this->title ?></h1>
 
             <?php $form = ActiveForm::begin([
                 'id' => 'login-form',
@@ -110,8 +111,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
             <?= $form->field($model, 'username', [
                 'inputOptions' => [
-                'placeholder' => $model->getAttributeLabel('Логин'),
-            ]])->textInput(['autofocus' => true])->label('Логин') ?>
+                'placeholder' => $model->getAttributeLabel(Module::t('Username')),
+            ]])->textInput(['autofocus' => true]) ?>
 
             <?= $form->field($model, 'password', [
             'inputOptions' => [
@@ -120,15 +121,15 @@ $this->params['breadcrumbs'][] = $this->title;
 
             <?= $form->field($model, 'rememberMe')->checkbox([
                 'template' => "<div class=\"pull-left col-md-12\">{input} {label}</div>\n<div class=\"col-lg-8\">{error}</div>",
-            ])->label('Запомнить меня') ?>
+            ])->label(Module::t('Remember me')) ?>
             
             <div class="mb-3 row mg10">
-                <?= Html::a('Забыли пароль?', ['site/request-password-reset']) ?>
+                <?= Html::a(Module::t('Forgot password?'), ['site/request-password-reset']) ?>
             </div>
 
             <div class="form-group">
                 <div class="col-lg-12">
-                    <?= Html::submitButton('Войти', ['class' => 'btn btn-primary col-md-12', 'name' => 'login-button']) ?>
+                    <?= Html::submitButton(Module::t('Sign in'), ['class' => 'btn btn-primary col-md-12', 'name' => 'login-button']) ?>
                 </div>
             </div>
 

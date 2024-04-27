@@ -17,6 +17,10 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
+    'Login' => 'Авторизоваться',
+    'Sign in' => 'Войти',
+    'Forgot password?' => 'Забыли пароль?',
+    'Remember me' => 'Запомнить меня',
     'Name' => 'Имя',
     'Title' => 'Название',
     'Description' => 'Описание',
