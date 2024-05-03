@@ -127,7 +127,7 @@ class UserController extends ParentController
             return $this->goHome();
         }
 
-        $model = new \app\models\LoginForm();
+        $model = new \ZakharovAndrew\user\models\LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
             return $this->goBack();
         }
