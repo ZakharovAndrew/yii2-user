@@ -9,6 +9,9 @@ use yii\bootstrap5\Html;
 use ZakharovAndrew\user\Module;
 
 $this->title = Module::t('Sign in');
+$bootstrapVersion = Yii::$app->getModule('user')->bootstrapVersion;
+$classActiveForm = "\\yii\bootstrap".($bootstrapVersion==3 ? '' : $bootstrapVersion)."\\ActiveForm";
+
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <style>
@@ -100,7 +103,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="form-login">
             <h1><?= $this->title ?></h1>
 
-            <?php $form = ActiveForm::begin([
+            <?php $form = $classActiveForm::begin([
                 'id' => 'login-form',
                 'layout' => 'horizontal',
                 'fieldConfig' => [
@@ -134,7 +137,7 @@ $this->params['breadcrumbs'][] = $this->title;
             </div>
 
 
-            <?php ActiveForm::end(); ?>
+            <?php $classActiveForm::end(); ?>
         </div>
     </div>
 </div>
