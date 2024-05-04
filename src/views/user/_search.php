@@ -33,10 +33,6 @@ use yii\widgets\ActiveForm;
 
     <?php // echo $form->field($model, 'city') ?>
 
-    <?php // echo $form->field($model, 'address') ?>
-
-    <?php // echo $form->field($model, 'phone') ?>
-
     <?php // echo $form->field($model, 'birthday') ?>
 
     <?php // echo $form->field($model, 'status') ?>

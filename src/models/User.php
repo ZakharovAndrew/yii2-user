@@ -63,11 +63,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
             [['username', 'password', 'password_reset_token', 'email', 'name', 'avatar'], 'string', 'max' => 255],
             [['auth_key'], 'string', 'max' => 32],
             [['city'], 'string', 'max' => 150],
-            [['address'], 'string', 'max' => 300],
-            
-            ['phone', 'string', 'max' => 100],
-            ['phone', 'unique', 'targetClass' => self::className(), 'message' => 'Этот телефон уже занят!'],
-            
+                        
             [['username'], 'unique'],
             [['password_reset_token'], 'unique'],
         ];
@@ -381,7 +377,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
         return Yii::$app
             ->mailer
             ->compose(
-                ['html' => $params[$action]['view']],
+                ['html' => '@vendor/zakharov-andrew/yii2-user/src/mail/'. $params[$action]['view']],
                 ['user' => $this, 'password' => $password]
             )
             ->setFrom([Yii::$app->params['supportEmail'] => Yii::$app->name])

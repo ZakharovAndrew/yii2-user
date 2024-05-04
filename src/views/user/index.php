@@ -40,8 +40,6 @@ $this->params['breadcrumbs'][] = $this->title;
             'name',
             //'avatar',
             //'city',
-            //'address',
-            //'phone',
             //'birthday',
             [
                 'attribute' => 'status',
