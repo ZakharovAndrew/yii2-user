@@ -1,18 +1,15 @@
 <?php
 
 use yii\helpers\Html;
-use yii\helpers\Url;
-
+use ZakharovAndrew\user\Module;
 
 $reset_link = Yii::$app->urlManager->createAbsoluteUrl(['site/index']);
-
-
 ?>
 
 <div class="password-set">
-    <p>Здравствуйте, <?= Html::encode($user->getName()) ?></p>
-    <p>Ваши данные для доступа к <?= Html::a(Html::encode($reset_link), $reset_link) ?>:</p>
-    <p>Логин: <?= Html::encode($user->username) ?></p>
-    <p>Пароль: <?= Html::encode($password) ?></p>
-    <p>Рекомендуем сменить Ваш пароль</p>
+    <p><?= Module::t('Hello')?>, <?= Html::encode($user->getName()) ?></p>
+    <p><?= Module::t('Your data for access to')?> <?= Html::a(Html::encode($reset_link), $reset_link) ?>:</p>
+    <p><?= Module::t('Login') ?>: <?= Html::encode($user->username) ?></p>
+    <p><?= Module::t('Password')?>: <?= Html::encode($password) ?></p>
+    <p><?= Module::t('We recommend changing your password') ?></p>
 </div>

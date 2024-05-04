@@ -43,6 +43,7 @@ return [
     'Senior Administrator' => 'Старший администратор',
     'Password' => 'Пароль',
     'Status' => 'Статус',
+    'Birthday' => 'День рождения',
     'Sex' => 'Пол',
     'Not specified' => 'Не указан',
     'Male' => 'Мужской',
@@ -51,6 +52,9 @@ return [
     'Save' => 'Сохранить',
     
     //
+    'Hello' => 'Здравствуйте',
+    'Your data for access to' => 'Ваши данные для доступа к',
     'Error creating user. Error setting password.' => 'Ошибка создания пользователя. Ошибка установки пароля.',
-    'Error. Failed to save user during creation' => 'Ошибка. Не удалось сохранить пользователя во время создания.'
+    'Error. Failed to save user during creation' => 'Ошибка. Не удалось сохранить пользователя во время создания.',
+    'We recommend changing your password' => 'Рекомендуем сменить пароль'
 ];
