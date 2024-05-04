@@ -85,7 +85,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
             'avatar' => Module::t('Avatar'),
             'city' => Module::t('City'),
             'birthday' => 'День рождения',
-            'status' => 'Статус',
+            'status' => Module::t('Status'),
             'sex' => Module::t('Sex'),
             'roles' => Module::t('Roles'),
             'created_at' => 'Created At',
@@ -100,7 +100,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
             static::STATUS_MANAGER => Module::t('Manager'),
             static::STATUS_SENIOR_MANAGER => Module::t('Senior manager'),
             static::STATUS_ADMIN => Module::t('Administrator'),
-            static::STATUS_SENIOR_ADMIN => "Старший администратор",
+            static::STATUS_SENIOR_ADMIN => Module::t('Senior Administrator'),
             static::STATUS_ROOT => "Root"
         ];
     }
