@@ -60,12 +60,12 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
             
             [['birthday', 'auth_key', 'created_at', 'updated_at'], 'safe'],
             [['status', 'sex'], 'integer'],
-            [['username', 'password', 'password_reset_token', 'email', 'name', 'avatar'], 'string', 'max' => 255],
+            [['password', 'name', 'avatar'], 'string', 'max' => 255],
+            [['username', 'password_reset_token', 'email'], 'string', 'max' => 190],
             [['auth_key'], 'string', 'max' => 32],
             [['city'], 'string', 'max' => 150],
                         
-            [['username'], 'unique'],
-            [['password_reset_token'], 'unique'],
+            [['username', 'password_reset_token'], 'unique'],
         ];
     }
 

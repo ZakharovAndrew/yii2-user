@@ -13,18 +13,18 @@ class m240111_115911_create_users_table extends Migration
             'users',
             [
                 'id' => $this->primaryKey(),
-                'username' => $this->string(255)->notNull()->unique(),
+                'username' => $this->string(190)->notNull()->unique(),
                 'auth_key' => $this->string(32)->defaultValue(null),
                 'password' => $this->string(255)->notNull(),
-                'password_reset_token' => $this->string(255)->defaultValue(null)->unique(),
-                'email' => $this->string(255)->notNull()->unique(),
+                'password_reset_token' => $this->string(190)->defaultValue(null)->unique(),
+                'email' => $this->string(190)->notNull()->unique(),
                 'name' => $this->string(255)->notNull(),
                 'avatar' => $this->string(255)->defaultValue(null),
                 'city' => $this->string(150)->defaultValue(null),
                 'birthday' => $this->dateTime()->defaultValue(null),
                 'status' => $this->integer()->defaultValue(10),
                 'sex' => $this->integer()->defaultValue(0),
-                'created_at' => $this->dateTime()->defaultValue( new \yii\db\Expression('NOW()') ),
+                'created_at' => $this->dateTime()->defaultValue( new \yii\db\Expression('CURRENT_TIMESTAMP') ),
                 'updated_at' => $this->dateTime()
             ]
         );

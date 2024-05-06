@@ -45,6 +45,11 @@ class Module extends \yii\base\Module
      * @inheritdoc
      */
     public $controllerNamespace = 'ZakharovAndrew\user\controllers';
+    
+    /**
+     * @var array config access
+     */
+    public $controllersAccessList = [];
 
     /**
      * {@inheritdoc}
