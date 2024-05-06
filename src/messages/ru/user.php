@@ -64,4 +64,8 @@ return [
     'Password reset' => 'Сброс пароля',
     'Check your email for further action' => 'Проверьте свою электронную почту для дальнейших действий',
     'An error occurred while resetting your password. Contact the site administrator' => 'Произошла ошибка при сбросе пароля. Обратитесь к администратору сайта',
+    
+    'Change email' => 'Смена email',
+    'Incorrect E-Mail Address.' => 'Неверный адрес электронной почты.',
+    'The field must not be empty.' => 'Поле не должно быть пустым.'
 ];
