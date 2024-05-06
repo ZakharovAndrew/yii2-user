@@ -61,5 +61,7 @@ return [
     'We recommend changing your password' => 'Рекомендуем сменить пароль',
     
     'Registration in' => 'Регистрация в',
-    'Password reset' => 'Сброс пароля'
+    'Password reset' => 'Сброс пароля',
+    'Check your email for further action' => 'Проверьте свою электронную почту для дальнейших действий',
+    'An error occurred while resetting your password. Contact the site administrator' => 'Произошла ошибка при сбросе пароля. Обратитесь к администратору сайта',
 ];

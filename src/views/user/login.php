@@ -1,16 +1,14 @@
 <?php
 
 /* @var $this yii\web\View */
-/* @var $form yii\bootstrap\ActiveForm */
-/* @var $model app\models\LoginForm */
+/* @var $model ZakharovAndrew\user\models\LoginForm */
 
-use yii\bootstrap5\ActiveForm;
-use yii\bootstrap5\Html;
 use ZakharovAndrew\user\Module;
 
 $this->title = Module::t('Sign in');
 $bootstrapVersion = Yii::$app->getModule('user')->bootstrapVersion;
 $classActiveForm = "\\yii\bootstrap".($bootstrapVersion==3 ? '' : $bootstrapVersion)."\\ActiveForm";
+$classHtml = "\\yii\bootstrap".($bootstrapVersion==3 ? '' : $bootstrapVersion)."\\Html";
 
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -127,12 +125,12 @@ $this->params['breadcrumbs'][] = $this->title;
             ])->label(Module::t('Remember me')) ?>
             
             <div class="mb-3 row mg10">
-                <?= Html::a(Module::t('Forgot password?'), ['site/request-password-reset']) ?>
+                <?= $classHtml::a(Module::t('Forgot password?'), ['user/user/request-password-reset']) ?>
             </div>
 
             <div class="form-group">
                 <div class="col-lg-12">
-                    <?= Html::submitButton(Module::t('Sign in'), ['class' => 'btn btn-primary col-md-12', 'name' => 'login-button']) ?>
+                    <?= $classHtml::submitButton(Module::t('Sign in'), ['class' => 'btn btn-primary col-md-12', 'name' => 'login-button']) ?>
                 </div>
             </div>
 

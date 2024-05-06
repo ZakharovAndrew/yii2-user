@@ -115,6 +115,36 @@ class UserController extends ParentController
     }
     
     /**
+     * Requests password reset.
+     *
+     * @return mixed
+     */
+    public function actionRequestPasswordReset()
+    {
+        // guest cannot reset password
+        if (Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+        
+        $model = new PasswordResetRequestForm();
+
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            if ($model->sendEmail()) {
+                Yii::$app->session->setFlash('success', Module::t('Check your email for further action'));
+                return $this->goHome();
+            } else {
+                Yii::$app->session->setFlash('error', Module::t('An error occurred while resetting your password. Contact the site administrator'));
+            }
+        }
+
+        $this->layout = "login";
+
+        return $this->render('passwordResetRequestForm', [
+            'model' => $model,
+        ]);
+    }
+    
+    /**
      * Login action.
      *
      * @return Response|string
