@@ -95,7 +95,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     
     public static function getStatusList() {
         return [
-            static::STATUS_DELETED => "Заблокированный",
+            static::STATUS_DELETED => Module::t('Deleted'),
             static::STATUS_USER => Module::t('User'),
             static::STATUS_MANAGER => Module::t('Manager'),
             static::STATUS_SENIOR_MANAGER => Module::t('Senior manager'),
@@ -159,7 +159,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
         $user = self::findOne(Yii::$app->user->id);
         if ($this->id != Yii::$app->user->id) {
             if ($user && ($this->status > $user->status || $this->id != $user->id && $this->status == $user->status)) {
-                $this->addError('status', 'Нельзя ставить пользователю статус выше или равный вашему!');
+                $this->addError('status', Module::t('You cannot give a user a status higher than or equal to yours!'));
             }
         }
     }
@@ -368,8 +368,8 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     public function sendPasswordEmail($password, $action = 'create')
     {
         $params = [
-            'create' => ["view" => "password-new-html", "subject" => "Регистрация в "],
-            'reset' =>  ["view" => "password-reset-html", "subject" => "Сброс пароля для "], //при сбросе пароля админом
+            'create' => ["view" => "password-new-html", "subject" => Module::t('Registration in')],
+            'reset' =>  ["view" => "password-reset-html", "subject" => Module::t('Password reset')], //при сбросе пароля админом
         ];
         
         $action = (isset($params[$action]) ? $action : 'create');

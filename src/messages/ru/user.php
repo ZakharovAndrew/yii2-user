@@ -31,6 +31,7 @@ return [
     'Roles' => 'Роли',
     'Create Roles' => 'Создать роль',
     //users
+    'Username' => 'Логин',
     'Users' => 'Пользователи',
     'This email is already taken!' => 'Этот Email уже занят!',
     'Login' => 'Логин',
@@ -48,6 +49,7 @@ return [
     'Not specified' => 'Не указан',
     'Male' => 'Мужской',
     'Female' => 'Женский',
+    'You cannot give a user a status higher than or equal to yours!' => 'Нельзя ставить пользователю статус выше или равный вашему!',
     // actions
     'Save' => 'Сохранить',
     
@@ -56,5 +58,8 @@ return [
     'Your data for access to' => 'Ваши данные для доступа к',
     'Error creating user. Error setting password.' => 'Ошибка создания пользователя. Ошибка установки пароля.',
     'Error. Failed to save user during creation' => 'Ошибка. Не удалось сохранить пользователя во время создания.',
-    'We recommend changing your password' => 'Рекомендуем сменить пароль'
+    'We recommend changing your password' => 'Рекомендуем сменить пароль',
+    
+    'Registration in' => 'Регистрация в',
+    'Password reset' => 'Сброс пароля'
 ];
