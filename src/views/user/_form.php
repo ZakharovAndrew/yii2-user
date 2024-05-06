@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use app\models\User;
+use ZakharovAndrew\user\Module;
 
 /** @var yii\web\View $this */
 /** @var app\models\User $model */
@@ -30,7 +31,7 @@ use app\models\User;
     <?= $form->field($model, 'sex')->dropDownList(User::getSexList()) ?>
 
     <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton(Module::t('Save'), ['class' => 'btn btn-success']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

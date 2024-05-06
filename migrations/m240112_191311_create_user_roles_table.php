@@ -16,7 +16,7 @@ class m240112_191311_create_user_roles_table extends Migration
                 'user_id' => $this->integer(),
                 'role_id' => $this->integer(),
                 'note' => $this->string(500),
-                'created_at' => $this->dateTime()->defaultValue( new \yii\db\Expression('NOW()') ),
+                'created_at' => $this->timestamp()->defaultValue( new \yii\db\Expression('CURRENT_TIMESTAMP') ),
             ]
         );
         

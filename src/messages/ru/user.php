@@ -30,6 +30,8 @@ return [
     'Role' => 'Роль',
     'Roles' => 'Роли',
     'Create Roles' => 'Создать роль',
+    'Add role' => 'Добавить роль',
+    'Delete role' => 'Удалить роль',
     //users
     'Username' => 'Логин',
     'Users' => 'Пользователи',
@@ -37,6 +39,7 @@ return [
     'Login' => 'Логин',
     'City' => 'Город',
     'Avatar' => 'Аватар',
+    'Deleted' => 'Удален',
     'User' => 'Пользователь',
     'Manager' => 'Менеджер',
     'Senior manager' => 'Старший менеджер',
@@ -51,7 +54,9 @@ return [
     'Female' => 'Женский',
     'You cannot give a user a status higher than or equal to yours!' => 'Нельзя ставить пользователю статус выше или равный вашему!',
     // actions
+    'Create User' => 'Создать пользователя',
     'Save' => 'Сохранить',
+    'Update' => 'Изменить',
     
     //
     'Hello' => 'Здравствуйте',

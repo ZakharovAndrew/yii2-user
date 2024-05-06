@@ -24,7 +24,7 @@ class m240111_115911_create_users_table extends Migration
                 'birthday' => $this->dateTime()->defaultValue(null),
                 'status' => $this->integer()->defaultValue(10),
                 'sex' => $this->integer()->defaultValue(0),
-                'created_at' => $this->dateTime()->defaultValue( new \yii\db\Expression('CURRENT_TIMESTAMP') ),
+                'created_at' => $this->timestamp()->defaultValue( new \yii\db\Expression('CURRENT_TIMESTAMP') ),
                 'updated_at' => $this->dateTime()
             ]
         );

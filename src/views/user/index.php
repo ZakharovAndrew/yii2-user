@@ -20,7 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create User', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a(Module::t('Create User'), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -33,14 +33,21 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'id',
             'username',
-            //'auth_key',
-            //'password',
+
             //'password_reset_token',
-            //'email:email',
             'name',
+            'email:email',
             //'avatar',
             //'city',
             //'birthday',
+            [
+                'attribute' => 'sex',
+                'format' => 'raw',
+                'filter' => User::getSexList(),
+                'value' => function ($model) {
+                    return User::getSexList()[$model->sex] ?? '';
+                }
+            ],
             [
                 'attribute' => 'status',
                 'format' => 'raw',
@@ -58,17 +65,16 @@ $this->params['breadcrumbs'][] = $this->title;
                     $roles = UserRoles::getUserRoles($model->id);
                     
                     foreach ($roles as $role) {
-                        $result .= $role->title . '<a href="'.Url::toRoute(['/user/user-roles/delete', 'id' => $role->id]).'" title="Delete" aria-label="Delete" >X</a>';
+                        $result .= $role->title . '<a href="'.Url::toRoute(['/user/user-roles/delete', 'id' => $role->id]).'" title="'.Module::t('Delete role').'" aria-label="'.Module::t('Delete role').'" >X</a>';
                     }
                     
-                    $result .= '<a href="'.Url::toRoute(['/user/user-roles/create', 'user_id' => $model->id, 'form'=>'_form_good_product']).'" title="Delete" aria-label="Delete" class="btn btn-sm btn-success">+</a>';
+                    $result .= '<a href="'.Url::toRoute(['/user/user-roles/create', 'user_id' => $model->id, 'form'=>'_form_good_product']).'" title="'.Module::t('Add role').'" aria-label="'.Module::t('Add role').'" class="btn btn-sm btn-success">+</a>';
                     
                     return $result;
                 
                 }
             ],
-            //'sex',
-            //'shop_id',
+            
             //'created_at',
             //'updated_at',
             
