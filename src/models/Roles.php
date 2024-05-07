@@ -13,6 +13,7 @@ use \yii\helpers\ArrayHelper;
  * @property string $title
  * @property string|null $description
  * @property string|null $created_at
+ * @property string|null $parameters
  */
 class Roles extends \yii\db\ActiveRecord
 {
@@ -32,7 +33,7 @@ class Roles extends \yii\db\ActiveRecord
         return [
             [['title'], 'required'],
             [['description'], 'string'],
-            [['created_at'], 'safe'],
+            [['parameters', 'created_at'], 'safe'],
             [['title', 'code'], 'string', 'max' => 255],
         ];
     }
@@ -47,6 +48,7 @@ class Roles extends \yii\db\ActiveRecord
             'title' => Module::t('Title'),
             'description' => Module::t('Description'),
             'code' => Module::t('Code'),
+            'parameters' => Module::t('Parameters'),
             'created_at' => 'Created At',
         ];
     }
@@ -59,5 +61,27 @@ class Roles extends \yii\db\ActiveRecord
                 ->all();
         
         return ArrayHelper::map($arr, 'id', 'title');
+    }
+    
+    /**
+     * Get all user roles with available controller actions
+     * 
+     * @param integer $user_id User ID
+     * @return mixed
+     */
+    public static function getRolesByUserId($user_id)
+    {
+        return Yii::$app->cache->getOrSet('get_roles_by_user_'.$user_id, function () use ($user_id) {
+            return static::find()
+                ->select('roles.*')
+                ->leftJoin('user_roles', 'user_roles.role_id = roles.id')
+                ->where(['user_roles.user_id' => $user_id])
+                ->all();
+        }, 10);
+    }
+    
+    public function getParametersList()
+    {
+        return json_decode($this->parameters) ?? [];
     }
 }

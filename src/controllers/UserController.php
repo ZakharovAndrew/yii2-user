@@ -14,7 +14,7 @@ use ZakharovAndrew\user\Module;
  */
 class UserController extends ParentController
 {
-    public $controller_id = 1;
+    public $controller_id = 1001;
     
     public $full_access_actions = ['login', 'logout'];
 

@@ -113,6 +113,40 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
             2 => Module::t('Female'),
         ];
     }
+    
+    public static function getAccessList($user_id)
+    {
+        $controllersAccessList = Yii::$app->getModule('user')->controllersAccessList;
+        
+        $roles = Roles::getRolesByUserId($user_id);
+        
+        $list = [];
+        foreach ($roles as $role) {
+            if ($role->code == 'admin') {
+                $list = array_combine(array_keys($controllersAccessList), ['*']);
+                break;
+            }
+            
+            foreach ($role->getParametersList() as $controller_id => $actions) {
+                if ($actions == '*') {
+                    $list[$controller_id] = '*';
+                    break;
+                }
+                
+                $arrAction = explode(',', $actions);
+                
+                if (isset($list[$controller_id]) && $list[$controller_id] != '*') {
+                    $arr = explode(',', $list[$controller_id]);
+                    
+                    $list[$controller_id] = array_merge($arr, $arrAction);
+                } else if (!isset($list[$controller_id])) {
+                    $list[$controller_id] = $actions;
+                }
+            }            
+        }
+        
+        return $list;
+    }
 
     /**
      * Checking the ability to perform the action of the selected controller
@@ -123,27 +157,22 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
      */
     public static function  isActionAllowed($user_id, $controller_id, $action)
     {
-        $roles_id = \yii\helpers\ArrayHelper::getColumn(
-                UserRoles::find()->select('role_id')->where(['user_id' => $user_id])->asArray()->all(),
-                'role_id'
-            );
-        
-        $roles = \yii\helpers\ArrayHelper::getColumn(
-                    Roles::find()
-                    ->select('code')
-                    ->where(['IN', 'id', $roles_id])
-                    ->asArray()
-                    ->all(),
-                    'code'
-                );
-        
+        // check god mode
+        $roles = \yii\helpers\ArrayHelper::getColumn(UserRoles::getUserRoles($user_id), 'code');
         if (in_array('admin', $roles)) {
             return true;
         }
         
-        //other checking
+        // check access
+        $accessList = static::getAccessList($user_id);
+
+        if (!isset($accessList[$controller_id])) {
+            return false;
+        }
         
-        return false;    
+        $arr = explode(',', $accessList[$controller_id]);
+        
+        return ($accessList[$controller_id] == '*' || in_array($action, $arr));
     }
     
     /**
