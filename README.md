@@ -66,6 +66,11 @@ Add this to your main configuration's modules array
         'user' => [
             'class' => 'ZakharovAndrew\user\Module',
             'bootstrapVersion' => 5, // if use bootstrap 5
+            // use for menu and access
+            'controllersAccessList' => [
+                1001 => ['/user/user/index' => 'users'],
+                1002 => ['/user/roles/index' => 'Roles']
+            ]
         ],
         // ...
     ],
