@@ -388,6 +388,18 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
         
         return $password;
     }
+    
+    /**
+     * Checking that the user has a role
+     * 
+     * @param $role
+     * @param int|null $subject_id
+     * @return bool
+     */
+    public function hasRole($role, $subject_id = null)
+    {        
+        return UserRoles::hasRole($this, $role, $subject_id);
+    }
 
     /**
      * Send an email with a password

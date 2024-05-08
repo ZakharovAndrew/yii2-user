@@ -32,7 +32,7 @@ class UserRoles extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'role_id'], 'integer'],
+            [['user_id', 'role_id', 'subject_id'], 'integer'],
             [['created_at'], 'safe'],
             [['note'], 'string', 'max' => 500],
         ];
@@ -78,5 +78,28 @@ class UserRoles extends \yii\db\ActiveRecord
         parent::afterSave($insert, $changedAttributes);
         Yii::$app->cache->delete('get_users_roles_'.$this->user_id);
         Yii::$app->cache->delete('get_roles_by_user_'.$this->user_id);
+    }
+    
+    /**
+     * Checking that the user has a role
+     * 
+     * @param $user
+     * @param string $role - user role
+     * @param int|null $subject_id
+     * @return bool
+     */
+    public static function hasRole($user, $role, $subject_id = null)
+    {
+        $model = static::find()
+                ->leftJoin('roles', 'user_roles.role_id = roles.id')
+                ->where(['user_roles.user_id' => $user->id])
+                ->andWhere(['roles.code' => $role]);
+        
+        // if a subject is specified, we take it into account
+        if ($subject_id) {
+            $model->andWhere(["or", ["user_roles.subject_id" => $subject_id], ["subject_id" => null]]);
+        }
+        
+        return $model->count() > 0;
     }
 }
