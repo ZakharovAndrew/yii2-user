@@ -1,14 +1,14 @@
 <?php
 
 use yii\helpers\Html;
+use ZakharovAndrew\user\Module;
 
 /** @var yii\web\View $this */
-/** @var app\models\Roles $model */
+/** @var ZakharovAndrew\user\models\Roles $model */
 
 $this->title = 'Update Roles: ' . $model->title;
-$this->params['breadcrumbs'][] = ['label' => 'Roles', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->title, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->params['breadcrumbs'][] = ['label' => Module::t('Roles'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = Module::t('Update');
 ?>
 <div class="roles-update">
 
