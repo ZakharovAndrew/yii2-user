@@ -38,7 +38,7 @@ class Module extends \yii\base\Module
     /**
      * @var string show H1
      */
-    public $showTitle = false;
+    public $showTitle = true;
     
     /**
      *
