@@ -71,13 +71,26 @@ class UserRoles extends \yii\db\ActiveRecord
     }
     
     /**
-     * Reset cache after saving
+     * Get a list of users who have a role
+     * 
+     * @param $user
+     * @param $role
+     * @param $subject_id
+     * @return mixed
      */
-    public function afterSave($insert, $changedAttributes)
+    public static function getUsersListByRoleSubject($role, $subject_id = null)
     {
-        parent::afterSave($insert, $changedAttributes);
-        Yii::$app->cache->delete('get_users_roles_'.$this->user_id);
-        Yii::$app->cache->delete('get_roles_by_user_'.$this->user_id);
+        $model = static::find()
+                ->select('user_roles.user_id')
+                ->leftJoin('roles', 'user_roles.role_id = roles.id')
+                ->andWhere(['roles.code' => $role]);
+        
+        // if a subject is specified, we take it into account
+        if ($subject_id) {
+            $model->andWhere(["or", ["user_roles.subject_id" => $subject_id], ["subject_id" => null]]);
+        }
+         
+        return $model->cache(600)->asArray()->all();
     }
     
     /**
@@ -101,5 +114,15 @@ class UserRoles extends \yii\db\ActiveRecord
         }
         
         return $model->count() > 0;
+    }
+    
+    /**
+     * Reset cache after saving
+     */
+    public function afterSave($insert, $changedAttributes)
+    {
+        parent::afterSave($insert, $changedAttributes);
+        Yii::$app->cache->delete('get_users_roles_'.$this->user_id);
+        Yii::$app->cache->delete('get_roles_by_user_'.$this->user_id);
     }
 }
