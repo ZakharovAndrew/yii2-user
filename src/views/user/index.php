@@ -65,7 +65,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     $roles = UserRoles::getUserRoles($model->id);
                     
                     foreach ($roles as $role) {
-                        $result .= $role->title . '<a href="'.Url::toRoute(['/user/user-roles/delete', 'id' => $role->id]).'" title="'.Module::t('Delete role').'" aria-label="'.Module::t('Delete role').'" >X</a>';
+                        $result .= $role['title'] . '<a href="'.Url::toRoute(['/user/user-roles/delete', 'id' => $role['id']]).'" title="'.Module::t('Delete role').'" aria-label="'.Module::t('Delete role').'" >X</a>';
                     }
                     
                     $result .= '<a href="'.Url::toRoute(['/user/user-roles/create', 'user_id' => $model->id, 'form'=>'_form_good_product']).'" title="'.Module::t('Add role').'" aria-label="'.Module::t('Add role').'" class="btn btn-sm btn-success">+</a>';
