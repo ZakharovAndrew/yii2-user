@@ -32,6 +32,7 @@ return [
     'Create Roles' => 'Создать роль',
     'Add role' => 'Добавить роль',
     'Delete role' => 'Удалить роль',
+    'Parameters' => 'Параметры',
     //users
     'Username' => 'Логин',
     'Users' => 'Пользователи',

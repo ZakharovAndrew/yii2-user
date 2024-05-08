@@ -16,6 +16,8 @@ use ZakharovAndrew\user\Module;
     <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
     
     <?= $form->field($model, 'code')->textInput() ?>
+    
+    <?= $form->field($model, 'parameters')->textarea(['rows' => 3]) ?>
 
     <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
 

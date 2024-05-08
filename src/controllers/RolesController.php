@@ -13,24 +13,8 @@ use yii\filters\VerbFilter;
  */
 class RolesController extends ParentController
 {
-    /**
-     * @inheritDoc
-     */
-    public function behaviors()
-    {
-        return array_merge(
-            parent::behaviors(),
-            [
-                'verbs' => [
-                    'class' => VerbFilter::className(),
-                    'actions' => [
-                        'delete' => ['POST'],
-                    ],
-                ],
-            ]
-        );
-    }
-
+    public $controller_id = 1002;
+    
     /**
      * Lists all Roles models.
      *

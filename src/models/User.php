@@ -123,7 +123,9 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
         $list = [];
         foreach ($roles as $role) {
             if ($role->code == 'admin') {
-                $list = array_combine(array_keys($controllersAccessList), ['*']);
+                foreach (array_keys($controllersAccessList) as $id) {
+                    $list[$id] = '*';
+                }
                 break;
             }
             

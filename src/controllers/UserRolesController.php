@@ -4,34 +4,14 @@ namespace ZakharovAndrew\user\controllers;
 
 use ZakharovAndrew\user\models\UserRoles;
 use ZakharovAndrew\user\models\UserRolesSearch;
-use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 use Yii;
 
 /**
  * UserRolesController implements the CRUD actions for UserRoles model.
  */
-class UserRolesController extends Controller
-{
-    /**
-     * @inheritDoc
-     */
-    public function behaviors()
-    {
-        return array_merge(
-            parent::behaviors(),
-            [
-                'verbs' => [
-                    'class' => VerbFilter::className(),
-                    'actions' => [
-                        'delete' => ['GET'],
-                    ],
-                ],
-            ]
-        );
-    }
-
+class UserRolesController extends ParentController
+{    
     /**
      * Lists all UserRoles models.
      *
