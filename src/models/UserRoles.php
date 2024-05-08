@@ -89,8 +89,11 @@ class UserRoles extends \yii\db\ActiveRecord
         if ($subject_id) {
             $model->andWhere(["or", ["user_roles.subject_id" => $subject_id], ["subject_id" => null]]);
         }
-         
-        return $model->cache(600)->asArray()->all();
+   
+        return \yii\helpers\ArrayHelper::getColumn(
+                $model->cache(600)->asArray()->all(),
+                'user_id'
+                );
     }
     
     /**
