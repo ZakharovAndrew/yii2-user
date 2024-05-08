@@ -9,6 +9,7 @@ use Yii;
 
 /**
  * UserRolesController implements the CRUD actions for UserRoles model.
+ * @author Andrew Zakharov https://github.com/ZakharovAndrew
  */
 class UserRolesController extends ParentController
 {    

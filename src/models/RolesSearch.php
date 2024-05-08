@@ -7,7 +7,8 @@ use yii\data\ActiveDataProvider;
 use ZakharovAndrew\user\models\Roles;
 
 /**
- * RolesSearch represents the model behind the search form of `app\models\Roles`.
+ * RolesSearch represents the model behind the search form of `ZakharovAndrew\user\models\Roles`.
+ * @author Andrew Zakharov https://github.com/ZakharovAndrew
  */
 class RolesSearch extends Roles
 {

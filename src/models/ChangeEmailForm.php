@@ -7,7 +7,7 @@ use yii\base\Model;
 use ZakharovAndrew\user\Module;
 
 /**
- * email reset request form
+ * Email reset request form
  */
 class ChangeEmailForm extends Model
 {

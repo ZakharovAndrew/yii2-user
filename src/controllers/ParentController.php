@@ -8,6 +8,7 @@ use yii\filters\AccessControl;
 
 /**
  * Parental controller for access control.
+ * @author Andrew Zakharov https://github.com/ZakharovAndrew
  */
 class ParentController extends Controller
 {

@@ -11,6 +11,7 @@ use ZakharovAndrew\user\Module;
 
 /**
  * UserController implements the CRUD actions for User model.
+ * @author Andrew Zakharov https://github.com/ZakharovAndrew
  */
 class UserController extends ParentController
 {
@@ -31,19 +32,6 @@ class UserController extends ParentController
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-        ]);
-    }
-
-    /**
-     * Displays a single User model.
-     * @param int $id ID
-     * @return string
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionView($id)
-    {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
         ]);
     }
 

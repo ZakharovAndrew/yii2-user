@@ -36,6 +36,11 @@ class Module extends \yii\base\Module
     public $useTranslite = false;
     
     /**
+     * @var string show H1
+     */
+    public $showTitle = false;
+    
+    /**
      *
      * @var string source language for translation 
      */

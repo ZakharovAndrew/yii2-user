@@ -10,6 +10,7 @@ use yii\filters\VerbFilter;
 
 /**
  * RolesController implements the CRUD actions for Roles model.
+ * @author Andrew Zakharov https://github.com/ZakharovAndrew
  */
 class RolesController extends ParentController
 {
@@ -28,19 +29,6 @@ class RolesController extends ParentController
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-        ]);
-    }
-
-    /**
-     * Displays a single Roles model.
-     * @param int $id ID
-     * @return string
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionView($id)
-    {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
         ]);
     }
 
