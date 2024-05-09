@@ -15,7 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="user-roles-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <?php if (Yii::$app->getModule('user')->showTitle) {?><h1><?= Html::encode($this->title) ?></h1><?php } ?>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 

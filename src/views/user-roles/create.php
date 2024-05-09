@@ -11,7 +11,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="user-roles-create">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <?php if (Yii::$app->getModule('user')->showTitle) {?><h1><?= Html::encode($this->title) ?></h1><?php } ?>
 
     <?= $this->render('_form', [
         'model' => $model,

@@ -6,7 +6,7 @@ use ZakharovAndrew\user\Module;
 /** @var yii\web\View $this */
 /** @var ZakharovAndrew\user\models\Roles $model */
 
-$this->title = Module::t('Update Roles'). ': ' . $model->title;
+$this->title = Module::t('Update Role'). ': ' . $model->title;
 $this->params['breadcrumbs'][] = ['label' => Module::t('Roles'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = Module::t('Update');
 ?>

@@ -16,6 +16,8 @@ use ZakharovAndrew\user\models\Roles;
     <?= $form->field($model, 'user_id')->hiddenInput()->label(false) ?>
     
     <?= $form->field($model, 'role_id')->dropDownList(Roles::getRolesList()) ?>
+    
+    <?= $form->field($model, 'subject_id')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'note')->textInput(['maxlength' => true]) ?>
 
