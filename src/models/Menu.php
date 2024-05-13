@@ -19,26 +19,38 @@ class Menu extends \yii\base\Model
         $controllersAccessList = Yii::$app->getModule('user')->controllersAccessList;
         
         $list = User::getAccessList(Yii::$app->user->id);
-        
+       
         // menu items
         $items = [];
         
         foreach ($controllersAccessList as $controller_id => $params) {
             if (isset($list[$controller_id])) {
-                $actions = explode(',', $list[$controller_id]);
-                
-                //перебираем
-                foreach ($params as $link => $title) {
-                    
-                    
-                    $arr = explode('/', $link);
-                    if ($list[$controller_id] == '*' || in_array(end($arr), $actions)) {
-                        $items[] = ['label' => $title, 'url' => [$link]];
-                    }
-                }
+                $items = array_merge($items, static::getMenuItem($controller_id, $params, $list));
+                //$menu_items[] = static::getMenuItem($controller_id, $params, $list);
             }
         }
         
         return $items;
+    }
+    
+    public static function getMenuItem($controller_id, $items, $list)
+    {
+        $menu_items = [];
+        //перебираем
+        foreach ($items as $link => $item) {
+            if (is_array($item)) {
+                $menu_items[] = ['label' => $link, 'items' => static::getMenuItem($controller_id, $item, $list)];
+                continue;
+            }
+
+            $actions = explode(',', $list[$controller_id]);
+            $arr = explode('/', $link);
+            if ($list[$controller_id] == '*' || in_array(end($arr), $actions)) {
+                $menu_items[] = ['label' => $item, 'url' => [$link]];
+            }
+            
+        }
+        
+        return $menu_items;
     }
 }
