@@ -18,10 +18,11 @@ use ZakharovAndrew\user\Module;
     <?= $form->field($model, 'code')->textInput() ?>
     
     <?= $form->field($model, 'parameters')->textarea(['rows' => 3]) ?>
+    
+    <?= $form->field($model, 'function_to_get_all_subjects')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
-
-
+    
     <div class="form-group">
         <?= Html::submitButton(Module::t('Save'), ['class' => 'btn btn-success']) ?>
     </div>

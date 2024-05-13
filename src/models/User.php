@@ -400,6 +400,36 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     {        
         return UserRoles::hasRole($this, $role, $subject_id);
     }
+    
+    /**
+     * 
+     * @param string|array $role
+     */
+    public function getRoleSubjectsArray($role)
+    {
+        $roles = UserRoles::find()
+                ->select(['user_roles.subject_id', 'roles.function_to_get_all_subjects'])
+                ->leftJoin('roles', 'user_roles.role_id = roles.id')
+                ->where(['user_roles.user_id' => $this->id])
+                ->andWhere(['roles.code' => $role])
+                ->asArray()
+                ->all();
+        
+        // list of subjects
+        $subjects = [];
+        
+        foreach ($roles as $role) {
+            if (isset($role['subject_id'])) {
+                $subjects = array_unique(array_merge([$role['subject_id']], $subjects));
+            } else if (isset($role['function_to_get_all_subjects'])) {
+                
+                $result = $role['function_to_get_all_subjects']();
+                $subjects = array_unique(array_merge($result, $subjects));
+            }
+        }
+        
+        return $subjects;
+    }
 
     /**
      * Send an email with a password

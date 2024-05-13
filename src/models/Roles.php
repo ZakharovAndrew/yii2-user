@@ -34,7 +34,7 @@ class Roles extends \yii\db\ActiveRecord
             [['title'], 'required'],
             [['description'], 'string'],
             [['parameters', 'created_at'], 'safe'],
-            [['title', 'code'], 'string', 'max' => 255],
+            [['title', 'code', 'function_to_get_all_subjects'], 'string', 'max' => 255],
         ];
     }
 
@@ -49,6 +49,7 @@ class Roles extends \yii\db\ActiveRecord
             'description' => Module::t('Description'),
             'code' => Module::t('Code'),
             'parameters' => Module::t('Parameters'),
+            'function_to_get_all_subjects' => Module::t('Function to get all role subjects'),
             'created_at' => 'Created At',
         ];
     }

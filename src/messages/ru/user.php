@@ -33,6 +33,7 @@ return [
     'Add role' => 'Добавить роль',
     'Delete role' => 'Удалить роль',
     'Parameters' => 'Параметры',
+    'Function to get all role subjects' => 'Функция получения всех субъектов роли',
     'Update Role' => 'Обновить роль',
     //users
     'Username' => 'Логин',
