@@ -69,7 +69,12 @@ Add this to your main configuration's modules array
             'showTitle' => true, // display H1 headings (default - true)
             // use for menu and access
             'controllersAccessList' => [
-                1001 => ['/user/user/index' => 'users'],
+                1001 => [
+                            'Users' => [
+                                '/user/user/index' => 'users',
+                                '/user/user/create' => 'create user',
+                            ],
+                        ], 
                 1002 => ['/user/roles/index' => 'Roles']
             ]
         ],
