@@ -77,7 +77,7 @@ class UserRolesController extends ParentController
         $model = $this->findModel($id);
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['/user/user/index']);
         }
 
         return $this->render('update', [
@@ -99,7 +99,7 @@ class UserRolesController extends ParentController
         
         $model->delete();
 
-        return $this->redirect(['index']);
+        return $this->redirect(['/user/user/index']);
     }
 
     /**
