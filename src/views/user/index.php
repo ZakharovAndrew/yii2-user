@@ -15,6 +15,17 @@ use ZakharovAndrew\user\models\UserRoles;
 $this->title = Module::t('Users');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+<style>
+    .role-delete {
+        display: inline-block;
+        background: #ff7a7a;
+        border-radius: 6px;
+        color: white;
+        margin-right: 9px;
+        padding: 0 7px;
+        text-decoration: none;
+    }
+</style>
 <div class="user-index">
 
     <?php if (Yii::$app->getModule('user')->showTitle) {?><h1><?= Html::encode($this->title) ?></h1><?php } ?>
@@ -65,7 +76,8 @@ $this->params['breadcrumbs'][] = $this->title;
                     $roles = UserRoles::getUserRoles($model->id);
                     
                     foreach ($roles as $role) {
-                        $result .= $role['title'] . '<a href="'.Url::toRoute(['/user/user-roles/delete', 'id' => $role['id']]).'" title="'.Module::t('Delete role').'" aria-label="'.Module::t('Delete role').'" >X</a>';
+                        $result .= $role['title'] . (isset($role['subject_id']) ? '('.$role['subject_id'].')' : '' );
+                        $result .= ' <a href="'.Url::toRoute(['/user/user-roles/delete', 'id' => $role['id']]).'" title="'.Module::t('Delete role').'" aria-label="'.Module::t('Delete role').'" class="role-delete">X</a>';
                     }
                     
                     $result .= '<a href="'.Url::toRoute(['/user/user-roles/create', 'user_id' => $model->id, 'form'=>'_form_good_product']).'" title="'.Module::t('Add role').'" aria-label="'.Module::t('Add role').'" class="btn btn-sm btn-success">+</a>';
