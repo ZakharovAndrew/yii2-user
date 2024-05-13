@@ -22,8 +22,12 @@ $this->params['breadcrumbs'][] = $this->title;
         border-radius: 6px;
         color: white;
         margin-right: 9px;
-        padding: 0 7px;
+        padding: 0 6px;
+        font-size: 14px;
         text-decoration: none;
+    }
+    .role-delete:hover {
+        background: #dd5757;
     }
 </style>
 <div class="user-index">
