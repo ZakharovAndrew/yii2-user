@@ -430,6 +430,33 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
         
         return $subjects;
     }
+    
+    /**
+     * Get a list of users who have the role $roles2 for the same subjects for which the user has the role $roles1
+     * 
+     * @param string|array $roles1
+     * @param string|array $roles2
+     * @param null $subject_id
+     * @return array
+     */
+    public function getRoleSlaves($roles1, $roles2, $subject_id = null)
+    {
+        $subjects = self::getRoleSubjectsArray($roles1);
+        
+        if ($subject_id) {
+            $subject_id = !is_array($subject_id) ? [$subject_id] : $subject_id;
+            $subjects = array_intersect($subject_id, $subjects);
+        }
+        
+        return (ArrayHelper::getColumn(UserRoles::find()
+                ->select(['user_roles.user_id'])
+                ->distinct()
+                ->leftJoin('roles', 'user_roles.role_id = roles.id')
+                ->where(['roles.code' => $roles2])
+                ->andWhere(["or", ["subject_id" => $subjects], ["subject_id" => null]])
+                ->asArray()
+                ->all(), "user_id"));
+    }
 
     /**
      * Send an email with a password
