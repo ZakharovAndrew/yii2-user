@@ -5,6 +5,7 @@ namespace ZakharovAndrew\user\models;
 use Yii;
 use yii\web\IdentityInterface;
 use ZakharovAndrew\user\Module;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "crm_users".
@@ -160,7 +161,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     public static function  isActionAllowed($user_id, $controller_id, $action)
     {
         // check god mode
-        $roles = \yii\helpers\ArrayHelper::getColumn(UserRoles::getUserRoles($user_id), 'code');
+        $roles = ArrayHelper::getColumn(UserRoles::getUserRoles($user_id), 'code');
         if (in_array('admin', $roles)) {
             return true;
         }
@@ -363,7 +364,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     public static function getUsersByStatus($status_id)
     {
         return Yii::$app->cache->getOrSet('get_users_list'.$status_id, function () {
-            return \yii\helpers\ArrayHelper::map(
+            return ArrayHelper::map(
                     self::find()
                     ->where(['in','status', self::GROUP_ALLOW_ADM])
                     ->asArray()
