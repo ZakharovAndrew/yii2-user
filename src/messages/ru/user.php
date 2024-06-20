@@ -76,5 +76,6 @@ return [
     'Change email' => 'Смена email',
     'Incorrect E-Mail Address.' => 'Неверный адрес электронной почты.',
     'The field must not be empty.' => 'Поле не должно быть пустым.',
-    'A user with the specified login and email was not found.' => 'Пользователь с указанными логином и почтой не найден.'
+    'A user with the specified login and email was not found.' => 'Пользователь с указанными логином и почтой не найден.',
+    'Reset password for' => 'Сброс пароля для'
 ];
