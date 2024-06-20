@@ -8,6 +8,7 @@ use ZakharovAndrew\user\models\UserSearch;
 use ZakharovAndrew\user\controllers\ParentController;
 use yii\web\NotFoundHttpException;
 use ZakharovAndrew\user\Module;
+use ZakharovAndrew\user\models\PasswordResetRequestForm;
 
 /**
  * UserController implements the CRUD actions for User model.
