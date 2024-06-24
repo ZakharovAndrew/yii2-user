@@ -115,7 +115,7 @@ class UserController extends ParentController
             return $this->goHome();
         }
         
-        $model = new PasswordResetRequestForm();
+        $model = new \ZakharovAndrew\user\models\PasswordResetRequestForm();
 
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             if ($model->sendEmail()) {
