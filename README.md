@@ -88,7 +88,7 @@ Add this to your ```config\params.php```
 return [
     // ...
     'supportEmail' => 'change-this-email@test.com',
-    'userPasswordResetTokenExpire' => 3600
+    'userResetPasswordTokenExpire' => 3600
     // ...
 ];
 ```
