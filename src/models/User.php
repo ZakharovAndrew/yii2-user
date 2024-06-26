@@ -422,7 +422,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
         foreach ($roles as $role) {
             if (isset($role['subject_id'])) {
                 $subjects = array_unique(array_merge([$role['subject_id']], $subjects));
-            } else if (isset($role['function_to_get_all_subjects'])) {
+            } else if (isset($role['function_to_get_all_subjects']) && is_callable($role['function_to_get_all_subjects'])) {
                 
                 $result = $role['function_to_get_all_subjects']();
                 $subjects = array_unique(array_merge($result, $subjects));
