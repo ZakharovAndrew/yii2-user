@@ -8,6 +8,7 @@ use ZakharovAndrew\user\models\UserSearch;
 use ZakharovAndrew\user\controllers\ParentController;
 use yii\web\NotFoundHttpException;
 use ZakharovAndrew\user\Module;
+use ZakharovAndrew\user\models\ResetPasswordForm;
 use ZakharovAndrew\user\models\PasswordResetRequestForm;
 
 /**
@@ -115,7 +116,7 @@ class UserController extends ParentController
             return $this->goHome();
         }
         
-        $model = new \ZakharovAndrew\user\models\PasswordResetRequestForm();
+        $model = new PasswordResetRequestForm();
 
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             if ($model->sendEmail()) {
@@ -132,6 +133,35 @@ class UserController extends ParentController
             'model' => $model,
         ]);
     }
+    
+    /**
+     * Resets password.
+     *
+     * @param string $token
+     * @return mixed
+     * @throws BadRequestHttpException
+     */
+    public function actionResetPassword($token)
+    {
+        try {
+            $model = new ResetPasswordForm($token);
+        } catch (InvalidParamException $e) {
+            throw new BadRequestHttpException($e->getMessage());
+        }
+
+        if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->resetPassword()) {
+            Yii::$app->session->setFlash('success', 'Новый пароль сохранен.'); // New password was saved.
+            return $this->goHome();
+        }
+
+        $this->layout = "login";
+
+        return $this->render('resetPasswordForm', [
+            'model' => $model,
+            'token' => $token,
+        ]);
+    }
+
     
     /**
      * Login action.
