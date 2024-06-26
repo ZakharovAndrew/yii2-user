@@ -61,7 +61,7 @@ return [
 
 Add this to your main configuration's modules array
 
-```
+```php
     'modules' => [
         'user' => [
             'class' => 'ZakharovAndrew\user\Module',
@@ -80,6 +80,17 @@ Add this to your main configuration's modules array
         ],
         // ...
     ],
+```
+
+Add this to your ```config\params.php```
+
+```php
+return [
+    // ...
+    'supportEmail' => 'change-this-email@test.com',
+    'userPasswordResetTokenExpire' => 3600
+    // ...
+];
 ```
 
 ## License
