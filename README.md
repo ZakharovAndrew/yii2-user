@@ -88,6 +88,7 @@ Add this to your ```config\params.php```
 return [
     // ...
     'supportEmail' => 'change-this-email@test.com',
+    // lifetime of the password reset token
     'userResetPasswordTokenExpire' => 3600
     // ...
 ];
