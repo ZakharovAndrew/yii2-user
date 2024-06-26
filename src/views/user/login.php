@@ -95,6 +95,11 @@ $this->params['breadcrumbs'][] = $this->title;
     h4 {
         margin-bottom: 5px;
     }
+    .alert {
+        max-width: 459px;
+        margin: 0 auto;
+        margin-top: 15px;
+    }
 </style>
 <div class="content">
     <div class="site-login center">
@@ -125,7 +130,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ])->label(Module::t('Remember me')) ?>
             
             <div class="mb-3 row mg10">
-                <?= $classHtml::a(Module::t('Forgot password?'), ['user/user/request-password-reset']) ?>
+                <?= $classHtml::a(Module::t('Forgot password?'), ['/user/user/request-password-reset']) ?>
             </div>
 
             <div class="form-group">

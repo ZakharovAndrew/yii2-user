@@ -23,15 +23,19 @@ AppAsset::register($this);
 <?php $this->beginBody() ?>
 
     <?php if (Yii::$app->session->hasFlash('success')): ?>
-        <div class="alert alert-success alert-dismissible" role="alert">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <?php echo Yii::$app->session->getFlash('success'); ?>
+        <div class="container">
+            <div class="alert alert-success alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <?php echo Yii::$app->session->getFlash('success'); ?>
+            </div>
         </div>
     <?php endif; ?>
     <?php if (Yii::$app->session->hasFlash('error')): ?>
-        <div class="alert alert-error alert-dismissible" role="alert">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <?php echo Yii::$app->session->getFlash('error'); ?>
+        <div class="container">
+            <div class="alert alert-error alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <?php echo Yii::$app->session->getFlash('error'); ?>
+            </div>
         </div>
     <?php endif; ?>
 

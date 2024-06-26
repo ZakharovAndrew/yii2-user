@@ -81,4 +81,6 @@ return [
     'Reset password' => 'Сброс пароля',
     'Reset password for' => 'Сброс пароля для',
     'To reset your password, follow the link' => 'Для сброса своего пароля перейдите по ссылке',
+    'Please enter your username and email to receive a link to reset your password' => 'Пожалуйста, введите свой логин и Email, что бы получить ссылку для сброса пароля',
+    'Please enter a new password' => 'Пожалуйста, введите новый пароль',
 ];

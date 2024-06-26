@@ -7,6 +7,8 @@ use app\models\User;
 use ZakharovAndrew\user\models\UserSearch;
 use ZakharovAndrew\user\controllers\ParentController;
 use yii\web\NotFoundHttpException;
+use yii\web\BadRequestHttpException;
+use yii\base\InvalidParamException;
 use ZakharovAndrew\user\Module;
 use ZakharovAndrew\user\models\ResetPasswordForm;
 use ZakharovAndrew\user\models\PasswordResetRequestForm;
@@ -19,7 +21,7 @@ class UserController extends ParentController
 {
     public $controller_id = 1001;
     
-    public $full_access_actions = ['login', 'logout'];
+    public $full_access_actions = ['login', 'logout', 'request-password-reset', 'reset-password'];
 
     /**
      * Lists all User models.
@@ -111,8 +113,8 @@ class UserController extends ParentController
      */
     public function actionRequestPasswordReset()
     {
-        // guest cannot reset password
-        if (Yii::$app->user->isGuest) {
+        // not guest cannot reset password
+        if (!Yii::$app->user->isGuest) {
             return $this->goHome();
         }
         
