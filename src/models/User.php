@@ -133,7 +133,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
             foreach ($role->getParametersList() as $controller_id => $actions) {
                 if ($actions == '*') {
                     $list[$controller_id] = '*';
-                    break;
+                    continue;
                 }
                 
                 $arrAction = explode(',', $actions);
