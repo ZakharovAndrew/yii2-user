@@ -6,7 +6,11 @@ use Yii;
 use ZakharovAndrew\user\models\User;
 
 /**
- * Menu
+ * Menu for navbar
+ * *************
+ *  
+ * @link https://github.com/ZakharovAndrew/yii2-user/
+ * @copyright Copyright (c) 2023-2024 Zakharov Andrew
  */
 class Menu extends \yii\base\Model
 {
@@ -26,7 +30,6 @@ class Menu extends \yii\base\Model
         foreach ($controllersAccessList as $controller_id => $params) {
             if (isset($list[$controller_id])) {
                 $items = array_merge($items, static::getMenuItem($controller_id, $params, $list));
-                //$menu_items[] = static::getMenuItem($controller_id, $params, $list);
             }
         }
         
