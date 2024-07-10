@@ -62,6 +62,21 @@ return [
     'Update' => 'Изменить',
     'Send' => 'Отправить',
     
+    // Email
+    'Change Email' => 'Сменить Email',
+    'Current Email' => 'Текущий Email',
+    'New Email' => 'Новый Email',
+    'Current password' => 'Текущий пароль',
+    'To confirm your email, please follow the link' => 'Для подтверждения электронной почты перейдите по ссылке',
+    'We have sent a link to confirm your new email address. Please follow it to confirm.' => 'Мы отправили ссылку для подтверждения вашего нового адреса электронной почты. Пожалуйста, перейдите по ней для подтверждения.',
+    'Error when changing email, email not confirmed' => 'Ошибка при смене адреса электронной почты, адрес электронной почты не подтвержден',
+    'Error when changing email' => 'Ошибка при смене адреса электронной почты',
+    'Email changed successfully' => 'Email успешно изменён',
+    'Wrong password.' => 'Неверный пароль.',
+    'You are not authorized to change Email' => 'Вы не авторизованы для смены Email',
+    'Invalid data for changing Email.' => 'Неверные данные для смены Email.',
+    
+    
     //
     'Hello' => 'Здравствуйте',
     'Your data for access to' => 'Ваши данные для доступа к',
@@ -71,6 +86,7 @@ return [
     
     'Registration in' => 'Регистрация в',
     'Password reset' => 'Сброс пароля',
+    'Error while changing password.' => 'Ошибка при смене пароля.',
     'Check your email for further action' => 'Проверьте свою электронную почту для дальнейших действий',
     'An error occurred while resetting your password. Contact the site administrator' => 'Произошла ошибка при сбросе пароля. Обратитесь к администратору сайта',
     
@@ -80,6 +96,7 @@ return [
     'A user with the specified login and email was not found.' => 'Пользователь с указанными логином и почтой не найден.',
     'Reset password' => 'Сброс пароля',
     'Reset password for' => 'Сброс пароля для',
+    'New password was saved.' => 'Новый пароль сохранен.',
     'To reset your password, follow the link' => 'Для сброса своего пароля перейдите по ссылке',
     'Please enter your username and email to receive a link to reset your password' => 'Пожалуйста, введите свой логин и Email, что бы получить ссылку для сброса пароля',
     'Please enter a new password' => 'Пожалуйста, введите новый пароль',

@@ -36,7 +36,7 @@ class ChangeEmailForm extends Model
         return Yii::$app
             ->mailer
             ->compose(
-                ['html' => 'email-change-html'],
+                ['html' => '@vendor/zakharov-andrew/yii2-user/src/mail/email-change-html'],
                 ['model' => $this, 'user' => $user]
             )
             ->setFrom([Yii::$app->params['supportEmail'] => Yii::$app->name])

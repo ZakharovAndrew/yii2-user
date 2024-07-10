@@ -5,6 +5,7 @@ namespace ZakharovAndrew\user\controllers;
 use Yii;
 use app\models\User;
 use ZakharovAndrew\user\models\UserSearch;
+use ZakharovAndrew\user\models\ChangeEmailForm;
 use ZakharovAndrew\user\controllers\ParentController;
 use yii\web\NotFoundHttpException;
 use yii\web\BadRequestHttpException;
@@ -21,7 +22,7 @@ class UserController extends ParentController
 {
     public $controller_id = 1001;
     
-    public $full_access_actions = ['login', 'logout', 'request-password-reset', 'reset-password'];
+    public $full_access_actions = ['login', 'logout', 'request-password-reset', 'reset-password', 'set-new-email'];
 
     /**
      * Lists all User models.
@@ -152,7 +153,7 @@ class UserController extends ParentController
         }
 
         if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->resetPassword()) {
-            Yii::$app->session->setFlash('success', 'Новый пароль сохранен.'); // New password was saved.
+            Yii::$app->session->setFlash('success', Moudule::t('New password was saved.'));
             return $this->goHome();
         }
 
@@ -162,6 +163,65 @@ class UserController extends ParentController
             'model' => $model,
             'token' => $token,
         ]);
+    }
+    
+    /**
+     * Change email
+     * 
+     * @return mixed
+     */
+    public function actionChangeEmail()
+    {
+        $this->layout = 'login';
+        
+        $user = Yii::$app->user->identity;
+        $model = new ChangeEmailForm();
+        
+        if ($this->request->isPost) {
+            if (!$model->load($this->request->post()) && !$model->validate()) {
+                Yii::$app->session->setFlash('error', Module::t('Invalid data for changing Email.'));
+                return $this->render('changeEmail', ['model' => $model]);
+            }
+            
+            if (!$user->validatePassword($model->password)) {
+                Yii::$app->session->setFlash('error', Module::t('Wrong password.'));
+                return $this->render('changeEmail', ['model' => $model]);
+            }
+            
+            if ($model->sendEmail($user)){
+                Yii::$app->session->setFlash('success', Module::t('We have sent a link to confirm your new email address. Please follow it to confirm.'));
+                return $this->redirect(['/site/index']);
+            } else {
+                Yii::$app->session->setFlash('error', Module::t('Error when changing email'));
+            }   
+        }
+        
+        return $this->render('changeEmail', [
+            'model' => $model,
+        ]);
+    }
+    
+    public function actionSetNewEmail($username, $email, $key)
+    {
+        if (($user = User::findOne(['id' => Yii::$app->user->id, 'username' => $username])) === null) {
+            Yii::$app->session->setFlash('error', Module::t('You are not authorized to change Email'));
+            return $this->redirect(['/user/user/login']);
+        }
+
+        if (md5($email.Yii::$app->name) != $key) {
+            Yii::$app->session->setFlash('error', Module::t('Error when changing email, email not confirmed'));
+            return $this->redirect(['/user/user/change-email']);
+        }
+
+        $user->email = $email;
+
+        if(!$user->save()) {
+            Yii::$app->session->setFlash('error', Module::t('Error when changing email') . ': ' . (isset($user->errors['email'])) ? $user->errors['email'][0] : var_export($user->errors, true));
+            return $this->redirect(['user/change-email']);
+        }
+
+        Yii::$app->session->setFlash('success', Module::t('Email changed successfully'));
+        return $this->redirect(['/site/index']);
     }
 
     
