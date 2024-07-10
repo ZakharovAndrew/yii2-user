@@ -5,7 +5,7 @@ use yii\db\Migration;
 /**
  * Handles the creation of table `user_settings_config`.
  */
-class m240112_201411_create_user_settings_config_table extends Migration
+class m240112_231411_create_user_settings_config_table extends Migration
 {
     public function up()
     {
@@ -17,7 +17,7 @@ class m240112_201411_create_user_settings_config_table extends Migration
                 'code' => $this->string(255)->notNull(),
                 'type' => $this->integer(),
                 'access_level' => $this->integer(),
-                'values' => $this->text,
+                'values' => $this->text()
             ]
         );
         
