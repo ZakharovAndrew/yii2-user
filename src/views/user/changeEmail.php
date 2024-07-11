@@ -1,7 +1,6 @@
 <?php
 
 use yii\helpers\Html;
-use yii\helpers\Url;
 use ZakharovAndrew\user\Module;
 
 $this->title = Module::t('Change Email');
@@ -9,7 +8,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
 $bootstrapVersion = Yii::$app->getModule('user')->bootstrapVersion;
 $classActiveForm = "\\yii\bootstrap".($bootstrapVersion==3 ? '' : $bootstrapVersion)."\\ActiveForm";
-$classHtml = "\\yii\bootstrap".($bootstrapVersion==3 ? '' : $bootstrapVersion)."\\Html";
 ?>
 <?= $this->render('_style') ?>
 

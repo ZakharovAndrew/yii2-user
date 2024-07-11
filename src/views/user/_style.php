@@ -47,7 +47,8 @@
         justify-content: center;
         align-items: center;
         display: flex;
-        padding:11%;
+        /*padding:11%;*/
+        height: 100vh;
     }
     .btn-primary {
         text-transform: uppercase;

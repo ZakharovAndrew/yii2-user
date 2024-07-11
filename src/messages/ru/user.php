@@ -96,8 +96,15 @@ return [
     'A user with the specified login and email was not found.' => 'Пользователь с указанными логином и почтой не найден.',
     'Reset password' => 'Сброс пароля',
     'Reset password for' => 'Сброс пароля для',
+    'Invalid current password' => 'Неверный текущий пароль',
+    'Change Password' => 'Сменить пароль',
+    'Current password' => 'Текущий пароль',
+    'New password' => 'Новый пароль',
+    'Repeat password' => 'Повторите пароль',
     'New password was saved.' => 'Новый пароль сохранен.',
     'To reset your password, follow the link' => 'Для сброса своего пароля перейдите по ссылке',
     'Please enter your username and email to receive a link to reset your password' => 'Пожалуйста, введите свой логин и Email, что бы получить ссылку для сброса пароля',
     'Please enter a new password' => 'Пожалуйста, введите новый пароль',
+    'Your password has been successfully changed.' => 'Пароль был успешно изменен!',
+    'The field must not be empty.' => 'Поле не должно быть пустым.'
 ];

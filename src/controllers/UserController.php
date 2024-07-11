@@ -13,6 +13,7 @@ use yii\base\InvalidParamException;
 use ZakharovAndrew\user\Module;
 use ZakharovAndrew\user\models\ResetPasswordForm;
 use ZakharovAndrew\user\models\PasswordResetRequestForm;
+use ZakharovAndrew\user\models\ChangePasswordForm;
 
 /**
  * UserController implements the CRUD actions for User model.
@@ -22,7 +23,7 @@ class UserController extends ParentController
 {
     public $controller_id = 1001;
     
-    public $full_access_actions = ['login', 'logout', 'request-password-reset', 'reset-password', 'set-new-email'];
+    public $full_access_actions = ['login', 'logout', 'request-password-reset', 'reset-password', 'set-new-email', 'change-password'];
 
     /**
      * Lists all User models.
@@ -190,7 +191,7 @@ class UserController extends ParentController
             
             if ($model->sendEmail($user)){
                 Yii::$app->session->setFlash('success', Module::t('We have sent a link to confirm your new email address. Please follow it to confirm.'));
-                return $this->redirect(['/site/index']);
+                return $this->goHome();
             } else {
                 Yii::$app->session->setFlash('error', Module::t('Error when changing email'));
             }   
@@ -221,7 +222,40 @@ class UserController extends ParentController
         }
 
         Yii::$app->session->setFlash('success', Module::t('Email changed successfully'));
-        return $this->redirect(['/site/index']);
+        return $this->goHome();
+    }
+    
+    /**
+     * Change user password
+     * 
+     * @return mixed
+     */
+    public function actionChangePassword()
+    {
+        // not guest cannot change password
+        if (Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+        
+        $this->layout = 'login';
+        
+        $model = new ChangePasswordForm();
+        $user = Yii::$app->user->identity;
+        
+        if ($this->request->isPost) {
+            if ($model->load($this->request->post()) && $model->validate()) {
+                if ($user->setPassword($model->new_password) && $user->save(false)){
+                    Yii::$app->session->setFlash('success', Module::t('Your password has been successfully changed.'));
+                    return $this->goHome();
+                } else {
+                    Yii::$app->session->setFlash('error', 'Ошибка при смене пароля.');
+                }
+            }
+        }
+        
+        return $this->render('changePasswordForm', [
+            'model' => $model,
+        ]);
     }
 
     
