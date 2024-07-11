@@ -106,5 +106,11 @@ return [
     'Please enter your username and email to receive a link to reset your password' => 'Пожалуйста, введите свой логин и Email, что бы получить ссылку для сброса пароля',
     'Please enter a new password' => 'Пожалуйста, введите новый пароль',
     'Your password has been successfully changed.' => 'Пароль был успешно изменен!',
-    'The field must not be empty.' => 'Поле не должно быть пустым.'
+    'The field must not be empty.' => 'Поле не должно быть пустым.',
+    //settings
+    'User Settings Configurations' => 'Конфигурации пользовательских настроек',
+    'Create User Settings Configuration' => 'Создать конфигурацию пользовательских настроек',
+    'Type' => 'Тип',
+    'String' => 'Строка',
+    'Date' => 'Дата',
 ];

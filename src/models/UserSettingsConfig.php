@@ -3,6 +3,7 @@
 namespace ZakharovAndrew\user\models;
 
 use Yii;
+use ZakharovAndrew\user\Module;
 
 /**
  * This is the model class for table "user_settings_config".
@@ -46,9 +47,19 @@ class UserSettingsConfig extends \yii\db\ActiveRecord
             'id' => 'ID',
             'title' => 'Title',
             'code' => 'Code',
-            'type' => 'Type',
+            'type' => Module::t('Type'),
             'access_level' => 'Access Level',
             'values' => 'Values',
         ];
     }
+    
+    public static function getTypeOfSettings()
+    {
+        return [
+            1 => 'Integer',
+            2 => Module::t('String'),
+            3 => Module::t('Date'),
+        ];
+    }
+    
 }
