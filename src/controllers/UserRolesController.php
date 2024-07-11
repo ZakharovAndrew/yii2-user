@@ -12,7 +12,9 @@ use Yii;
  * @author Andrew Zakharov https://github.com/ZakharovAndrew
  */
 class UserRolesController extends ParentController
-{    
+{
+    public $controller_id = 1003;
+    
     /**
      * Lists all UserRoles models.
      *
