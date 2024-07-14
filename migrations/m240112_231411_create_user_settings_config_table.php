@@ -21,7 +21,7 @@ class m240112_231411_create_user_settings_config_table extends Migration
             ]
         );
         
-        // creates index for column `user_id`
+        // creates index for column `code`
         $this->createIndex(
             'idx-user-settings-config-code',
             'user_settings_config',
