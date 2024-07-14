@@ -3,29 +3,37 @@
 use yii\db\Migration;
 
 /**
- * Handles the creation of table `user_settings_config`.
+ * Handles the creation of table `user_settings`.
  */
-class m240112_231411_create_user_settings_config_table extends Migration
+class m240112_231511_create_user_config_table extends Migration
 {
     public function up()
     {
         $this->createTable(
-            'user_settings_config',
+            'user_settings',
             [
                 'id' => $this->primaryKey(),
-                'title' => $this->string(255)->notNull(),
-                'code' => $this->string(255)->notNull(),
-                'type' => $this->integer(),
-                'access_level' => $this->integer(),
-                'values' => $this->text()
+                'user_id' => $this->integer(),
+                'setting_config_id' => $this->integer(),
+                'values' => $this->string(500),
             ]
+        );
+        
+        // add foreign key for table `user_settings_config`
+        $this->addForeignKey(
+            'fk-user-settings-setting_config_id',
+            'user_settings',
+            'setting_config_id',
+            'user_settings_config',
+            'id',
+            'CASCADE'
         );
         
         // creates index for column `user_id`
         $this->createIndex(
-            'idx-user-settings-config-code',
-            'user_settings_config',
-            'code'
+            'idx-user-settings-user_id',
+            'user_settings',
+            'user_id'
         );
     }
 
