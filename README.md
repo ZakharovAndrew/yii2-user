@@ -11,6 +11,7 @@ Yii2 user authentication module for management users and their rights.
 - User administration interface
 - Supports role creation
 - Multiple user roles are supported
+- Supports languages: English, Russian
 
 ## Installation
 
