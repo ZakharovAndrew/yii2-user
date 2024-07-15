@@ -45,18 +45,18 @@ class UserSettingsConfig extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'title' => 'Title',
-            'code' => 'Code',
+            'title' => Module::t('Title'),
+            'code' => Module::t('Code'),
             'type' => Module::t('Type'),
             'access_level' => 'Access Level',
-            'values' => 'Values',
+            'values' => Module::t('Values'),
         ];
     }
     
     public static function getTypeOfSettings()
     {
         return [
-            1 => 'Integer',
+            1 => Module::t('Integer'),
             2 => Module::t('String'),
             3 => Module::t('Date'),
         ];

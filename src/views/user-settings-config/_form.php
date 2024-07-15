@@ -17,7 +17,7 @@ use ZakharovAndrew\user\models\UserSettingsConfig;
 
     <?= $form->field($model, 'code')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'type')->dropDownList(UserSettingsConfig::getTypeOfSettings(), ['prompt' => '', 'class' => 'form-control fomr-select']) ?>
+    <?= $form->field($model, 'type')->dropDownList(UserSettingsConfig::getTypeOfSettings(), ['prompt' => '', 'class' => 'form-control form-select']) ?>
 
     <?= $form->field($model, 'access_level')->textInput() ?>
 

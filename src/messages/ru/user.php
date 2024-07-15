@@ -111,6 +111,9 @@ return [
     'User Settings Configurations' => 'Конфигурации пользовательских настроек',
     'Create User Settings Configuration' => 'Создать конфигурацию пользовательских настроек',
     'Type' => 'Тип',
+    'Integer' => 'Целое число',
     'String' => 'Строка',
     'Date' => 'Дата',
+    'Values' => 'Значения',
+    'Access level' => 'Уровень доступа'
 ];
