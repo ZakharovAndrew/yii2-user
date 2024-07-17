@@ -23,7 +23,11 @@ class UserController extends ParentController
 {
     public $controller_id = 1001;
     
-    public $full_access_actions = ['login', 'logout', 'request-password-reset', 'reset-password', 'set-new-email', 'change-password'];
+    public $full_access_actions = [
+            'login', 'logout',
+            'request-password-reset', 'reset-password', 'set-new-email', 'change-password',
+            'profile'
+        ];
 
     /**
      * Lists all User models.
@@ -232,7 +236,7 @@ class UserController extends ParentController
      */
     public function actionChangePassword()
     {
-        // not guest cannot change password
+        // guest cannot change password
         if (Yii::$app->user->isGuest) {
             return $this->goHome();
         }
@@ -278,8 +282,22 @@ class UserController extends ParentController
         }
 
         $model->password = '';
+        
         return $this->render('login', [
             'model' => $model,
+        ]);
+    }
+    
+    public function actionProfile()
+    {
+        
+        // guest cannot view profile
+        if (Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+        
+        return $this->render('profile', [
+            'model' => Yii::$app->user->identity,
         ]);
     }
 
