@@ -443,6 +443,10 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     public function getRoleSlaves($roles1, $roles2, $subject_id = null)
     {
         $subjects = self::getRoleSubjectsArray($roles1);
+
+        if (empty($subjects)) {
+            return [];
+        }
         
         if ($subject_id) {
             $subject_id = !is_array($subject_id) ? [$subject_id] : $subject_id;
