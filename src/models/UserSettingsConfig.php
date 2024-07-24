@@ -44,10 +44,10 @@ class UserSettingsConfig extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
+            'id'    => 'ID',
             'title' => Module::t('Title'),
-            'code' => Module::t('Code'),
-            'type' => Module::t('Type'),
+            'code'  => Module::t('Code'),
+            'type'  => Module::t('Type'),
             'access_level' => 'Access Level',
             'values' => Module::t('Values'),
         ];

@@ -444,6 +444,10 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     {
         $subjects = self::getRoleSubjectsArray($roles1);
         
+        if (empty($subjects)) {
+            return [];
+        }
+        
         if ($subject_id) {
             $subject_id = !is_array($subject_id) ? [$subject_id] : $subject_id;
             $subjects = array_intersect($subject_id, $subjects);

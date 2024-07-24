@@ -23,11 +23,7 @@ class UserController extends ParentController
 {
     public $controller_id = 1001;
     
-    public $full_access_actions = [
-            'login', 'logout',
-            'request-password-reset', 'reset-password', 'set-new-email', 'change-password',
-            'profile'
-        ];
+    public $full_access_actions = ['login', 'logout', 'request-password-reset', 'reset-password', 'set-new-email', 'change-password'];
 
     /**
      * Lists all User models.
@@ -38,6 +34,8 @@ class UserController extends ParentController
     {
         $searchModel = new UserSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
+        
+        Url::remember('', 'user_index');
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -61,14 +59,14 @@ class UserController extends ParentController
             // Trying to send the password to the email and save the password
             if (!$model->sendPasswordEmail($password) || !$model->setPassword($password)) {
                 Yii::$app->session->setFlash('error', Module::t('Error creating user. Error setting password.'));
-                return $this->redirect(['index']);
+                return $this->redirect(Url::previous('user_index') ?? ['index']);
             }
             
             if (!$model->save()) {
                 Yii::$app->session->setFlash('error', Module::t('Error. Failed to save user during creation'));
             }
             
-            return $this->redirect(['index']);
+            return $this->redirect(Url::previous('user_index') ?? ['index']);
         } else {
             $model->loadDefaultValues();
         }
@@ -90,7 +88,7 @@ class UserController extends ParentController
         $model = $this->findModel($id);
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['index']);
+            return $this->redirect(Url::previous('user_index') ?? ['index']);
         }
 
         return $this->render('update', [
@@ -109,7 +107,7 @@ class UserController extends ParentController
     {
         $this->findModel($id)->delete();
 
-        return $this->redirect(['index']);
+        return $this->redirect(Url::previous('user_index') ?? ['index']);
     }
     
     /**
@@ -222,7 +220,7 @@ class UserController extends ParentController
 
         if(!$user->save()) {
             Yii::$app->session->setFlash('error', Module::t('Error when changing email') . ': ' . (isset($user->errors['email'])) ? $user->errors['email'][0] : var_export($user->errors, true));
-            return $this->redirect(['user/change-email']);
+            return $this->redirect(['/user/change-email']);
         }
 
         Yii::$app->session->setFlash('success', Module::t('Email changed successfully'));
@@ -282,22 +280,8 @@ class UserController extends ParentController
         }
 
         $model->password = '';
-        
         return $this->render('login', [
             'model' => $model,
-        ]);
-    }
-    
-    public function actionProfile()
-    {
-        
-        // guest cannot view profile
-        if (Yii::$app->user->isGuest) {
-            return $this->goHome();
-        }
-        
-        return $this->render('profile', [
-            'model' => Yii::$app->user->identity,
         ]);
     }
 

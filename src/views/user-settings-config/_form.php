@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use ZakharovAndrew\user\models\UserSettingsConfig;
+use ZakharovAndrew\user\Module;
 
 /** @var yii\web\View $this */
 /** @var ZakharovAndrew\user\models\UserSettingsConfig $model */
@@ -24,7 +25,7 @@ use ZakharovAndrew\user\models\UserSettingsConfig;
     <?= $form->field($model, 'values')->textarea(['rows' => 6]) ?>
 
     <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton(Module::t('Save'), ['class' => 'btn btn-success']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>
