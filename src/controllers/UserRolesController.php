@@ -6,6 +6,7 @@ use ZakharovAndrew\user\models\UserRoles;
 use ZakharovAndrew\user\models\UserRolesSearch;
 use yii\web\NotFoundHttpException;
 use Yii;
+use yii\helpers\Url;
 
 /**
  * UserRolesController implements the CRUD actions for UserRoles model.
@@ -56,7 +57,7 @@ class UserRolesController extends ParentController
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['/user/user/index']);
+                return $this->redirect(Url::previous('user_index') ?? ['/user/user/index']);
             }
         } else {
             $model->loadDefaultValues();
@@ -79,7 +80,7 @@ class UserRolesController extends ParentController
         $model = $this->findModel($id);
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['/user/user/index']);
+            return $this->redirect(Url::previous('user_index') ?? ['/user/user/index']);
         }
 
         return $this->render('update', [
@@ -101,7 +102,7 @@ class UserRolesController extends ParentController
         
         $model->delete();
 
-        return $this->redirect(['/user/user/index']);
+        return $this->redirect(Url::previous('user_index') ?? ['/user/user/index']);
     }
 
     /**
