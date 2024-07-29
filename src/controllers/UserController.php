@@ -14,6 +14,7 @@ use ZakharovAndrew\user\Module;
 use ZakharovAndrew\user\models\ResetPasswordForm;
 use ZakharovAndrew\user\models\PasswordResetRequestForm;
 use ZakharovAndrew\user\models\ChangePasswordForm;
+use yii\helperers\Url;
 
 /**
  * UserController implements the CRUD actions for User model.
