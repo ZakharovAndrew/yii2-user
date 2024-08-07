@@ -157,7 +157,7 @@ class UserController extends ParentController
         }
 
         if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->resetPassword()) {
-            Yii::$app->session->setFlash('success', Moudule::t('New password was saved.'));
+            Yii::$app->session->setFlash('success', Module::t('New password was saved.'));
             return $this->goHome();
         }
 
