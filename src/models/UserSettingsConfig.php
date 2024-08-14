@@ -17,6 +17,11 @@ use ZakharovAndrew\user\Module;
  */
 class UserSettingsConfig extends \yii\db\ActiveRecord
 {
+    const CHANGE_USER_AND_ADMIN = 1;
+    const CHANGE_USER_ONLY = 2;
+    const CHANGE_ADMIN_ONLY = 3;
+    const CHANGE_SYSTEM_ONLY = 4;
+    
     /**
      * {@inheritdoc}
      */
@@ -48,7 +53,7 @@ class UserSettingsConfig extends \yii\db\ActiveRecord
             'title' => Module::t('Title'),
             'code'  => Module::t('Code'),
             'type'  => Module::t('Type'),
-            'access_level' => 'Access Level',
+            'access_level' => Module::t('Who can change'),
             'values' => Module::t('Values'),
         ];
     }
@@ -59,6 +64,16 @@ class UserSettingsConfig extends \yii\db\ActiveRecord
             1 => Module::t('Integer'),
             2 => Module::t('String'),
             3 => Module::t('Date'),
+        ];
+    }
+    
+    public static function getAccessLevel()
+    {               
+        return [
+            static::CHANGE_USER_AND_ADMIN => Module::t('User and Administrator'),
+            static::CHANGE_USER_ONLY    => Module::t('User only'),
+            static::CHANGE_ADMIN_ONLY   => Module::t('Administrator only'),
+            static::CHANGE_SYSTEM_ONLY  => Module::t('System only'),
         ];
     }
     

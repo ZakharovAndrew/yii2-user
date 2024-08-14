@@ -115,5 +115,10 @@ return [
     'String' => 'Строка',
     'Date' => 'Дата',
     'Values' => 'Значения',
-    'Access level' => 'Уровень доступа'
+    'Access level' => 'Уровень доступа',
+    'Who can change' => 'Кто может изменить',
+    'User and Administrator' => 'Пользователь и администратор',
+    'User only' => 'Только пользователь',
+    'Administrator only' => 'Только администратор',
+    'System only' => 'Только система',
 ];
