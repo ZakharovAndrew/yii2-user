@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use ZakharovAndrew\user\Module;
 
 /** @var yii\web\View $this */
-/** @var app\models\User $model */
+/** @var ZakharovAndrew\user\models\User $model */
 
 $this->title = 'Update User: ' . $model->id;
 $this->params['breadcrumbs'][] = ['label' => Module::t('Users'), 'url' => ['index']];
