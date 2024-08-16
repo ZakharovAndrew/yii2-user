@@ -54,6 +54,11 @@ class Roles extends \yii\db\ActiveRecord
         ];
     }
     
+    /**
+     * Get all roles
+     * 
+     * @return array
+     */
     public static function getRolesList()
     {
         $arr = static::find()

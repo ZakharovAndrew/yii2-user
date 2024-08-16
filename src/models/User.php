@@ -177,9 +177,11 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
         
         return ($accessList[$controller_id] == '*' || in_array($action, $arr));
     }
-    
+
     /**
-     * Получаем все доступные для данного пользователя статусы
+     * We get all statuses available for a given user
+     * 
+     * @return array
      */
     public function getAllowedStatusList(){
         return array_flip(array_filter(array_flip(self::statusLabelsRu()), function($v){
