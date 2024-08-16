@@ -24,7 +24,7 @@ class UserController extends ParentController
 {
     public $controller_id = 1001;
     
-    public $full_access_actions = ['login', 'logout', 'request-password-reset', 'reset-password', 'set-new-email', 'change-password', 'telegram-registration'];
+    public $full_access_actions = ['login', 'logout', 'request-password-reset', 'reset-password', 'set-new-email', 'change-password', 'telegram-registration', 'telegram'];
 
     /**
      * Lists all User models.
@@ -56,6 +56,7 @@ class UserController extends ParentController
         if ($this->request->isPost && $model->load($this->request->post())) {
             // generate a random password
             $password = User::genPassword();
+            $model->telegram_code = md5(time());
             
             // Trying to send the password to the email and save the password
             if (!$model->sendPasswordEmail($password) || !$model->setPassword($password)) {
@@ -288,11 +289,16 @@ class UserController extends ParentController
     
     public function actionTelegram()
     {
+        // guest cannot link with telegram
+        if (Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+        
         $model = Yii::$app->user->identity;
         
         // if the code is empty
         if (empty($model->telegram_id)) {
-            $model->telegram_id = md5(time().$model->id);
+            $model->telegram_code = md5(time().$model->id);
             $model->save();
         }
         
@@ -315,10 +321,13 @@ class UserController extends ParentController
             return;
         }
         
-        if (($model = User::findOne(['telegram_id' => $code])) === null) {
+        if (($model = User::findOne(['telegram_code' => $code])) === null) {
             echo Module::t('No such code exists');
             return;
         }
+        
+        $model->telegram_id = $user_id;
+        $model->save();
         
         echo 'Вы успешно зарегистрированы';
     }
