@@ -121,4 +121,8 @@ return [
     'User only' => 'Только пользователь',
     'Administrator only' => 'Только администратор',
     'System only' => 'Только система',
+    'Wrong code' => 'Неверный код',
+    'You are already registered' => 'Вы уже зарегистрированы',
+    'You have successfully registered' => 'Вы успешно зарегистрированы',
+    'No such code exists' => 'Такого кода не существует',
 ];

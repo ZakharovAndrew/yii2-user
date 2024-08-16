@@ -2,7 +2,6 @@
 
 use yii\helpers\Html;
 use yii\helpers\Url;
-use yii\bootstrap\ActiveForm;
 use ZakharovAndrew\user\Module;
 
 $this->title = Module::t('Change Password');

@@ -2,11 +2,11 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use app\models\User;
+use ZakharovAndrew\user\models\User;
 use ZakharovAndrew\user\Module;
 
 /** @var yii\web\View $this */
-/** @var app\models\User $model */
+/** @var ZakharovAndrew\user\models\User $model */
 /** @var yii\widgets\ActiveForm $form */
 ?>
 
