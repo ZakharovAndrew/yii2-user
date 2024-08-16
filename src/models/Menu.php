@@ -36,10 +36,19 @@ class Menu extends \yii\base\Model
         return $items;
     }
     
+    /**
+     * Getting menu items
+     * 
+     * @param int $controller_id
+     * @param array $items
+     * @param array $list
+     * @return array
+     */
     public static function getMenuItem($controller_id, $items, $list)
     {
         $menu_items = [];
-        //перебираем
+        
+        // Processing each menu item
         foreach ($items as $link => $item) {
             if (is_array($item)) {
                 $menu_items[] = ['label' => $link, 'items' => static::getMenuItem($controller_id, $item, $list)];

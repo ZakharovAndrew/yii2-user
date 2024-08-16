@@ -11,7 +11,14 @@ use ZakharovAndrew\user\Module;
  */
 class ChangeEmailForm extends Model
 {
+    /**
+     * @var string Current password
+     */
     public $password;
+    
+    /**
+     * @var string New Email
+     */
     public $new_email;
 
     /**
