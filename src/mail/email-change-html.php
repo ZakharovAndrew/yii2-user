@@ -1,7 +1,6 @@
 <?php
 
 use yii\helpers\Html;
-use yii\helpers\Url;
 use ZakharovAndrew\user\Module;
 
 $reset_link = Yii::$app->urlManager->createAbsoluteUrl([
