@@ -125,4 +125,6 @@ return [
     'You are already registered' => 'Вы уже зарегистрированы',
     'You have successfully registered' => 'Вы успешно зарегистрированы',
     'No such code exists' => 'Такого кода не существует',
+    'Send the bot a message' => 'Отправьте боту сообщение',
+    'You can receive notifications from a telegram bot' => 'Вы можете получать уведомления от telegram-бота'
 ];

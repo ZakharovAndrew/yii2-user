@@ -14,7 +14,7 @@ use ZakharovAndrew\user\Module;
 use ZakharovAndrew\user\models\ResetPasswordForm;
 use ZakharovAndrew\user\models\PasswordResetRequestForm;
 use ZakharovAndrew\user\models\ChangePasswordForm;
-use yii\helperers\Url;
+use yii\helpers\Url;
 
 /**
  * UserController implements the CRUD actions for User model.
@@ -24,7 +24,7 @@ class UserController extends ParentController
 {
     public $controller_id = 1001;
     
-    public $full_access_actions = ['login', 'logout', 'request-password-reset', 'reset-password', 'set-new-email', 'change-password'];
+    public $full_access_actions = ['login', 'logout', 'request-password-reset', 'reset-password', 'set-new-email', 'change-password', 'telegram-registration'];
 
     /**
      * Lists all User models.
@@ -284,6 +284,43 @@ class UserController extends ParentController
         return $this->render('login', [
             'model' => $model,
         ]);
+    }
+    
+    public function actionTelegram()
+    {
+        $model = Yii::$app->user->identity;
+        
+        // if the code is empty
+        if (empty($model->telegram_id)) {
+            $model->telegram_id = md5(time().$model->id);
+            $model->save();
+        }
+        
+        return $this->render('telegram', [
+            'model' => $model,
+        ]);
+    }
+    
+    public function actionTelegramRegistration($user_id = null, $code = null)
+    {
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_RAW;
+
+        if (empty($user_id) && empty($code)) {
+            echo Module::t('Wrong code');
+            return;
+        }
+        
+        if (($model = User::findOne(['telegram_id' => $user_id])) !== null) {
+            echo Module::t('You are already registered');
+            return;
+        }
+        
+        if (($model = User::findOne(['telegram_id' => $code])) === null) {
+            echo Module::t('No such code exists');
+            return;
+        }
+        
+        echo 'Вы успешно зарегистрированы';
     }
 
     /**
