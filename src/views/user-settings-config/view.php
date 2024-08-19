@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /** @var yii\web\View $this */
-/** @var app\models\UserSettingsConfig $model */
+/** @var ZakharovAndrew\user\models\UserSettingsConfig $model */
 
 $this->title = $model->title;
 $this->params['breadcrumbs'][] = ['label' => 'User Settings Configs', 'url' => ['index']];

@@ -20,7 +20,7 @@ use ZakharovAndrew\user\Module;
 
     <?= $form->field($model, 'type')->dropDownList(UserSettingsConfig::getTypeOfSettings(), ['prompt' => '', 'class' => 'form-control form-select']) ?>
 
-    <?= $form->field($model, 'access_level')->textInput() ?>
+    <?= $form->field($model, 'access_level')->dropDownList(UserSettingsConfig::getAccessLevel(), ['prompt' => '', 'class' => 'form-control form-select']) ?>
 
     <?= $form->field($model, 'values')->textarea(['rows' => 6]) ?>
 
