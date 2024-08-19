@@ -35,6 +35,7 @@ return [
     'Parameters' => 'Параметры',
     'Function to get all role subjects' => 'Функция получения всех субъектов роли',
     'Update Role' => 'Обновить роль',
+    'User Roles' => 'Роли пользователей',
     //users
     'Username' => 'Логин',
     'Users' => 'Пользователи',
