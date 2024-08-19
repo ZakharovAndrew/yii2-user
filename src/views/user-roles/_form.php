@@ -3,9 +3,10 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use ZakharovAndrew\user\models\Roles;
+use ZakharovAndrew\user\Module;
 
 /** @var yii\web\View $this */
-/** @var app\models\UserRoles $model */
+/** @var ZakharovAndrew\user\models\UserRoles $model */
 /** @var yii\widgets\ActiveForm $form */
 ?>
 
@@ -22,7 +23,7 @@ use ZakharovAndrew\user\models\Roles;
     <?= $form->field($model, 'note')->textInput(['maxlength' => true]) ?>
 
     <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton(Module::t('Save'), ['class' => 'btn btn-success']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

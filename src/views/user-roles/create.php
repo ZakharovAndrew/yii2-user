@@ -1,12 +1,13 @@
 <?php
 
 use yii\helpers\Html;
+use ZakharovAndrew\user\Module;
 
 /** @var yii\web\View $this */
-/** @var app\models\UserRoles $model */
+/** @var ZakharovAndrew\user\models\UserRoles $model */
 
 $this->title = 'Create User Roles';
-$this->params['breadcrumbs'][] = ['label' => 'User Roles', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Module::t('User Roles'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="user-roles-create">
