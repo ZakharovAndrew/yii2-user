@@ -77,4 +77,36 @@ class UserSettingsConfig extends \yii\db\ActiveRecord
         ];
     }
     
+    public function getUserSettingValue($user_id = null)
+    {
+        if (empty($user_id)) {
+            $user_id = Yii::$app->user->id;
+        }
+        
+        $model = UserSettings::find()
+            ->select('values')
+            ->where([
+                'setting_config_id' => $this->id,
+                'user_id' => $user_id
+            ])->one();
+        
+        return $model->values ?? null;
+    }
+    
+    public function getValues()
+    {
+        if (empty($this->values)) {
+            return null;
+        }
+        
+        $result = json_decode($this->values);
+        if (json_last_error() === JSON_ERROR_NONE) {
+            // JSON is valid
+            return $result;
+        }
+        
+        $arr =  explode("\r\n", $this->values);
+        
+        return array_combine($arr, $arr);
+    }
 }

@@ -58,4 +58,29 @@ class UserSettings extends \yii\db\ActiveRecord
     {
         return $this->hasOne(UserSettingsConfig::class, ['id' => 'setting_config_id']);
     }
+    
+    /**
+     * Saving a setting value
+     * @param int $user_id
+     * @param int $setting_config_id
+     * @param string $values
+     */
+    public static function saveValue($user_id, $setting_config_id, $values)
+    {
+        $params = [
+            'user_id' => $user_id,
+            'setting_config_id' => $setting_config_id
+        ];
+        
+        // maybe the setting already exists
+        $model = static::find()->where($params)->one();
+        
+        if (!$model) {
+            $model = new UserSettings($params);
+        }
+        
+        // change value
+        $model->values = $values;
+        $model->save();
+    }
 }

@@ -21,7 +21,7 @@ class Module extends \yii\base\Module
     /**
      * @var string Module version
      */
-    protected $version = "0.4.4";
+    protected $version = "0.4.5";
 
     /**
      * @var string Alias for module
@@ -61,6 +61,12 @@ class Module extends \yii\base\Module
      * @var string Telegram Token
      */
     public $telegramToken = '';
+    
+    /**
+     *
+     * @var string Telegram Bot link
+     */
+    public $telegramBotLink = '';
 
     /**
      * {@inheritdoc}

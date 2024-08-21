@@ -26,6 +26,10 @@ return [
     'Description' => 'Описание',
     'Note' => 'Примечание',
     'Code' => 'Код',
+    //profile
+    'Edit Profile' => 'Редактировать профиль',
+    'Profile' => 'Профиль',
+    'Profile updated' => 'Профиль обновлен',
     //roles
     'Role' => 'Роль',
     'Roles' => 'Роли',
@@ -57,6 +61,8 @@ return [
     'Male' => 'Мужской',
     'Female' => 'Женский',
     'You cannot give a user a status higher than or equal to yours!' => 'Нельзя ставить пользователю статус выше или равный вашему!',
+    'Error changing password.' => 'Ошибка смены пароля.',
+    'Profile update error' => 'Ошибка обновления профиля',
     // actions
     'Create User' => 'Создать пользователя',
     'Save' => 'Сохранить',

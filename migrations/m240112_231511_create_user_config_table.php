@@ -39,6 +39,6 @@ class m240112_231511_create_user_config_table extends Migration
 
     public function down()
     {
-        $this->dropTable('user_settings_config');
+        $this->dropTable('user_settings');
     }
 }

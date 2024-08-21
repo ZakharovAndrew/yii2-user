@@ -14,6 +14,8 @@ use ZakharovAndrew\user\Module;
 use ZakharovAndrew\user\models\ResetPasswordForm;
 use ZakharovAndrew\user\models\PasswordResetRequestForm;
 use ZakharovAndrew\user\models\ChangePasswordForm;
+use ZakharovAndrew\user\models\UserSettings;
+use ZakharovAndrew\user\models\UserSettingsConfig;
 use yii\helpers\Url;
 
 /**
@@ -252,7 +254,7 @@ class UserController extends ParentController
                     Yii::$app->session->setFlash('success', Module::t('Your password has been successfully changed.'));
                     return $this->goHome();
                 } else {
-                    Yii::$app->session->setFlash('error', 'Ошибка при смене пароля.');
+                    Yii::$app->session->setFlash('error', Module::t('Error changing password.'));
                 }
             }
         }
@@ -287,14 +289,20 @@ class UserController extends ParentController
         ]);
     }
     
-    public function actionTelegram()
+    /**
+     * User profile
+     * 
+     * @param int $id User ID 
+     * @return mixed
+     */
+    public function actionProfile($id = null)
     {
-        // guest cannot link with telegram
-        if (Yii::$app->user->isGuest) {
-            return $this->goHome();
+        // if the current user's profile
+        if (empty($id)) {
+            $model = Yii::$app->user->identity;
+        } else {
+            $model = $this->findModel($id);
         }
-        
-        $model = Yii::$app->user->identity;
         
         // if the code is empty
         if (empty($model->telegram_id)) {
@@ -302,8 +310,41 @@ class UserController extends ParentController
             $model->save();
         }
         
-        return $this->render('telegram', [
+        $settings = UserSettingsConfig::find()->where([
+            'access_level' => [1, 2]
+        ])->all();
+        
+        return $this->render('profile', [
             'model' => $model,
+            'settings' => $settings
+        ]);
+    }
+    
+    public function actionEditProfile()
+    {
+        $model = Yii::$app->user->identity;
+        
+        $settings = UserSettingsConfig::find()->where([
+            'access_level' => [1, 2]
+        ])->all();
+        
+        if ($this->request->isPost && $model->load($this->request->post()) && $model->validate()) {
+            if ($model->save()) {
+                // save user settings
+                foreach ($settings as $setting) {
+                    $value = Yii::$app->request->post($setting->code) ?? null;
+                    UserSettings::saveValue(Yii::$app->user->id, $setting->id, $value);
+                }
+
+                Yii::$app->session->setFlash('success', Module::t('Profile updated'));
+            } else {
+                Yii::$app->session->setFlash('error', Module::t('Profile update error'));
+            }
+        }
+        
+        return $this->render('editProfile', [
+            'model' => $model,
+            'settings' => $settings
         ]);
     }
     
