@@ -39,7 +39,8 @@ $this->title = Module::t('Profile');
     <?php foreach ($settings as $setting) {?>
         <p><?= $setting->title . ' : ' . $setting->getUserSettingValue($model->id) ?></p>
     <?php } ?>
-        
+    
+    <?php if ($model->id == Yii::$app->user->id) {?>
     <div class="white-box">
         <p><?= Module::t('You can receive notifications from a telegram bot') ?> <a href="<?= Yii::$app->getModule('user')->telegramBotLink ?>" target="_blank"><?= Yii::$app->getModule('user')->telegramBotLink ?></a>
 
@@ -48,4 +49,5 @@ $this->title = Module::t('Profile');
         <div class="alert alert-success">/register <?= $model->telegram_code ?></div></div>
         <?php } ?>
     </div>
+    <?php } ?>
 </div>
