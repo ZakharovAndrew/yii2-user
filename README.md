@@ -97,6 +97,24 @@ return [
 ];
 ```
 
+**If a pretty URL is enabled:**
+
+Add this to your main configuration's urlManager array
+
+```php
+'urlManager' => [
+    //...
+    'rules' => [
+        'login' => 'user/user/login',
+        'logout' => 'user/user/logout',
+        'profile' => 'user/user/profile',
+        //...
+    ],
+    //...
+],
+```
+
+
 ## License
 
 **yii2-user** it is available under a MIT License. Detailed information can be found in the `LICENSE.md`.
