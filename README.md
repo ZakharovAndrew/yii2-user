@@ -68,6 +68,8 @@ Add this to your main configuration's modules array
             'class' => 'ZakharovAndrew\user\Module',
             'bootstrapVersion' => 5, // if use bootstrap 5
             'showTitle' => true, // display H1 headings (default - true)
+            'telegramToken' => '', // necessary for the bot to work
+            'telegramBotLink' => 'https://t.me/YOUR_BOT_NAME_FOR_USER_LINK', //change!
             // use for menu and access
             'controllersAccessList' => [
                 1001 => [
