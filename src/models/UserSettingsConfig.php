@@ -22,6 +22,11 @@ class UserSettingsConfig extends \yii\db\ActiveRecord
     const CHANGE_ADMIN_ONLY = 3;
     const CHANGE_SYSTEM_ONLY = 4;
     
+    const TYPE_INT = 1;
+    const TYPE_STRING = 2;
+    const TYPE_DATE = 3;
+    const TYPE_TIME = 4;
+    
     /**
      * {@inheritdoc}
      */
@@ -61,9 +66,10 @@ class UserSettingsConfig extends \yii\db\ActiveRecord
     public static function getTypeOfSettings()
     {
         return [
-            1 => Module::t('Integer'),
-            2 => Module::t('String'),
-            3 => Module::t('Date'),
+            static::TYPE_INT => Module::t('Integer'),
+            static::TYPE_STRING => Module::t('String'),
+            static::TYPE_DATE => Module::t('Date'),
+            static::TYPE_TIME => Module::t('Time'),
         ];
     }
     
@@ -99,7 +105,7 @@ class UserSettingsConfig extends \yii\db\ActiveRecord
             return null;
         }
         
-        $result = json_decode($this->values);
+        $result = json_decode($this->values, true);
         if (json_last_error() === JSON_ERROR_NONE) {
             // JSON is valid
             return $result;

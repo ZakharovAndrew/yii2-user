@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use ZakharovAndrew\user\Module;
 use yii\widgets\ActiveForm;
 use ZakharovAndrew\user\models\User;
+use ZakharovAndrew\user\models\UserSettingsConfig;
 
 /** @var yii\web\View $this */
 /** @var ZakharovAndrew\user\models\User $model */
@@ -36,8 +37,15 @@ $this->title = Module::t('Edit Profile');
                             'class' => 'form-control',
                             'prompt' => ''
                         ]);
-                } else if ($setting->type == 2 || $setting->type == 1) {
-                    echo Html::input('text', $setting->code, $setting->getUserSettingValue(), ['id' => 'settings-'.$setting->code, 'class' => 'form-control']);
+                } else {
+                    // determine the type
+                    $inputType = 'text';
+                    if ($setting->type == UserSettingsConfig::TYPE_TIME) {
+                        $inputType = 'time';
+                    } else if ($setting->type == UserSettingsConfig::TYPE_DATE) {
+                        $inputType = 'date';
+                    }
+                    echo Html::input($inputType, $setting->code, $setting->getUserSettingValue(), ['id' => 'settings-'.$setting->code, 'class' => 'form-control']);
                 }?>
             </div>
         <?php } ?>

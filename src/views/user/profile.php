@@ -37,7 +37,15 @@ $this->title = Module::t('Profile');
     <p><?= Module::t('Sex'). ' : ' . User::getSexList()[$model->sex] ?? 'Не указан' ?></p>
 
     <?php foreach ($settings as $setting) {?>
-        <p><?= $setting->title . ' : ' . $setting->getUserSettingValue($model->id) ?></p>
+        <p><?= $setting->title . ' : ' ?>
+            <?php 
+            $value = $setting->getUserSettingValue($model->id);
+            if (!empty($setting->values) && !empty($value)) {
+                echo $setting->getValues()[$value] ?? null;
+            } else {
+                echo $value;
+            }?>
+        </p>
     <?php } ?>
     
     <?php if ($model->id == Yii::$app->user->id) {?>
