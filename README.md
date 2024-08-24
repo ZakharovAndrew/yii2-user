@@ -125,6 +125,14 @@ You can use the birthday greeting widget by customizing both the header and the 
 ]); ?>
 ```
 
+Widget for congratulating the user on his birthday:
+
+```php
+<?= \ZakharovAndrew\user\components\BirthdayGreetingWidget::widget([
+    'message' => 'Happy Birthday, {username}!'
+]) ?>
+```
+
 ## License
 
 **yii2-user** it is available under a MIT License. Detailed information can be found in the `LICENSE.md`.
