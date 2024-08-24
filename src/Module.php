@@ -21,7 +21,7 @@ class Module extends \yii\base\Module
     /**
      * @var string Module version
      */
-    protected $version = "0.4.5";
+    protected $version = "0.4.6";
 
     /**
      * @var string Alias for module
@@ -67,6 +67,12 @@ class Module extends \yii\base\Module
      * @var string Telegram Bot link
      */
     public $telegramBotLink = '';
+    
+    /**
+     *
+     * @var string Path where avatars are stored
+     */
+    public $avatarPath = '/avatars/';
 
     /**
      * {@inheritdoc}

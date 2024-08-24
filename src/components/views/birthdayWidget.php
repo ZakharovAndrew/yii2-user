@@ -8,7 +8,12 @@
     <h3><?= htmlspecialchars($headerMessage) ?></h3>
     <ul>
         <?php foreach ($users as $user): ?>
-            <li><?= htmlspecialchars($user->username) ?></li>
+            <li>
+                <?php if ($useAvatars) {?>
+                <img src="<?= $user->getAvatarUrl() ?>">
+                <?php } ?>
+                <?= htmlspecialchars($user->username) ?>
+            </li>
         <?php endforeach; ?>
     </ul>
 </div>

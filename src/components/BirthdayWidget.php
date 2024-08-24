@@ -7,6 +7,7 @@ use ZakharovAndrew\user\models\User;
 
 class BirthdayWidget extends Widget
 {
+    public $useAvatars = false;
     public $headerMessage = 'Today’s birthdays:';
     public $noBirthdaysMessage = 'Today, no one is celebrating a birthday.';
     
@@ -20,6 +21,7 @@ class BirthdayWidget extends Widget
         if (!empty($users)) {
             return $this->render('birthdayWidget', [
                 'headerMessage' => $this->headerMessage,
+                'useAvatars' => $this->useAvatars,
                 'users' => $users
             ]);
         }
