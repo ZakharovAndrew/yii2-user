@@ -114,6 +114,16 @@ Add this to your main configuration's urlManager array
 ],
 ```
 
+## Happy birthday widget
+
+You can use the birthday greeting widget by customizing both the header and the message indicating that there are no birthdays today:
+
+```php
+<?= \ZakharovAndrew\users\components\BirthdayWidget::widget([
+    'headerMessage' => 'Today’s birthdays:',
+    'noBirthdaysMessage' => 'Today, no one is celebrating a birthday.' // or empty
+]); ?>
+```
 
 ## License
 
