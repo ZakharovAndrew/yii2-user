@@ -63,6 +63,8 @@ return [
     'You cannot give a user a status higher than or equal to yours!' => 'Нельзя ставить пользователю статус выше или равный вашему!',
     'Error changing password.' => 'Ошибка смены пароля.',
     'Profile update error' => 'Ошибка обновления профиля',
+    'Today, no one is celebrating a birthday.' => 'Сегодня никто не празднует день рождения.',
+    'Today’s birthdays:' => 'Сегодня отмечают дни рождения:',
     // actions
     'Create User' => 'Создать пользователя',
     'Save' => 'Сохранить',
