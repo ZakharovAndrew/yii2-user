@@ -1,5 +1,7 @@
 # Yii2 user
 
+![Yii2 user module by Zakharov Andrey](docs/img/yii-2-user-module-Zakharov-Andrey.png)
+
 [![Latest Stable Version](https://poser.pugx.org/zakharov-andrew/yii2-user/v/stable)](https://packagist.org/packages/zakharov-andrew/yii2-user)
 [![Total Downloads](https://poser.pugx.org/zakharov-andrew/yii2-user/downloads)](https://packagist.org/packages/zakharov-andrew/yii2-user)
 [![License](https://poser.pugx.org/zakharov-andrew/yii2-user/license)](https://packagist.org/packages/zakharov-andrew/yii2-user)
