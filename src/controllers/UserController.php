@@ -26,7 +26,7 @@ class UserController extends ParentController
 {
     public $controller_id = 1001;
     
-    public $full_access_actions = ['login', 'logout', 'request-password-reset', 'reset-password', 'set-new-email', 'change-password', 'telegram-registration', 'telegram'];
+    public $full_access_actions = ['login', 'logout', 'request-password-reset', 'reset-password', 'set-new-email', 'change-password', 'telegram-registration', 'profile', 'edit-profile'];
 
     /**
      * Lists all User models.
@@ -297,6 +297,10 @@ class UserController extends ParentController
      */
     public function actionProfile($id = null)
     {
+        if (Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+        
         // if the current user's profile
         if (empty($id)) {
             $model = Yii::$app->user->identity;
@@ -322,6 +326,10 @@ class UserController extends ParentController
     
     public function actionEditProfile()
     {
+        if (Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+        
         $model = Yii::$app->user->identity;
         
         $settings = UserSettingsConfig::find()->where([
