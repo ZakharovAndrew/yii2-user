@@ -23,8 +23,12 @@ class BirthdayGreetingWidget extends Widget
 
             // Checking if the user's birthday coincides with today's date
             if (date('m-d', strtotime($currentUser->birthday)) === $today) {
-                // Replace {username} in the message with the username
-                return str_replace('{username}', $currentUser->username, $this->message);
+                // Replace {username} and {name} in the message with the username
+                return str_replace(
+                        ['{username}', '{name}'],
+                        [$currentUser->username, $currentUser->name],
+                        $this->message
+                    );
             }
         }
 
