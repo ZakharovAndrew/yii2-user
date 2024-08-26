@@ -69,6 +69,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'roles',
                 'format' => 'raw',
+                'filter' => \ZakharovAndrew\user\models\Roles::getRolesList(),
                 'value' => function ($model) {
                     $result = '';
                     

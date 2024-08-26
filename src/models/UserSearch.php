@@ -11,13 +11,16 @@ use app\models\User;
  */
 class UserSearch extends User
 {
+    
+    public $roles;
+    
     /**
      * {@inheritdoc}
      */
     public function rules()
     {
         return [
-            [['id', 'status', 'sex'], 'integer'],
+            [['id', 'status', 'sex', 'roles'], 'integer'],
             [['username', 'auth_key', 'password', 'password_reset_token', 'email', 'name', 'avatar', 'city', 'birthday', 'created_at', 'updated_at'], 'safe'],
         ];
     }
@@ -41,12 +44,18 @@ class UserSearch extends User
     public function search($params)
     {
         $query = User::find();
+        
+        if (!empty($params['UserSearch']['roles'])) {
+            $query->innerJoin('user_roles', 'user_roles.user_id = users.id AND user_roles.role_id='.(int)$params['UserSearch']['roles']);
+        }
 
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
+        
+        
 
         $this->load($params);
 
@@ -64,6 +73,7 @@ class UserSearch extends User
             'sex' => $this->sex,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
+            //'roles' => $this->roles,
         ]);
 
         $query->andFilterWhere(['like', 'username', $this->username])
