@@ -117,7 +117,7 @@ Add this to your main configuration's urlManager array
 ],
 ```
 
-## Happy birthday widget
+## Happy Birthday widget
 
 You can use the birthday greeting widget by customizing both the header and the message indicating that there are no birthdays today:
 
