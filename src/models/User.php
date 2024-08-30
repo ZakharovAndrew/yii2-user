@@ -346,7 +346,8 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     public function getAvatarUrl()
     {
         if (empty($this->avatar)) {
-            return '/uploaded_files/no-avatar.jpg';
+            return false;
+            //return '@user/assets/images/default-avatar.png';
         }
         
         return '/uploaded_files/'.$this->avatar.'_img_medium.jpg';
