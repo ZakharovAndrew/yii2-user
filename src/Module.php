@@ -21,7 +21,7 @@ class Module extends \yii\base\Module
     /**
      * @var string Module version
      */
-    protected $version = "0.4.6";
+    protected $version = "0.4.7";
 
     /**
      * @var string Alias for module
@@ -82,6 +82,9 @@ class Module extends \yii\base\Module
     {
         parent::init();
         $this->registerTranslations();
+        
+        // Registering an alias
+        Yii::setAlias($this->alias, __DIR__);
     }
     
     /**
