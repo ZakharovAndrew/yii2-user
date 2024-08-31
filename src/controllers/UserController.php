@@ -17,6 +17,11 @@ use ZakharovAndrew\user\models\ChangePasswordForm;
 use ZakharovAndrew\user\models\UserSettings;
 use ZakharovAndrew\user\models\UserSettingsConfig;
 use yii\helpers\Url;
+// for avatar uploading
+use yii\web\UploadedFile;
+use Imagine\Imagick\Imagine;
+use Imagine\Image\Point;
+use Imagine\Image\ImageInterface;
 
 /**
  * UserController implements the CRUD actions for User model.
@@ -379,6 +384,24 @@ class UserController extends ParentController
         $model->save();
         
         echo 'Вы успешно зарегистрированы';
+    }
+    
+    public function actionUploadAvatar()
+    {
+        $user = User::findIdentity(Yii::$app->user->id);
+
+        if ($user->load(Yii::$app->request->post())) {
+            $user->avatar = UploadedFile::getInstance($user, 'avatar');
+
+            if ($user->uploadAvatar()) {
+                Yii::$app->session->setFlash('success', 'Avatar uploaded successfully.');
+                return $this->redirect(['/user/user/profile']);
+            } else {
+                Yii::$app->session->setFlash('error', 'Error uploading avatar.');
+            }
+        }
+
+        return $this->render('upload-avatar', ['model' => $user]);
     }
 
     /**

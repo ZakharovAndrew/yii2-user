@@ -13,7 +13,7 @@ class UserAssets extends AssetBundle
     public $sourcePath = '@user/assets';
 
     public $css = [
-        'css/style.css',
+        'css/style_v1.css',
     ];
 
     public $js = [

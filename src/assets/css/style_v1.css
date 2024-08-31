@@ -1,0 +1,66 @@
+/* profile */
+.avatar-block img{
+    width:160px;
+    height:160px;
+    border-radius: 12px;
+}
+.white-block {
+    background-color: #fff;
+    border: 1px dashed #e4e6ef;
+    padding: 2rem 2.25rem;
+    border-radius:15px;
+    margin-bottom: 15px;
+}
+.white-box {
+    border-radius: 12px;
+    padding:15px;
+    background: #fff;
+    margin-bottom: 20px;
+}
+.white-box .alert {
+    margin-bottom: 0 
+}
+.profile-main {
+    display: flex; gap:20px;
+    flex: 0 0 100%;
+}
+@media (max-width: 728px) {
+    .profile-main {
+        flex-direction: column;
+    }
+    .avatar-block img {
+        width: 100%;
+        height:auto;
+    }
+}
+.profile-user-settings {
+    display: flex;
+}
+.profile-user-settings label {
+    font-weight: 700;
+    width: 200px;
+    margin-bottom: 15px; 
+    color:#a4a9af
+}
+.profile-action-block .btn {text-wrap: nowrap; border-radius: 12px;}
+
+/* form */
+.white-block label{
+    color:#3f4254
+}
+.white-block .form-control{
+    background-color: #f5f8fa;
+    border-color: #f5f8fa;
+    color: #5e6278;
+    transition: color .2s ease;
+}
+.white-block .has-success .form-control {
+    border-color: #3c763d;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+}
+.white-block .has-error .form-control {
+    border-color: #a94442;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+}

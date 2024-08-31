@@ -15,21 +15,21 @@ UserAssets::register($this);
 $this->title = Module::t('Edit Profile');
 ?>
 <style>
-    .profile-block label{
+    .white-block label{
         color:#3f4254
     }
-    .profile-block .form-control{
+    .white-block .form-control{
         background-color: #f5f8fa;
         border-color: #f5f8fa;
         color: #5e6278;
         transition: color .2s ease;
     }
-    .profile-block .has-success .form-control {
+    .white-block .has-success .form-control {
         border-color: #3c763d;
         -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
         box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
     }
-    .profile-block .has-error .form-control {
+    .white-block .has-error .form-control {
         border-color: #a94442;
         -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
         box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
@@ -43,7 +43,7 @@ $this->title = Module::t('Edit Profile');
 
         <?php $form = ActiveForm::begin(); $model->birthday = date('Y-m-d', strtotime($model->birthday));?>
         
-        <div class="profile-block">
+        <div class="white-block">
             <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
             <div class="row">
@@ -58,7 +58,7 @@ $this->title = Module::t('Edit Profile');
                 </div>
             </div>
         </div>
-        <div class="profile-block">
+        <div class="white-block">
         <?php foreach ($settings as $setting) {?>
             <div class="form-group">
                 <label><?= $setting->title ?></label>

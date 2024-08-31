@@ -61,10 +61,16 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
             
             [['birthday', 'auth_key', 'created_at', 'updated_at'], 'safe'],
             [['status', 'sex'], 'integer'],
-            [['password', 'name', 'avatar'], 'string', 'max' => 255],
+            [['password', 'name'], 'string', 'max' => 255],
             [['username', 'password_reset_token', 'email'], 'string', 'max' => 190],
             [['auth_key'], 'string', 'max' => 32],
             [['city'], 'string', 'max' => 150],
+            [
+            'avatar',
+            'file',
+            'extensions' => 'jpg, jpeg, png',
+            'maxSize' => 1024 * 1024, // размер файла не должен превышать 1 МБ
+            ],
                         
             [['username', 'password_reset_token'], 'unique'],
         ];
@@ -350,7 +356,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
             //return '@user/assets/images/default-avatar.png';
         }
         
-        return '/uploaded_files/'.$this->avatar.'_img_medium.jpg';
+        return Yii::getAlias('@web') . '/uploaded_files/'.$this->avatar.'_img_medium.jpg';
     }
     
     /**
@@ -504,5 +510,52 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     public function getId()
     {
         return $this->id;
+    }
+    
+    public function uploadAvatar()
+    {
+        if ($this->validate()) {
+            $uploadPath = Yii::getAlias('@webroot/uploaded_files');
+
+            if (!is_dir($uploadPath)) {
+                mkdir($uploadPath, 0755, true);
+            }
+
+            $rndFileName = uniqid();
+            $fileName = $rndFileName . '.' . $this->avatar->extension;
+            $this->avatar->saveAs($uploadPath . '/' . $fileName);
+
+            $this->avatar = $rndFileName;
+            $this->save();
+            $this->generateAvatarThumbnail($uploadPath . '/' . $fileName, $uploadPath . '/' . $rndFileName);
+
+            return true;
+        }
+
+        return false;
+    }
+    
+    public function generateAvatarThumbnail($avatarPath, $thumbnailPath)
+    {
+        if ($this->avatar) {
+            list($width, $height, $type) = getimagesize($avatarPath);
+
+            $newWidth = 200;
+            $newHeight = 200;//($height * $newWidth) / $width;
+
+            $newImage = \imagecreatetruecolor($newWidth, $newHeight);
+            $source = \imagecreatefromstring(file_get_contents($avatarPath));
+
+            \imagecopyresampled($newImage, $source, 0, 0, 0, 0, $newWidth, $newHeight, $width, $height);
+            
+            \imagejpeg($newImage, $thumbnailPath . '_img_medium.jpg', 85);
+                   
+            \imagedestroy($newImage);
+            \imagedestroy($source);
+
+            return true;
+        }
+
+        return false;
     }
 }
