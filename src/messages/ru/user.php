@@ -30,6 +30,7 @@ return [
     'Edit Profile' => 'Редактировать профиль',
     'Profile' => 'Профиль',
     'Profile updated' => 'Профиль обновлен',
+    'Avatar deleted successfully' => 'Аватар успешно удален',
     //roles
     'Role' => 'Роль',
     'Roles' => 'Роли',

@@ -13,6 +13,26 @@ UserAssets::register($this);
 
 $this->title = Module::t('Profile');
 ?>
+<style>
+    .user-avatar-delete {
+        display: none;
+        box-shadow: 0 6px 14px 12px rgba(0, 0, 0, 0.1);
+        border-radius: 50%;
+        width: 22px;
+        height: 22px;
+        background: #fff;
+        text-align: center;
+        font-size: 14px;
+        position: absolute;
+        bottom: 13px;
+        right: -10px;
+        cursor: pointer;
+        text-decoration: none;
+    }
+    .avatar-block:hover .user-avatar-delete {
+        display: block;
+    }
+</style>
 
 <div class="user-profile">
 
@@ -28,7 +48,9 @@ $this->title = Module::t('Profile');
                                 Yii::$app->assetManager->getAssetUrl(UserAssets::register($this), 'images/default-avatar.png') :
                                 $model->getAvatarUrl()
                             ?>" alt="Avatar">
-                <?php if ($model->id == Yii::$app->user->id) { echo " </a>";}?>
+                <?php if ($model->id == Yii::$app->user->id) {?>
+                </a><a href="<?= Url::to(['delete-avatar']) ?>" class='user-avatar-delete' data-bs-toggle="tooltip" title="Remove delete">X</a>
+                <?php }?>
             </div>
             <div style="-webkit-flex: 0 1 100%;   flex: 0 1 100%;">
                 <h3><?= $model->name ?></h3>

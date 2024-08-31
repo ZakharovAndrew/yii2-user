@@ -388,20 +388,31 @@ class UserController extends ParentController
     
     public function actionUploadAvatar()
     {
-        $user = User::findIdentity(Yii::$app->user->id);
+        $user = Yii::$app->user->identity;
 
         if ($user->load(Yii::$app->request->post())) {
             $user->avatar = UploadedFile::getInstance($user, 'avatar');
 
             if ($user->avatar instanceof yii\web\UploadedFile && $user->uploadAvatar()) {
-                Yii::$app->session->setFlash('success', 'Avatar uploaded successfully.');
+                Yii::$app->session->setFlash('success', 'Avatar uploaded successfully');
                 return $this->redirect(['/user/user/profile']);
             } else {
-                Yii::$app->session->setFlash('error', 'Error uploading avatar.');
+                Yii::$app->session->setFlash('error', 'Error uploading avatar');
             }
         }
 
         return $this->render('upload-avatar', ['model' => $user]);
+    }
+    
+    public function actionDeleteAvatar()
+    {
+        $user = Yii::$app->user->identity;
+        $user->avatar = null;
+        $user->save();
+        
+        Yii::$app->session->setFlash('success', Module::t('Avatar deleted successfully'));
+        
+        return $this->redirect(['/user/user/profile']);
     }
 
     /**

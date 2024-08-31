@@ -14,27 +14,6 @@ UserAssets::register($this);
 
 $this->title = Module::t('Edit Profile');
 ?>
-<style>
-    .white-block label{
-        color:#3f4254
-    }
-    .white-block .form-control{
-        background-color: #f5f8fa;
-        border-color: #f5f8fa;
-        color: #5e6278;
-        transition: color .2s ease;
-    }
-    .white-block .has-success .form-control {
-        border-color: #3c763d;
-        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-    }
-    .white-block .has-error .form-control {
-        border-color: #a94442;
-        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-    }
-</style>
 <div class="edit-profile">
 
     <?php if (Yii::$app->getModule('user')->showTitle) {?><h1><?= Html::encode($this->title) ?></h1><?php } ?>
