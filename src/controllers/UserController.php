@@ -393,7 +393,7 @@ class UserController extends ParentController
         if ($user->load(Yii::$app->request->post())) {
             $user->avatar = UploadedFile::getInstance($user, 'avatar');
 
-            if ($user->uploadAvatar()) {
+            if ($user->avatar instanceof yii\web\UploadedFile && $user->uploadAvatar()) {
                 Yii::$app->session->setFlash('success', 'Avatar uploaded successfully.');
                 return $this->redirect(['/user/user/profile']);
             } else {
