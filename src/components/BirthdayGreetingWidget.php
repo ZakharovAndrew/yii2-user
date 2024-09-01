@@ -17,7 +17,7 @@ class BirthdayGreetingWidget extends Widget
         // Getting the current user
         $currentUser = Yii::$app->user->identity;
 
-        if ($currentUser) {
+        if ($currentUser && !empty($currentUser->birthday)) {
             // Get the current date in month-day format
             $today = date('m-d');
 
