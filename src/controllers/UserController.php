@@ -386,6 +386,18 @@ class UserController extends ParentController
         echo 'Вы успешно зарегистрированы';
     }
     
+    // Unlink user account to the telegram bot
+    public function actionUnlinkTelegram()
+    {
+        $user = Yii::$app->user->identity;
+        $user->telegram_id = null;
+        $user->save();
+        
+        Yii::$app->session->setFlash('success', Module::t('Successfully unlinked your account from the telegram bot'));
+        
+        return $this->redirect(['/user/user/profile']);
+    }
+    
     public function actionUploadAvatar()
     {
         $user = Yii::$app->user->identity;

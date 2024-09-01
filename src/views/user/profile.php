@@ -55,8 +55,8 @@ $this->title = Module::t('Profile');
             <div style="-webkit-flex: 0 1 100%;   flex: 0 1 100%;">
                 <h3><?= $model->name ?></h3>
                 <p><?= Module::t('City'). ' : ' . $model->city ?></p>
-                <p><?= Module::t('Birthday'). ' : ' . (empty($model->birthday) ? 'Не указан' : date('d.m.Y', strtotime($model->birthday))) ?></p>
-                <p><?= Module::t('Sex'). ' : ' . User::getSexList()[$model->sex] ?? 'Не указан' ?></p> 
+                <p><?= Module::t('Birthday'). ' : ' . (empty($model->birthday) ? Module::t('Not specified') : date('d.m.Y', strtotime($model->birthday))) ?></p>
+                <p><?= Module::t('Sex'). ' : ' . User::getSexList()[$model->sex] ?? Module::t('Not specified') ?></p> 
             </div>
             <div class="profile-action-block">
                 <?php if ($model->id == Yii::$app->user->id) {
@@ -88,9 +88,11 @@ $this->title = Module::t('Profile');
     <div class="white-block">
         <p><?= Module::t('You can receive notifications from a telegram bot') ?> <a href="<?= Yii::$app->getModule('user')->telegramBotLink ?>" target="_blank"><?= Yii::$app->getModule('user')->telegramBotLink ?></a>
 
-        <?php if (!empty($model->telegram_code)) {?>
+        <?php if (empty($model->telegram_id)) {?>
         <p><?= Module::t('Send the bot a message') ?>:</p>
         <div class="alert alert-success">/register <?= $model->telegram_code ?></div></div>
+        <?php } else { ?>
+        <p><a href="<?= Url::to(['unlink-telegram']) ?>" class="btn btn-danger"><?= Module::t('Unlink your account to the Telegram Bot') ?></a></p>
         <?php } ?>
     </div>
     <?php } ?>

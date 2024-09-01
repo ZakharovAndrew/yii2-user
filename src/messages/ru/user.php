@@ -137,5 +137,8 @@ return [
     'You have successfully registered' => 'Вы успешно зарегистрированы',
     'No such code exists' => 'Такого кода не существует',
     'Send the bot a message' => 'Отправьте боту сообщение',
-    'You can receive notifications from a telegram bot' => 'Вы можете получать уведомления от telegram-бота'
+    'You can receive notifications from a telegram bot' => 'Вы можете получать уведомления от telegram-бота',
+    'Not specified' => 'Не указан',
+    'Unlink your account to the Telegram Bot' => 'Отменить привязку аккаунта к Telegram боту',
+    'Successfully unlinked your account from the telegram bot' => 'Успешно отменили привязку аккаунта к Telegram боту'
 ];
