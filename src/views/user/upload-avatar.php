@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use ZakharovAndrew\user\Module;
 use ZakharovAndrew\user\assets\UserAssets;
 
 UserAssets::register($this);
@@ -52,14 +53,14 @@ UserAssets::register($this);
 
     <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
     <div class="white-block">
-        <p>Select an image file to upload</p>
+        <p><?= Module::t('Select an image file to upload') ?></p>
         <div id="dropzone">
             <div class="profile-picture" style="width:160px; height:160px"></div>
-            <div id="message"><div class="simulate_link">Choose file</div> or drop here</div>
+            <div id="message"><div class="simulate_link"><?= Module::t('Choose file') ?></div> <?= Module::t('or drop here') ?></div>
         <?= $form->field($model, 'avatar')->fileInput()->label(false) ?>
         </div>
         <div class="form-group">
-            <?= Html::submitButton('Upload Image', ['class' => 'btn btn-primary']) ?>
+            <?= Html::submitButton(Module::t('Upload Image'), ['class' => 'btn btn-primary']) ?>
         </div>
     </div>
     <?php ActiveForm::end(); ?>

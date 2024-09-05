@@ -140,5 +140,10 @@ return [
     'You can receive notifications from a telegram bot' => 'Вы можете получать уведомления от telegram-бота',
     'Not specified' => 'Не указан',
     'Unlink your account to the Telegram Bot' => 'Отменить привязку аккаунта к Telegram боту',
-    'Successfully unlinked your account from the telegram bot' => 'Успешно отменили привязку аккаунта к Telegram боту'
+    'Successfully unlinked your account from the telegram bot' => 'Успешно отменили привязку аккаунта к Telegram боту',
+    //Choose file or drop here
+    'Choose file' => 'Выберите файл',
+    'or drop here' => 'или перетащите сюда',
+    'Select an image file to upload' => 'Выберите файл изображения для загрузки',
+    'Upload Image' => 'Загрузить изображение'
 ];
