@@ -124,7 +124,7 @@ You can use the birthday greeting widget by customizing both the header and the 
 ```php
 <?= \ZakharovAndrew\user\components\BirthdayWidget::widget([
     'headerMessage' => 'Today’s birthdays:',
-    'noBirthdaysMessage' => 'Today, no one is celebrating a birthday.' // or empty
+    'noBirthdaysMessage' => 'Today, no one is celebrating a birthday.', // or empty
     'useAvatars' => true
 ]); ?>
 ```
