@@ -145,5 +145,8 @@ return [
     'Choose file' => 'Выберите файл',
     'or drop here' => 'или перетащите сюда',
     'Select an image file to upload' => 'Выберите файл изображения для загрузки',
-    'Upload Image' => 'Загрузить изображение'
+    'Upload Image' => 'Загрузить изображение',
+    'First page' => 'Первая страница',
+    'Last page' => 'Последняя страница',
+    
 ];

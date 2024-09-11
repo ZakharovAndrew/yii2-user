@@ -43,6 +43,10 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
+        'pager' => [
+            'firstPageLabel' => Module::t('First page'),
+            'lastPageLabel'  => Module::t('Last page'),
+        ],
         'columns' => [
             'id',
             'username',
