@@ -12,7 +12,7 @@
                 <?php if ($useAvatars) {?>
                 <img src="<?= $user->getAvatarUrl() ?>">
                 <?php } ?>
-                <?= htmlspecialchars($user->username) ?>
+                <?= htmlspecialchars($user->name) ?>
             </li>
         <?php endforeach; ?>
     </ul>
