@@ -31,6 +31,7 @@ return [
     'Profile' => 'Профиль',
     'Profile updated' => 'Профиль обновлен',
     'Avatar deleted successfully' => 'Аватар успешно удален',
+    'Avatar' => 'Аватар',
     //roles
     'Role' => 'Роль',
     'Roles' => 'Роли',

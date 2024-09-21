@@ -10,7 +10,7 @@ use yii\web\AssetBundle;
 
 class UserAssets extends AssetBundle
 {
-    public $sourcePath = '@user/assets';
+    public $sourcePath = '@vendor/zakharov-andrew/yii2-user/src/assets';
 
     public $css = [
         'css/style_v1.css',

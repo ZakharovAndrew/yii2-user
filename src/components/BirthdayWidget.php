@@ -12,7 +12,7 @@ class BirthdayWidget extends Widget
     public $noBirthdaysMessage = 'Today, no one is celebrating a birthday.';
     
     public function run()
-    {
+    {                
         $today = date('m-d'); // Current date in month-day format
         $users = User::find()
             ->where(['DATE_FORMAT(birthday, "%m-%d")' => $today])

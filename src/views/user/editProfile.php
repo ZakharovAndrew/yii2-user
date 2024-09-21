@@ -20,7 +20,11 @@ $this->title = Module::t('Edit Profile');
     
     <div class="user-form">
 
-        <?php $form = ActiveForm::begin(); $model->birthday = date('Y-m-d', strtotime($model->birthday));?>
+        <?php $form = ActiveForm::begin(); 
+        if (!empty($model->birthday)) {
+            $model->birthday = date('Y-m-d', strtotime($model->birthday));
+        }
+        ?>
         
         <div class="white-block">
             <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
