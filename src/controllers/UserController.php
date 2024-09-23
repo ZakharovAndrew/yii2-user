@@ -19,9 +19,6 @@ use ZakharovAndrew\user\models\UserSettingsConfig;
 use yii\helpers\Url;
 // for avatar uploading
 use yii\web\UploadedFile;
-use Imagine\Imagick\Imagine;
-use Imagine\Image\Point;
-use Imagine\Image\ImageInterface;
 
 /**
  * UserController implements the CRUD actions for User model.
@@ -382,7 +379,7 @@ class UserController extends ParentController
     
     // Unlink user account to the telegram bot
     public function actionUnlinkTelegram()
-    {
+    {   
         $user = Yii::$app->user->identity;
         $user->telegram_id = null;
         $user->save();
@@ -419,6 +416,28 @@ class UserController extends ParentController
         Yii::$app->session->setFlash('success', Module::t('Avatar deleted successfully'));
         
         return $this->redirect(['/user/user/profile']);
+    }
+    
+    public function actionUsersUpdate()
+    {
+        if (!Yii::$app->user->identity->hasRole('admin')) {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+        
+        $selectedUserIds = Yii::$app->request->post('selection'); // retrieve selected user IDs
+        $status = Yii::$app->request->post('status'); // retrieve selected status
+
+        $users = User::find()->where(['id' => $selectedUserIds])->all();
+        
+        foreach ($users as $user) {
+            $user->status = $status;
+            $user->save();
+        }
+
+        Yii::$app->session->setFlash('success', Module::t('Statuses changed'));
+        
+        // redirect back to the GridView
+        return $this->redirect(['index']);
     }
 
     /**

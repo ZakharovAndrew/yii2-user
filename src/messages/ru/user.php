@@ -72,6 +72,11 @@ return [
     'Save' => 'Сохранить',
     'Update' => 'Изменить',
     'Send' => 'Отправить',
+    'Close' => 'Закрыть',
+    'Select Status' => 'Выберите статус',
+    'Change Status' => 'Изменить статус',
+    'Update Status' => 'Обновить статус',
+    'Statuses changed' => 'Статусы изменены',
     
     // Email
     'Change Email' => 'Сменить Email',
