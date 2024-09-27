@@ -4,6 +4,7 @@ namespace ZakharovAndrew\user\models;
 
 use Yii;
 use yii\db\ActiveRecord;
+use ZakharovAndrew\user\Module;
 
 class Thanks extends ActiveRecord
 {
@@ -27,9 +28,9 @@ class Thanks extends ActiveRecord
     {
         return [
             'id' => 'ID',
-            'user_id' => 'Пользователь',
-            'author_id' => 'Автор',
-            'text' => 'Текст',
+            'user_id' => Module::t('User'),
+            'author_id' =>  Module::t('Author'),
+            'text' => Module::t('Text'),
             'created_at' => 'Дата создания',
         ];
     }
@@ -43,4 +44,18 @@ class Thanks extends ActiveRecord
     {
         return $this->hasOne(User::className(), ['id' => 'author_id']);
     }
+    
+    public function getCreatedAt()
+    {
+        $date = date('d.m.Y', strtotime($this->created_at));
+        $time = date('H:i:s', strtotime($this->created_at));
+        $now = date('d.m.Y', strtotime('now'));
+        
+        if ($date == $now) {
+            $date = Module::t('Today');
+        }
+        
+        return $date . ' ' . $time;
+    }
+    
 }

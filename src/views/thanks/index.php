@@ -17,7 +17,28 @@ UserAssets::register($this);
 $this->title = Module::t('Appreciation');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="roles-index">
+<style>
+    .thanks-block__info {
+        margin-top:24px;
+        display: flex;
+    }
+    .thanks-block .thanks-avatar {
+        width:45px;
+        height:45px;
+        border-radius: 6px;
+        margin-right: 10px;
+    }
+    .thanks-block__info_user {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .thanks-block__info_user .datetime {
+        color:#6e7880;
+        font-size:13px;
+    }
+</style>
+<div class="thanks-view">
 
     <?php if (Yii::$app->getModule('user')->showTitle) {?><h1><?= Html::encode($this->title) ?></h1><?php } ?>
 
@@ -30,8 +51,19 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php
     $items = $dataProvider->getModels();
     foreach ($items as $thanks) { ?>
-        <div class="white-block">
+        <div class="white-block thanks-block">
             <?= $thanks->text ?>
+            <div class="thanks-block__info">
+                <?php  $user = $thanks->getAuthor()->one(); ?>
+                <img src="<?= !$user->getAvatarUrl() ?
+                                Yii::$app->assetManager->getAssetUrl(UserAssets::register($this), 'images/default-avatar.png') :
+                                $user->getAvatarUrl()
+                            ?>" class="thanks-avatar" alt="Avatar">
+                <div class="thanks-block__info_user">
+                    <div><?= $user->username; ?></div>
+                    <div class="datetime"><?= $thanks->getCreatedAt() ?></div>
+                </div>
+            </div>
         </div>
     <?php } ?>
 

@@ -4,8 +4,9 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 use ZakharovAndrew\user\models\User;
+use ZakharovAndrew\user\Module;
 
-$this->title = 'Отправить благодарность';
+$this->title = Module::t('Send thanks');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="thanks-send">
@@ -19,7 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= $form->field($model, 'text')->textarea(['rows' => 6]) ?>
 
     <div class="form-group">
-        <?= Html::submitButton('Отправить благодарность', ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton(Module::t('Send thanks'), ['class' => 'btn btn-success']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

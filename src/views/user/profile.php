@@ -32,6 +32,20 @@ $this->title = Module::t('Profile');
     .avatar-block:hover .user-avatar-delete {
         display: block;
     }
+    .profile-action-block {
+        text-align: right;
+    }
+    .profile-action-block .btn {
+        margin-bottom: 8px;
+    }
+    .profile-action-block .btn-success {
+        background-color: #8bc34a;
+        border-color: #8bc34a;
+    }
+    .profile-action-block .btn-success:hover {
+        background-color: #73a934;
+        border-color: #73a934;
+    }
 </style>
 
 <div class="user-profile">
@@ -61,6 +75,8 @@ $this->title = Module::t('Profile');
             <div class="profile-action-block">
                 <?php if ($model->id == Yii::$app->user->id) {
                     echo Html::a(Module::t('Edit Profile'), ['edit-profile'], ['class' => 'btn btn-primary']);
+                    
+                    echo Html::a(Module::t('Appreciation'), ['thanks/view'], ['class' => 'btn btn-success']);
                 } ?>
             </div>
         </div>
