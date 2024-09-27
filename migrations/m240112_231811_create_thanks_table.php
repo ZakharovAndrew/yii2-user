@@ -9,19 +9,22 @@ class m240112_231811_create_thanks_table extends Migration
 {
     public function up()
     {
-        $this->createTable('thanks', [
-            'id' => $this->primaryKey(),
-            'user_id' => $this->integer()->notNull(),
-            'author_id' => $this->integer()->Null(),
-            'text' => $this->text(),
-            'created_at' => $this->timestamp()->defaultExpression('CURRENT_TIMESTAMP'),
-        ]);
+        $this->createTable(
+            'thanks',
+            [
+                'id' => $this->primaryKey(),
+                'user_id' => $this->integer()->notNull(),
+                'author_id' => $this->integer()->Null(),
+                'text' => $this->text(),
+                'created_at' => $this->timestamp()->defaultExpression('CURRENT_TIMESTAMP'),
+            ]
+        );
 
         $this->addForeignKey(
             'fk-thanks-user_id',
             'thanks',
             'user_id',
-            'user',
+            'users',
             'id',
             'CASCADE'
         );
@@ -30,7 +33,7 @@ class m240112_231811_create_thanks_table extends Migration
             'fk-thanks-author_id',
             'thanks',
             'author_id',
-            'user',
+            'users',
             'id',
             'SET NULL'
         );

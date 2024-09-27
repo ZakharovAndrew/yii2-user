@@ -22,7 +22,7 @@ class ThanksSearch extends Thanks
         return Model::scenarios();
     }
 
-    public function search($params)
+    public function search($params, $id = null)
     {
         $query = Thanks::find();
 
@@ -38,7 +38,7 @@ class ThanksSearch extends Thanks
 
         $query->andFilterWhere([
             'id' => $this->id,
-            'user_id' => $this->user_id,
+            'user_id' => $id ?? $this->user_id,
             'author_id' => $this->author_id,
             'created_at' => $this->created_at,
         ]);

@@ -17,8 +17,9 @@ class Thanks extends ActiveRecord
         return [
             [['user_id', 'author_id'], 'integer'],
             [['text'], 'string'],
+            [['text'], 'required'],
             [['created_at'], 'safe'],
-            [['user_id', 'author_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id', 'author_id' => 'id']],
+            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
     }
 
