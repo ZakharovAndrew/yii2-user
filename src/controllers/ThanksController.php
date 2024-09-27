@@ -34,6 +34,10 @@ class ThanksController extends Controller
      */
     public function actionIndex()
     {
+        if (!Yii::$app->user->identity->hasRole('admin')) {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+        
         $searchModel = new ThanksSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
@@ -69,7 +73,7 @@ class ThanksController extends Controller
         $searchModel = new ThanksSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams, $id);
 
-        return $this->render('index', [
+        return $this->render('view', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
