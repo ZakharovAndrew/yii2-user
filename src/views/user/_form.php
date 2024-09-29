@@ -12,7 +12,11 @@ use ZakharovAndrew\user\Module;
 
 <div class="user-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(); 
+    if (!empty($model->birthday)) {
+        $model->birthday = date('Y-m-d', strtotime($model->birthday));
+    }
+    ?>
 
     <?= $form->field($model, 'username')->textInput(['maxlength' => true]) ?>
 
