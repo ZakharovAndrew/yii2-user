@@ -30,14 +30,17 @@ $this->title = Module::t('Edit Profile');
             <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <?= $form->field($model, 'city')->textInput(['maxlength' => true]) ?>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <?= $form->field($model, 'birthday')->input('date') ?>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <?= $form->field($model, 'sex')->dropDownList(User::getSexList()) ?>
+                </div>
+                <div class="col-md-3">
+                    <?= $form->field($model, 'phone')->textInput(['maxlength' => true]) ?>
                 </div>
             </div>
         </div>

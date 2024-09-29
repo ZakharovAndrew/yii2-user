@@ -65,6 +65,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
             [['username', 'password_reset_token', 'email'], 'string', 'max' => 190],
             [['auth_key'], 'string', 'max' => 32],
             [['city'], 'string', 'max' => 150],
+            [['phone'], 'string', 'max' => 20],
             [
             'avatar',
             'file',
@@ -95,6 +96,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
             'status' => Module::t('Status'),
             'sex' => Module::t('Sex'),
             'roles' => Module::t('Roles'),
+            'phone' => Module::t('Phone'),
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];

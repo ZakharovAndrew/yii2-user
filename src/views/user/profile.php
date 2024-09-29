@@ -71,13 +71,20 @@ $this->title = Module::t('Profile');
                 <p><?= Module::t('City'). ' : ' . $model->city ?></p>
                 <p><?= Module::t('Birthday'). ' : ' . (empty($model->birthday) ? Module::t('Not specified') : date('d.m.Y', strtotime($model->birthday))) ?></p>
                 <p><?= Module::t('Sex'). ' : ' . User::getSexList()[$model->sex] ?? Module::t('Not specified') ?></p> 
+                
             </div>
             <div class="profile-action-block">
                 <?php if ($model->id == Yii::$app->user->id) {
                     echo Html::a(Module::t('Edit Profile'), ['edit-profile'], ['class' => 'btn btn-primary']);
                     
                     echo Html::a(Module::t('Appreciation'), ['thanks/view'], ['class' => 'btn btn-success']);
+                } else { 
+                    echo Html::a(Module::t('Appreciation'), ['thanks/view', 'id' => $model->id], ['class' => 'btn btn-success']);
                 } ?>
+                <?php if (!empty($model->phone)) {
+                    echo '<p>'. Module::t('Phone'). ' : ' . $model->phone .'</p>';
+                } ?>
+                 
             </div>
         </div>
           
