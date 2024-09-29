@@ -6,31 +6,31 @@ use Yii;
 use yii\db\ActiveRecord;
 use ZakharovAndrew\user\Module;
 
-class Thanks extends ActiveRecord
+class BirthdayGreeting extends ActiveRecord
 {
     public static function tableName()
     {
-        return 'thanks';
+        return 'birthday_greeting';
     }
 
     public function rules()
     {
         return [
+            [['user_id', 'author_id'], 'required'],
             [['user_id', 'author_id'], 'integer'],
-            [['text'], 'string'],
-            [['text'], 'required'],
             [['created_at'], 'safe'],
-            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
+            [['message'], 'string'],
+            [['is_read'], 'boolean'],
         ];
     }
-
+    
     public function attributeLabels()
     {
         return [
             'id' => 'ID',
             'user_id' => Module::t('User'),
             'author_id' =>  Module::t('Author'),
-            'text' => Module::t('Text'),
+            'message' => Module::t('Text'),
             'created_at' => Module::t('Creation date'),
         ];
     }
@@ -57,5 +57,4 @@ class Thanks extends ActiveRecord
         
         return $date . ' ' . $time;
     }
-    
 }

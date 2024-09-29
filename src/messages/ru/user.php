@@ -160,5 +160,11 @@ return [
     'Send thanks' => 'Отправить благодарность',
     'Today' => 'Сегодня',
     'Author' => 'Автор',
-    'Text' => 'Текст'
+    'Text' => 'Текст',
+    'Creation date' => 'Дата создания',
+    "You can't congratulate yourself" => 'Нельзя поздравить самого себя',
+    'Send congratulations' => 'Отправить поздравление',
+    'Send birthday congratulations' => 'Отправить поздравление с Днем рождения',
+    'Birthday congratulations to' => 'Поздравления с Днем рождения пользователя',
+    "The user's birthday is not today" => 'День рождения пользователя не сегодня'
 ];

@@ -514,6 +514,15 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
         return $this->id;
     }
     
+    public function isBirthdayToday()
+    {
+        if (empty($this->birthday)) {
+            return false;
+        }
+        
+        return date('d.m', strtotime($this->birthday)) == date('d.m');
+    }
+    
     public function uploadAvatar()
     {
         if ($this->validate()) {
