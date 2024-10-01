@@ -1,5 +1,6 @@
 <?php
 use ZakharovAndrew\user\assets\UserAssets;
+use yii\helpers\Url;
 UserAssets::register($this);
 
 /* @var $this \yii\web\View */
@@ -12,13 +13,14 @@ UserAssets::register($this);
     <ul>
         <?php foreach ($users as $user): ?>
             <li>
-                <?php if ($useAvatars) {?>
+                <a href="<?= Url::to(['/user/birthday-greeting/send', 'id' => $user->id]) ?>"><?php if ($useAvatars) {?>
                 <img src="<?= !$user->getAvatarUrl() ?
                                 Yii::$app->assetManager->getAssetUrl(UserAssets::register($this), 'images/default-avatar.png') :
                                 $user->getAvatarUrl()
                             ?>" alt="Avatar">
                 <?php } ?>
                 <?= htmlspecialchars($user->name) ?>
+                </a>
             </li>
         <?php endforeach; ?>
     </ul>
