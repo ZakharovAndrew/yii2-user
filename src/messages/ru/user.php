@@ -37,7 +37,7 @@ return [
     'Role' => 'Роль',
     'Roles' => 'Роли',
     'Create Roles' => 'Создать роль',
-    'Add role' => 'Добавить роль',
+    'Add Role' => 'Добавить роль',
     'Delete role' => 'Удалить роль',
     'Parameters' => 'Параметры',
     'Function to get all role subjects' => 'Функция получения всех субъектов роли',
@@ -78,6 +78,10 @@ return [
     'Change Status' => 'Изменить статус',
     'Update Status' => 'Обновить статус',
     'Statuses changed' => 'Статусы изменены',
+    
+    'Select Role' => 'Выберите роль',
+    'Roles added' => 'Роли добавлены',
+    'Role added' => 'Роль добавлена',
     
     // Email
     'Change Email' => 'Сменить Email',

@@ -123,6 +123,17 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
         ];
     }
     
+    public static function customizableColumns()
+    {
+        return [
+            'city' => Module::t('City'),
+            'birthday' => Module::t('Birthday'),
+            'phone' => Module::t('Phone'),
+            'sex' => Module::t('Sex'),
+            'status' => Module::t('Status'),
+        ];
+    }
+    
     public static function getAccessList($user_id)
     {
         $controllersAccessList = Yii::$app->getModule('user')->controllersAccessList;
@@ -521,6 +532,17 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
         }
         
         return date('d.m', strtotime($this->birthday)) == date('d.m');
+    }
+        
+    public static function getColumnVisibility()
+    {        
+        $columnVisibility = Yii::$app->session->get('gridViewColumnVisibility', []);
+        
+        foreach (static::customizableColumns() as $column => $columnTitle) {
+            $columnVisibility[$column] = $columnVisibility[$column] ?? ($column == 'sex' ? true : false);
+        }
+
+        return $columnVisibility;
     }
     
     public function uploadAvatar()

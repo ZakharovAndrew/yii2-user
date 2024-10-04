@@ -426,18 +426,47 @@ class UserController extends ParentController
         
         $selectedUserIds = Yii::$app->request->post('selection'); // retrieve selected user IDs
         $status = Yii::$app->request->post('status'); // retrieve selected status
+        $role = Yii::$app->request->post('role'); // retrieve selected roles
+        $action = Yii::$app->request->post('form-action');
 
         $users = User::find()->where(['id' => $selectedUserIds])->all();
         
-        foreach ($users as $user) {
-            $user->status = $status;
-            $user->save();
+        if ($action == 'Add Role') {
+            foreach ($users as $user) {
+                $model = new \ZakharovAndrew\user\models\UserRoles([
+                    'role_id' => $role,
+                    'user_id' => $user->id,
+                ]);
+                $model->save();
+                unset($model);
+            }
+            Yii::$app->session->setFlash('success', Module::t('Roles added'));
+        } else {
+            foreach ($users as $user) {
+                $user->status = $status;
+                $user->save();
+            }
+            Yii::$app->session->setFlash('success', Module::t('Statuses changed'));
         }
+        
 
-        Yii::$app->session->setFlash('success', Module::t('Statuses changed'));
+        
         
         // redirect back to the GridView
         return $this->redirect(['index']);
+    }
+    
+    public function actionToggleColumnVisibility()
+    {
+        $column = Yii::$app->request->post('column');
+        $visibility = Yii::$app->request->post('visibility', true);
+        
+        $columnVisibility = \ZakharovAndrew\user\models\User::getColumnVisibility();
+        
+        if (isset($column)) {
+            $columnVisibility[$column] = ($visibility == "true");
+            Yii::$app->session->set('gridViewColumnVisibility', $columnVisibility);
+        }
     }
     
     /**

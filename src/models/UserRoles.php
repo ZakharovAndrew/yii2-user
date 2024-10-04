@@ -67,7 +67,7 @@ class UserRoles extends \yii\db\ActiveRecord
                 ->where(['user_roles.user_id' => $user_id])
                 ->asArray()
                 ->all();
-        }, 10);
+        }, 600);
     }
     
     /**
