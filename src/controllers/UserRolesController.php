@@ -4,6 +4,7 @@ namespace ZakharovAndrew\user\controllers;
 
 use ZakharovAndrew\user\models\UserRoles;
 use ZakharovAndrew\user\models\UserRolesSearch;
+use ZakharovAndrew\user\Module;
 use yii\web\NotFoundHttpException;
 use Yii;
 use yii\helpers\Url;
@@ -57,6 +58,8 @@ class UserRolesController extends ParentController
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
+                Yii::$app->cache->delete('get_users_roles_'.$model->user_id);
+                Yii::$app->session->setFlash('success', Module::t('Role added'));
                 return $this->redirect(Url::previous('user_index') ?? ['/user/user/index']);
             }
         } else {
@@ -98,7 +101,7 @@ class UserRolesController extends ParentController
     public function actionDelete($id)
     {
         $model = $this->findModel($id);
-        Yii::$app->cache->delete('get_users_roles'.$model->user_id);
+        Yii::$app->cache->delete('get_users_roles_'.$model->user_id);
         
         $model->delete();
 
