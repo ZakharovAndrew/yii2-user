@@ -236,6 +236,16 @@ $this->registerJs($script, yii\web\View::POS_READY);
                 },
                 'visible' => isset($columnVisibility['sex']) ? $columnVisibility['sex'] : true,
             ],
+                        //created_by
+            [
+                'attribute' => 'created_by',
+                'format' => 'raw',
+                'value' => function ($model) {
+                    $user = User::findOne($model->created_by);
+                    return (!$user) ? '' : $user->name;
+                },
+                'visible' => isset($columnVisibility['created_by']) ? $columnVisibility['created_by'] : true,
+            ],
             [
                 'attribute' => 'roles',
                 'format' => 'raw',
@@ -314,9 +324,9 @@ $this->registerJs($script, yii\web\View::POS_READY);
             foreach (ZakharovAndrew\user\models\User::customizableColumns() as $column => $columnTitle) {?>
             <p><?= $columnTitle ?>
             <?php if (isset($columnVisibility[$column]) && $columnVisibility[$column] == true) {?>
-            <div class="toggleColumn btn btn-success" data-column="<?= $column ?>" data-visibility="false">Скрыть</div>
+            <div class="toggleColumn btn btn-success" data-column="<?= $column ?>" data-visibility="false"><?=  Module::t('Hide') ?></div>
             <?php } else { ?>
-            <div class="toggleColumn btn btn-success" data-column="<?= $column ?>" data-visibility="true"><?=  Module::t('Add Role') ?></div>
+            <div class="toggleColumn btn btn-success" data-column="<?= $column ?>" data-visibility="true"><?=  Module::t('Show') ?></div>
             <?php } ?>
             </p>
             <?php } ?>

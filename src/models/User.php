@@ -60,7 +60,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
             ['email', 'unique', 'targetClass' => self::className(), 'message' => Module::t('This email is already taken!')],
             
             [['birthday', 'auth_key', 'created_at', 'updated_at'], 'safe'],
-            [['status', 'sex'], 'integer'],
+            [['status', 'sex', 'created_by'], 'integer'],
             [['password', 'name'], 'string', 'max' => 255],
             [['username', 'password_reset_token', 'email'], 'string', 'max' => 190],
             [['auth_key'], 'string', 'max' => 32],
@@ -70,7 +70,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
             'avatar',
             'file',
             'extensions' => 'jpg, jpeg, png',
-            'maxSize' => 1024 * 1024, // размер файла не должен превышать 1 МБ
+            'maxSize' => 1024 * 1024, // file size should not exceed 1 MB
             ],
                         
             [['username', 'password_reset_token'], 'unique'],
@@ -97,6 +97,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
             'sex' => Module::t('Sex'),
             'roles' => Module::t('Roles'),
             'phone' => Module::t('Phone'),
+            'created_by' => Module::t('Created by'),
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];
@@ -131,6 +132,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
             'phone' => Module::t('Phone'),
             'sex' => Module::t('Sex'),
             'status' => Module::t('Status'),
+            'created_by' => Module::t('Created by'),
         ];
     }
     

@@ -63,6 +63,7 @@ class UserController extends ParentController
             // generate a random password
             $password = User::genPassword();
             $model->telegram_code = md5(time());
+            $model->created_by = Yii::$app->user->id;
             
             // Trying to send the password to the email and save the password
             if (!$model->sendPasswordEmail($password) || !$model->setPassword($password)) {
