@@ -98,7 +98,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
             'roles' => Module::t('Roles'),
             'phone' => Module::t('Phone'),
             'created_by' => Module::t('Created by'),
-            'created_at' => 'Created At',
+            'created_at' => Module::t('Creation Date'),
             'updated_at' => 'Updated At',
         ];
     }
@@ -133,6 +133,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
             'sex' => Module::t('Sex'),
             'status' => Module::t('Status'),
             'created_by' => Module::t('Created by'),
+            'created_at' => Module::t('Creation Date'),
         ];
     }
     

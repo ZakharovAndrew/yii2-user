@@ -247,6 +247,10 @@ $this->registerJs($script, yii\web\View::POS_READY);
                 'visible' => isset($columnVisibility['created_by']) ? $columnVisibility['created_by'] : true,
             ],
             [
+                'attribute' => 'created_at',
+                'visible' => isset($columnVisibility['created_at']) ? $columnVisibility['created_at'] : true,
+            ],
+            [
                 'attribute' => 'roles',
                 'format' => 'raw',
                 'filter' => Roles::getRolesList(),
@@ -268,7 +272,7 @@ $this->registerJs($script, yii\web\View::POS_READY);
                 }
             ],
             
-            //'created_at',
+            //
             //'updated_at',
             
             [
