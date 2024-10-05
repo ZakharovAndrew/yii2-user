@@ -136,6 +136,7 @@ return [
     'String' => 'Строка',
     'Date' => 'Дата',
     'Time' => 'Время',
+    'Checkbox' => 'Чекбокс',
     'Values' => 'Значения',
     'Access level' => 'Уровень доступа',
     'Who can change' => 'Кто может изменить',
@@ -170,5 +171,8 @@ return [
     'Send congratulations' => 'Отправить поздравление',
     'Send birthday congratulations' => 'Отправить поздравление с Днем рождения',
     'Birthday congratulations to' => 'Поздравления с Днем рождения пользователя',
-    "The user's birthday is not today" => 'День рождения пользователя не сегодня'
+    "The user's birthday is not today" => 'День рождения пользователя не сегодня',
+    'Yes' => 'Да',
+    'No' => 'Нет',
+    'Show' => 'Показать',
 ];
