@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use ZakharovAndrew\user\Module;
 use ZakharovAndrew\user\models\User;
+use ZakharovAndrew\user\models\UserSettingsConfig;
 use ZakharovAndrew\user\assets\UserAssets;
 use yii\helpers\Url;
 
@@ -97,8 +98,10 @@ $this->title = Module::t('Profile');
                     <label><?= $setting->title . ' : ' ?></label>
                     <?php 
                     $value = $setting->getUserSettingValue($model->id);
-                    if (!empty($setting->values) && !empty($value)) {
-                        echo $setting->getValues()[$value] ?? null;
+                    if ($setting->type == UserSettingsConfig::TYPE_CHECKBOX) {
+                        echo $value == 1 ? Module::t('Yes') : Module::t('No');
+                    } else if (!empty($setting->values) && !empty($value)) {
+                        echo $setting->getValues()[$value] ?? $value;
                     } else {
                         echo $value;
                     }?>

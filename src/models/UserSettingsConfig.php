@@ -26,6 +26,7 @@ class UserSettingsConfig extends \yii\db\ActiveRecord
     const TYPE_STRING = 2;
     const TYPE_DATE = 3;
     const TYPE_TIME = 4;
+    const TYPE_CHECKBOX = 5;
     
     /**
      * {@inheritdoc}
@@ -70,6 +71,7 @@ class UserSettingsConfig extends \yii\db\ActiveRecord
             static::TYPE_STRING => Module::t('String'),
             static::TYPE_DATE => Module::t('Date'),
             static::TYPE_TIME => Module::t('Time'),
+            static::TYPE_CHECKBOX => Module::t('Checkbox'),
         ];
     }
     

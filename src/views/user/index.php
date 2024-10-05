@@ -239,7 +239,7 @@ $this->registerJs($script, yii\web\View::POS_READY);
             [
                 'attribute' => 'roles',
                 'format' => 'raw',
-                'filter' => \ZakharovAndrew\user\models\Roles::getRolesList(),
+                'filter' => Roles::getRolesList(),
                 'value' => function ($model) {
                     $result = '';
                     
@@ -316,7 +316,7 @@ $this->registerJs($script, yii\web\View::POS_READY);
             <?php if (isset($columnVisibility[$column]) && $columnVisibility[$column] == true) {?>
             <div class="toggleColumn btn btn-success" data-column="<?= $column ?>" data-visibility="false">Скрыть</div>
             <?php } else { ?>
-            <div class="toggleColumn btn btn-success" data-column="<?= $column ?>" data-visibility="true">Показать</div>
+            <div class="toggleColumn btn btn-success" data-column="<?= $column ?>" data-visibility="true"><?=  Module::t('Add Role') ?></div>
             <?php } ?>
             </p>
             <?php } ?>

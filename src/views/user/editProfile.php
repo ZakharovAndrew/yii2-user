@@ -55,6 +55,8 @@ $this->title = Module::t('Edit Profile');
                             'class' => 'form-control',
                             'prompt' => ''
                         ]);
+                } else if ($setting->type == UserSettingsConfig::TYPE_CHECKBOX) {
+                    echo Html::checkbox($setting->code, $setting->getUserSettingValue());
                 } else {
                     // determine the type
                     $inputType = 'text';
