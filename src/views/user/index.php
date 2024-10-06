@@ -8,7 +8,6 @@ use yii\grid\GridView;
 use ZakharovAndrew\user\Module;
 use ZakharovAndrew\user\models\UserRoles;
 use ZakharovAndrew\user\models\Roles;
-use yii\bootstrap5\Modal;
 
 $bootstrapVersion = Yii::$app->getModule('user')->bootstrapVersion;
 $classModal = "\\yii\bootstrap".($bootstrapVersion==3 ? '' : $bootstrapVersion)."\\Modal";
@@ -261,7 +260,8 @@ $this->registerJs($script, yii\web\View::POS_READY);
                     $roles = UserRoles::getUserRoles($model->id);
                     
                     foreach ($roles as $role) {
-                        $result .= $role['title'] . (isset($role['subject_id']) ? '('.$role['subject_id'].')' : '' );
+                        $item = Roles::findOne($role['role_id']);
+                        $result .= $role['title'] . (isset($role['subject_id']) ? '('.$item->roleSubject($role['subject_id']).')' : '' );
                         $result .= ' <a href="'.Url::toRoute(['/user/user-roles/delete', 'id' => $role['id']]).'" title="'.Module::t('Delete role').'" aria-label="'.Module::t('Delete role').'" class="role-delete">X</a>';
                     }
                     
