@@ -1,14 +1,14 @@
 <?php
 
 use yii\helpers\Html;
+use ZakharovAndrew\user\Module;
 
 /** @var yii\web\View $this */
 /** @var ZakharovAndrew\user\models\UserSettingsConfig $model */
 
-$this->title = 'Update User Settings Config: ' . $model->title;
-$this->params['breadcrumbs'][] = ['label' => 'User Settings Configs', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->title, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->title = Module::t('Update User Settings Configuration'). ': ' . $model->title;
+$this->params['breadcrumbs'][] = ['label' => Module::t('User Settings Configurations'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = Module::t('Update');
 ?>
 <div class="user-settings-config-update">
 

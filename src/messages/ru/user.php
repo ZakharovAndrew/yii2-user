@@ -131,6 +131,7 @@ return [
     //settings
     'User Settings Configurations' => 'Конфигурации пользовательских настроек',
     'Create User Settings Configuration' => 'Создать конфигурацию пользовательских настроек',
+    'Update User Settings Configuration' => 'Изменить конфигурацию пользовательских настроек',
     'Type' => 'Тип',
     'Integer' => 'Целое число',
     'String' => 'Строка',
