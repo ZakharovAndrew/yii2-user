@@ -31,8 +31,24 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'title',
             'code',
-            'type',
-            'access_level',
+            [
+                'attribute' => 'type',
+                'format' => 'raw',
+                'filter' => UserSettingsConfig::getTypeOfSettings(),
+                'value' => function ($model) {
+                    
+                    return UserSettingsConfig::getTypeOfSettings()[$model->type] ?? '';
+                },
+            ],
+            [
+                'attribute' => 'access_level',
+                'format' => 'raw',
+                'filter' => UserSettingsConfig::getAccessLevel(),
+                'value' => function ($model) {
+                    
+                    return UserSettingsConfig::getAccessLevel()[$model->access_level] ?? '';
+                },
+            ],
             //'values:ntext',
             [
                 'class' => ActionColumn::className(),
