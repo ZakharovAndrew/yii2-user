@@ -73,6 +73,7 @@ class BirthdayGreetingController extends Controller
             $model->user_id = $id;
             
             if ($model->save()) {
+                $model->sendEmail();
                 Yii::$app->session->setFlash('success', 'Поздравление отправлено');
                 return $this->redirect(['view', 'id' => $model->user_id]);
             } else {
