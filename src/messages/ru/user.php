@@ -179,5 +179,9 @@ return [
     'Created by' => 'Кем создано',
     'Hide' => 'Скрыть',
     'Show' => 'Показать',
-    'Creation Date' => 'Дата создания'
+    'Creation Date' => 'Дата создания',
+    
+    'Happy Birthday' => 'С Днем ​​Рождения',
+    "You've received one new birthday greeting." => 'Вы получили одно новое поздравление с Днем ​​Рождения.',
+    'Go to greetings' => 'Перейти к поздравлениям'
 ];
