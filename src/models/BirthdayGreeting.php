@@ -57,4 +57,25 @@ class BirthdayGreeting extends ActiveRecord
         
         return $date . ' ' . $time;
     }
+    
+    public function sendEmail()
+    {
+        /* @var $user User */
+        $user = User::findOne($this->user_id);
+ 
+        if (!$user) {
+            return false;
+        }
+ 
+        return Yii::$app
+            ->mailer
+            ->compose(
+                ['html' => '@vendor/zakharov-andrew/yii2-user/src/mail/happy-birthday-html'],
+                ['user' => $user]
+            )
+            ->setFrom([Yii::$app->params['supportEmail'] => Yii::$app->name])
+            ->setTo($user->email)
+            ->setSubject(Module::t('Happy Birthday') . '!')
+            ->send();
+    }
 }
