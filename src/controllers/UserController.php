@@ -62,7 +62,7 @@ class UserController extends ParentController
         if ($this->request->isPost && $model->load($this->request->post())) {
             // generate a random password
             $password = User::genPassword();
-            $model->telegram_code = md5(time());
+            $model->generateTelegramCode(); // set telegram code
             $model->created_by = Yii::$app->user->id;
             
             // Trying to send the password to the email and save the password
