@@ -61,7 +61,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
             
             [['birthday', 'auth_key', 'created_at', 'updated_at'], 'safe'],
             [['status', 'sex', 'created_by'], 'integer'],
-            [['password', 'name'], 'string', 'max' => 255],
+            [['password', 'name', 'telegram_code'], 'string', 'max' => 255],
             [['username', 'password_reset_token', 'email'], 'string', 'max' => 190],
             [['auth_key'], 'string', 'max' => 32],
             [['city'], 'string', 'max' => 150],
@@ -334,6 +334,13 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
         
         return true;
     }
+    
+    public function generateTelegramCode()
+    {
+        $this->telegram_code = md5(time().$this->username);
+    }
+    
+    
 
     /**
      * Find a user by email
