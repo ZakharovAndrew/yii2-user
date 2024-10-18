@@ -72,6 +72,17 @@ class ImportForm extends Model
                 }
                 $result[] = "<div class=\"alert-danger alert\">{$data['username']} ({$data['email']})".  ' <b>error:</b> ' . implode(' | ', $errors).'</div>';
             } else {
+                // add role
+                if (isset($data['role_id']) && isset($data['subject_id'])) {
+                    $role = new UserRoles([
+                        'user_id' => $user->id,
+                        'role_id' => $data['role_id'],
+                        'subject_id' => $data['subject_id']
+                    ]);
+                    
+                    $role->save();
+                }
+                
                 $result[] = "<div class=\"alert-success alert\">{$data['username']} ({$data['email']})" . ' ' . Module::t('is created').'</div>';;
             }
         }
