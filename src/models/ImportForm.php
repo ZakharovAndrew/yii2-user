@@ -12,6 +12,7 @@ class ImportForm extends Model
 {
     public $csvFile;
     public $status;
+    public $separator;
     
     public function rules()
     {
@@ -22,6 +23,7 @@ class ImportForm extends Model
                 'extensions' => 'csv',
                 'maxSize' => 1024 * 1024, // file size should not exceed 1 MB
             ],
+            [['separator'], 'string'],
             [['status'], 'in', 'range' => array_keys(User::getStatusList())],
         ];
     }
@@ -34,6 +36,7 @@ class ImportForm extends Model
         return [
             'id' => 'ID',
             'status' => Module::t('Status'),
+            'separator' => Module::t('Separator'). ' ('.Module::t('default').' ;)',
             'csvFile' => 'CSV File',
         ];
     }
@@ -45,7 +48,8 @@ class ImportForm extends Model
         }
 
         $uploadedFile = UploadedFile::getInstance($this, 'csvFile');
-        $rows = array_map('str_getcsv', file($uploadedFile->tempName));
+        $separator = empty($this->separator) ? ';' : $this->separator;
+        $rows = array_map(function($v) use($separator) {return str_getcsv($v, $separator);}, file($uploadedFile->tempName));
         $headers = array_shift($rows);
         
         $result = [];
@@ -74,13 +78,17 @@ class ImportForm extends Model
             } else {
                 // add role
                 if (isset($data['role_id']) && isset($data['subject_id'])) {
-                    $role = new UserRoles([
-                        'user_id' => $user->id,
-                        'role_id' => $data['role_id'],
-                        'subject_id' => $data['subject_id']
-                    ]);
                     
-                    $role->save();
+                    $subjects = explode(",", $data['subject_id']);
+                    foreach ($subjects as $subject_id) {
+                        $role = new UserRoles([
+                            'user_id' => $user->id,
+                            'role_id' => $data['role_id'],
+                            'subject_id' => $subject_id
+                        ]);
+
+                        $role->save();
+                    }
                 }
                 
                 $result[] = "<div class=\"alert-success alert\">{$data['username']} ({$data['email']})" . ' ' . Module::t('is created').'</div>';;
