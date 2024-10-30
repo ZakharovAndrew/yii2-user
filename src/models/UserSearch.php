@@ -68,7 +68,7 @@ class UserSearch extends User
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'birthday' => $this->birthday,
+            //'birthday' => $this->birthday,
             'status' => $this->status,
             'sex' => $this->sex,
             'created_at' => $this->created_at,
@@ -76,6 +76,31 @@ class UserSearch extends User
             //'roles' => $this->roles,
         ]);
 
+        if (isset($this->birthday)) {
+            $day = explode('.',$this->birthday);
+            
+            // day
+            if (count($day) > 0) {
+                $query->andFilterWhere([
+                    'DAY(birthday)' => $day[0],  
+                ]);
+            }
+            
+            // month
+            if (count($day) > 1) {
+                $query->andFilterWhere([
+                    'MONTH(birthday)' => $day[1],  
+                ]);
+            }
+            
+            // year
+            if (count($day) >2) {
+                $query->andFilterWhere([
+                    'YEAR(birthday)' => $day[2],
+                ]);
+            }
+        }
+        
         $query->andFilterWhere(['like', 'username', $this->username])
             ->andFilterWhere(['like', 'auth_key', $this->auth_key])
             ->andFilterWhere(['like', 'password', $this->password])
