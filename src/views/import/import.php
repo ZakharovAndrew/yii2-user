@@ -25,6 +25,8 @@ $this->title = Module::t('Import users');
         <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]) ?>
 
         <?= $form->field($model, 'csvFile')->fileInput()->label(false) ?>
+        
+        <?= $form->field($model, 'separator')->textInput(['maxlength' => true]) ?>
 
         <?= $form->field($model, 'status')->dropDownList(User::getStatusList()) ?>
 

@@ -187,5 +187,8 @@ return [
     
     'Happy Birthday' => 'С Днем ​​Рождения',
     "You've received one new birthday greeting." => 'Вы получили одно новое поздравление с Днем ​​Рождения.',
-    'Go to greetings' => 'Перейти к поздравлениям'
+    'Go to greetings' => 'Перейти к поздравлениям',
+    
+    'Separator' => 'Разделитель',
+    'default' => 'по умолчанию',
 ];
