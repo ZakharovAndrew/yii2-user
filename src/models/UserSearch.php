@@ -4,7 +4,7 @@ namespace ZakharovAndrew\user\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\User;
+use ZakharovAndrew\user\models\User;
 
 /**
  * UserSearch represents the model behind the search form of `ZakharovAndrew\user\models\User`.
@@ -41,7 +41,7 @@ class UserSearch extends User
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
+    public function search($params, $roles_name = null)
     {
         $query = User::find();
         
@@ -49,6 +49,15 @@ class UserSearch extends User
             $query->innerJoin('user_roles', 'user_roles.user_id = users.id AND user_roles.role_id='.(int)$params['UserSearch']['roles']);
         }
 
+        
+        if (!empty($roles_name)) {
+            $sql_roles = [];
+            foreach ($roles_name as $role) {
+                $sql_roles[] = "'".$role."'";
+            }
+            $query->innerJoin('user_roles', 'user_roles.user_id = users.id AND user_roles.role_id IN (SELECT id FROM roles WHERE code IN('.implode(',', $sql_roles).') )');
+        }
+        
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
@@ -67,7 +76,7 @@ class UserSearch extends User
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'id' => $this->id,
+            'users.id' => $this->id,
             //'birthday' => $this->birthday,
             'status' => $this->status,
             'sex' => $this->sex,

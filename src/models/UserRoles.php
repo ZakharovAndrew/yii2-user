@@ -91,7 +91,7 @@ class UserRoles extends \yii\db\ActiveRecord
         }
    
         return \yii\helpers\ArrayHelper::getColumn(
-                $model->cache(600)->asArray()->all(),
+                $model->asArray()->all(),
                 'user_id'
                 );
     }
