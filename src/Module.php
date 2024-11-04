@@ -81,7 +81,8 @@ class Module extends \yii\base\Module
     public function init()
     {
         parent::init();
-        $this->registerTranslations();
+        
+        self::registerTranslations();
         
         // Registering an alias
         Yii::setAlias($this->alias, __DIR__);
@@ -90,11 +91,15 @@ class Module extends \yii\base\Module
     /**
      * Registers the translation files
      */
-    protected function registerTranslations()
+    protected static function registerTranslations()
     {
+        if (isset(Yii::$app->i18n->translations['extension/yii2-user/*'])) {
+            return;
+        }
+        
         Yii::$app->i18n->translations['extension/yii2-user/*'] = [
             'class' => 'yii\i18n\PhpMessageSource',
-            'sourceLanguage' => $this->sourceLanguage,
+            'sourceLanguage' => 'en-US',
             'basePath' => '@vendor/zakharov-andrew/yii2-user/src/messages',
             'on missingTranslation' => ['app\components\TranslationEventHandler', 'handleMissingTranslation'],
             'fileMap' => [
@@ -102,6 +107,8 @@ class Module extends \yii\base\Module
             ],
         ];
     }
+    
+    
 
     /**
      * Translates a message. This is just a wrapper of Yii::t
@@ -116,6 +123,8 @@ class Module extends \yii\base\Module
      */
     public static function t($message, $params = [], $language = null)
     {
+        static::registerTranslations();
+        
         $category = 'user';
         return Yii::t('extension/yii2-user/' . $category, $message, $params, $language);
     }
