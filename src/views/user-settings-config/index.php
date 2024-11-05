@@ -49,9 +49,9 @@ $this->params['breadcrumbs'][] = $this->title;
                     return UserSettingsConfig::getAccessLevel()[$model->access_level] ?? '';
                 },
             ],
-            //'values:ntext',
             [
                 'class' => ActionColumn::className(),
+                'template' => '{update} {delete}',
                 'urlCreator' => function ($action, UserSettingsConfig $model, $key, $index, $column) {
                     return Url::toRoute([$action, 'id' => $model->id]);
                  }

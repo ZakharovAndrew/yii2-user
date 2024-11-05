@@ -11,7 +11,7 @@ $this->params['breadcrumbs'][] = ['label' => Module::t('User Settings Configurat
 $this->params['breadcrumbs'][] = Module::t('Update');
 ?>
 <div class="user-settings-config-update">
-
+    
     <?php if (Yii::$app->getModule('user')->showTitle) {?><h1><?= Html::encode($this->title) ?></h1><?php } ?>
 
     <?= $this->render('_form', [

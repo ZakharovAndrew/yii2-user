@@ -4,13 +4,16 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use ZakharovAndrew\user\models\UserSettingsConfig;
 use ZakharovAndrew\user\Module;
+use ZakharovAndrew\user\assets\UserAssets;
+
+UserAssets::register($this);
 
 /** @var yii\web\View $this */
 /** @var ZakharovAndrew\user\models\UserSettingsConfig $model */
 /** @var yii\widgets\ActiveForm $form */
 ?>
 
-<div class="user-settings-config-form">
+<div class="user-settings-config-form white-block">
 
     <?php $form = ActiveForm::begin(); ?>
 
