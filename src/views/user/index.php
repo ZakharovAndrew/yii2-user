@@ -281,6 +281,9 @@ $this->registerJs($script, yii\web\View::POS_READY);
                     if ($action == 'view') {
                         return Url::toRoute(['profile', 'id' => $model->id]);
                     }
+                    if ($action == 'update') {
+                        return Url::toRoute(['edit-profile', 'id' => $model->id]);
+                    }
                     return Url::toRoute([$action, 'id' => $model->id]);
                 }
             ],

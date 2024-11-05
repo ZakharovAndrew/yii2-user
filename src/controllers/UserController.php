@@ -325,9 +325,14 @@ class UserController extends ParentController
         ]);
     }
     
-    public function actionEditProfile()
+    public function actionEditProfile($id = null)
     {        
-        $model = Yii::$app->user->identity;
+        // if the current user's profile
+        if (empty($id)) {
+            $model = Yii::$app->user->identity;
+        } else {
+            $model = $this->findModel($id);
+        }
         
         $settings = UserSettingsConfig::find()->where([
             'access_level' => [1, 2]

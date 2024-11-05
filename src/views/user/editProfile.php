@@ -29,6 +29,20 @@ $this->title = Module::t('Edit Profile');
         <div class="white-block">
             <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
+            <?php if (Yii::$app->user->identity->hasRole('admin')) {?>
+            <div class="row">
+                <div class="col-md-4">
+                    <?= $form->field($model, 'username')->textInput(['maxlength' => true]) ?>
+                </div>
+                <div class="col-md-4">
+                    <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
+                </div>
+                <div class="col-md-4">
+                    <?= $form->field($model, 'status')->dropDownList(User::getStatusList()) ?>
+                </div>
+            </div>
+            <?php } ?>
+    
             <div class="row">
                 <div class="col-md-3">
                     <?= $form->field($model, 'city')->textInput(['maxlength' => true]) ?>
