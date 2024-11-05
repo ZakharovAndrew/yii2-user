@@ -13,7 +13,17 @@ use yii\filters\AccessControl;
 class ParentController extends Controller
 {
     public $controller_id;
+    
+    /**
+     * Actions that are available to any user
+     * @var array 
+     */
     public $full_access_actions = [];
+    
+    /**
+     * Actions that require authorization
+     * @var array 
+     */
     public $auth_access_actions = [];
     
     /**

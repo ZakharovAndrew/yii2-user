@@ -50,9 +50,14 @@ class BirthdayGreeting extends ActiveRecord
         $date = date('d.m.Y', strtotime($this->created_at));
         $time = date('H:i:s', strtotime($this->created_at));
         $now = date('d.m.Y', strtotime('now'));
+        $yesterday = date('d.m.Y', strtotime('yesterday'));
         
         if ($date == $now) {
             $date = Module::t('Today');
+        }
+        
+        if ($date == $yesterday) {
+            $date = Module::t('Yesterday');
         }
         
         return $date . ' ' . $time;
