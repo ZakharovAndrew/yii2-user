@@ -49,7 +49,7 @@ $this->title = Module::t('Edit Profile');
             <div class="form-group">
                 <label><?= $setting->title ?></label>
                 <?php
-                if ($setting->type == 2 && !empty($setting->getValues())) {
+                if ($setting->type == UserSettingsConfig::TYPE_STRING && !empty($setting->getValues())) {
                     echo Html::dropDownList( $setting->code, $setting->getUserSettingValue(), $setting->getValues(), [
                             'id' => 'settings-'.$setting->code,
                             'class' => 'form-control',
