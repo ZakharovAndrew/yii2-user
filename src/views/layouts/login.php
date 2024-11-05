@@ -23,6 +23,17 @@ $bootstrapVersion = Yii::$app->getModule('user')->bootstrapVersion;
     <?php $this->head() ?>
 </head>
 <body>
+    <style>
+        .container {margin-top:15px}
+        .content {padding: 10% !important}
+        @media (max-width: 768px) {
+            .content {
+                padding-left: 20px;
+                padding-right: 20px;
+                height: 80vh;
+            }
+        }
+    </style>
 <?php $this->beginBody() ?>
 
     <?php if (Yii::$app->session->hasFlash('success')): ?>
@@ -36,17 +47,7 @@ $bootstrapVersion = Yii::$app->getModule('user')->bootstrapVersion;
             <?php echo Yii::$app->session->getFlash('success'); ?>
         </div>
     </div>
-    <style>
-        .container {margin-top:15px}
-        .content {padding: 10% !important}
-        @media (max-width: 768px) {
-            .content {
-                padding-left: 20px;
-                padding-right: 20px;
-                height: 80vh;
-            }
-        }
-    </style>
+    
     <?php endif; ?>
     <?php if (Yii::$app->session->hasFlash('error')): ?>
     <div class="container">
@@ -59,17 +60,7 @@ $bootstrapVersion = Yii::$app->getModule('user')->bootstrapVersion;
             <?php echo Yii::$app->session->getFlash('error'); ?>
         </div>
     </div>
-    <style>
-        .container {margin-top:15px}
-        .content {padding: 10% !important}
-        @media (max-width: 768px) {
-            .content {
-                padding-left: 20px;
-                padding-right: 20px;
-                height: 80vh;
-            }
-        }
-    </style>
+    
     <?php endif; ?>
 
     <?= $content ?>
