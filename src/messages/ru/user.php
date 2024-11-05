@@ -170,6 +170,7 @@ return [
     'Appreciation' => 'Благодарности',
     'Send thanks' => 'Отправить благодарность',
     'Today' => 'Сегодня',
+    'Yesterday' => 'Вчера',
     'Author' => 'Автор',
     'Text' => 'Текст',
     'Creation date' => 'Дата создания',
