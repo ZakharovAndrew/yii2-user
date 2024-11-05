@@ -8,7 +8,7 @@ use ZakharovAndrew\user\models\ThanksSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\AccessControl;
-use yii\data\ActiveDataProvider;
+use ZakharovAndrew\user\Module;
 
 class ThanksController extends Controller
 {
@@ -35,7 +35,7 @@ class ThanksController extends Controller
     public function actionIndex()
     {
         if (!Yii::$app->user->identity->hasRole('admin')) {
-            throw new NotFoundHttpException('The requested page does not exist.');
+            throw new NotFoundHttpException(Module::t('The requested page does not exist.'));
         }
         
         $searchModel = new ThanksSearch();
@@ -55,7 +55,7 @@ class ThanksController extends Controller
             $model->author_id = Yii::$app->user->id;
             
             if ($model->save()) {
-                Yii::$app->session->setFlash('success', 'Благодарность отправлена');
+                Yii::$app->session->setFlash('success', Module::t('Thanks sent'));
                 return $this->redirect(['user/profile', 'id' => $model->user_id]);
             }
         }
@@ -85,6 +85,6 @@ class ThanksController extends Controller
             return $model;
         }
 
-        throw new NotFoundHttpException('The requested page does not exist.');
+        throw new NotFoundHttpException(Module::t('The requested page does not exist.'));
     }
 }

@@ -169,6 +169,7 @@ return [
     
     'Appreciation' => 'Благодарности',
     'Send thanks' => 'Отправить благодарность',
+    'Thanks sent' => 'Благодарность отправлена',
     'Today' => 'Сегодня',
     'Yesterday' => 'Вчера',
     'Author' => 'Автор',
@@ -193,4 +194,5 @@ return [
     'Separator' => 'Разделитель',
     'default' => 'по умолчанию',
     'Add a role to a user' => 'Добавить роль пользователю',
+    'The requested page does not exist.' => 'Запрошенная страница не существует.'
 ];
