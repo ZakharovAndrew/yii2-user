@@ -6,8 +6,8 @@ use ZakharovAndrew\user\Module;
 /** @var yii\web\View $this */
 /** @var ZakharovAndrew\user\models\UserRoles $model */
 
-$this->title = 'Create User Roles';
-$this->params['breadcrumbs'][] = ['label' => Module::t('User Roles'), 'url' => ['index']];
+$this->title = Module::t('Add a role to a user');
+$this->params['breadcrumbs'][] = ['label' => Module::t('Users'), 'url' => ['user/index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="user-roles-create">

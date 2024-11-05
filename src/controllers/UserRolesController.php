@@ -34,19 +34,6 @@ class UserRolesController extends ParentController
     }
 
     /**
-     * Displays a single UserRoles model.
-     * @param int $id ID
-     * @return string
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionView($id)
-    {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
-    }
-
-    /**
      * Creates a new UserRoles model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response

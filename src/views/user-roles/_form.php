@@ -4,13 +4,16 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use ZakharovAndrew\user\models\Roles;
 use ZakharovAndrew\user\Module;
+use ZakharovAndrew\user\assets\UserAssets;
+
+UserAssets::register($this);
 
 /** @var yii\web\View $this */
 /** @var ZakharovAndrew\user\models\UserRoles $model */
 /** @var yii\widgets\ActiveForm $form */
 ?>
 
-<div class="user-roles-form">
+<div class="user-roles-form white-block">
 
     <?php $form = ActiveForm::begin(); ?>
 
