@@ -277,7 +277,7 @@ $this->registerJs($script, yii\web\View::POS_READY);
             
             [
                 'class' => ActionColumn::className(),
-                'urlCreator' => function ($action, User $model, $key, $index, $column) {
+                'urlCreator' => function ($action, $model, $key, $index, $column) {
                     if ($action == 'view') {
                         return Url::toRoute(['profile', 'id' => $model->id]);
                     }
