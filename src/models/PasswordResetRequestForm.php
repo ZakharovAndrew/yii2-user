@@ -12,7 +12,14 @@ use ZakharovAndrew\user\Module;
  */
 class PasswordResetRequestForm extends Model
 {
+    /**
+     * @var string User email
+     */
     public $email;
+    
+    /**
+     * @var string User login
+     */
     public $username;
  
     /**
@@ -55,7 +62,7 @@ class PasswordResetRequestForm extends Model
         /* @var $user User */
         $user = User::find()
                 ->where(['email' => $this->email, 'username' => $this->username])
-                ->andWhere(['!=', 'status', User::STATUS_DELETED])
+                ->andWhere(['<>', 'status', User::STATUS_DELETED])
                 ->One();
  
         if (!$user) {
