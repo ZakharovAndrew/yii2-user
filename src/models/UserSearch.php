@@ -38,6 +38,7 @@ class UserSearch extends User
      * Creates data provider instance with search query applied
      *
      * @param array $params
+     * @param array $roles_name - list of roles
      *
      * @return ActiveDataProvider
      */
@@ -77,12 +78,10 @@ class UserSearch extends User
         // grid filtering conditions
         $query->andFilterWhere([
             'users.id' => $this->id,
-            //'birthday' => $this->birthday,
             'status' => $this->status,
             'sex' => $this->sex,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
-            //'roles' => $this->roles,
         ]);
 
         if (isset($this->birthday)) {
