@@ -28,6 +28,7 @@ use yii\helpers\ArrayHelper;
 class User extends \yii\db\ActiveRecord implements IdentityInterface
 {
     const STATUS_DELETED = 0;
+    const STATUS_CLIENT = 4;
     const STATUS_USER = 5;
         
     const STATUS_MANAGER = 20;
@@ -105,13 +106,14 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     
     public static function getStatusList() {
         return [
-            static::STATUS_DELETED => Module::t('Deleted'),
-            static::STATUS_USER => Module::t('User'),
-            static::STATUS_MANAGER => Module::t('Manager'),
-            static::STATUS_SENIOR_MANAGER => Module::t('Senior manager'),
-            static::STATUS_ADMIN => Module::t('Administrator'),
-            static::STATUS_SENIOR_ADMIN => Module::t('Senior Administrator'),
-            static::STATUS_ROOT => "Root"
+            static::STATUS_DELETED          => Module::t('Deleted'),
+            static::STATUS_USER             => Module::t('User'),
+            static::STATUS_CLIENT           => Module::t('Client'),
+            static::STATUS_MANAGER          => Module::t('Manager'),
+            static::STATUS_SENIOR_MANAGER   => Module::t('Senior manager'),
+            static::STATUS_ADMIN            => Module::t('Administrator'),
+            static::STATUS_SENIOR_ADMIN     => Module::t('Senior Administrator'),
+            static::STATUS_ROOT             => "Root"
         ];
     }
     
