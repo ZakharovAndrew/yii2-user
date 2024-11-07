@@ -74,10 +74,10 @@ class BirthdayGreetingController extends Controller
             
             if ($model->save()) {
                 $model->sendEmail();
-                Yii::$app->session->setFlash('success', 'Поздравление отправлено');
+                Yii::$app->session->setFlash('success', Module::t('Congratulations sent'));
                 return $this->redirect(['view', 'id' => $model->user_id]);
             } else {
-                Yii::$app->session->setFlash('error', 'Ошибка сохранения поздравления'.var_export($model->getErrors(),true));
+                Yii::$app->session->setFlash('error', Module::t('Error saving greetings'));
             }
         }
 

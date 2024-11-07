@@ -181,6 +181,8 @@ return [
     'Send birthday congratulations' => 'Отправить поздравление с Днем рождения',
     'Birthday congratulations to' => 'Поздравления с Днем рождения пользователя',
     "The user's birthday is not today" => 'День рождения пользователя не сегодня',
+    'Congratulations sent' => 'Поздравление отправлено',
+    'Error saving greetings' => 'Ошибка сохранения поздравления',
     'Yes' => 'Да',
     'No' => 'Нет',
     'Created by' => 'Кем создано',
