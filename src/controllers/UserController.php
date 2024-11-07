@@ -343,7 +343,7 @@ class UserController extends ParentController
                 // save user settings
                 foreach ($settings as $setting) {
                     $value = Yii::$app->request->post($setting->code) ?? null;
-                    UserSettings::saveValue(Yii::$app->user->id, $setting->id, $value);
+                    UserSettings::saveValue($model->id, $setting->id, $value);
                 }
 
                 Yii::$app->session->setFlash('success', Module::t('Profile updated'));
