@@ -64,13 +64,13 @@ $this->title = Module::t('Edit Profile');
                 <label><?= $setting->title ?></label>
                 <?php
                 if ($setting->type == UserSettingsConfig::TYPE_STRING && !empty($setting->getValues())) {
-                    echo Html::dropDownList( $setting->code, $setting->getUserSettingValue(), $setting->getValues(), [
+                    echo Html::dropDownList( $setting->code, $setting->getUserSettingValue($model->id), $setting->getValues(), [
                             'id' => 'settings-'.$setting->code,
                             'class' => 'form-control',
                             'prompt' => ''
                         ]);
                 } else if ($setting->type == UserSettingsConfig::TYPE_CHECKBOX) {
-                    echo Html::checkbox($setting->code, $setting->getUserSettingValue());
+                    echo Html::checkbox($setting->code, $setting->getUserSettingValue($model->id));
                 } else {
                     // determine the type
                     $inputType = 'text';
@@ -79,7 +79,7 @@ $this->title = Module::t('Edit Profile');
                     } else if ($setting->type == UserSettingsConfig::TYPE_DATE) {
                         $inputType = 'date';
                     }
-                    echo Html::input($inputType, $setting->code, $setting->getUserSettingValue(), ['id' => 'settings-'.$setting->code, 'class' => 'form-control']);
+                    echo Html::input($inputType, $setting->code, $setting->getUserSettingValue($model->id), ['id' => 'settings-'.$setting->code, 'class' => 'form-control']);
                 }?>
             </div>
         <?php } ?>
