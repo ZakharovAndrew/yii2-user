@@ -342,13 +342,17 @@ class UserController extends ParentController
     {        
         // if the current user's profile
         if (empty($id)) {
+            if (!Yii::$app->user->identity->hasRole('admin')) {
+                throw new NotFoundHttpException('The requested page does not exist.');
+            }
+        
             $model = Yii::$app->user->identity;
         } else {
             $model = $this->findModel($id);
         }
         
         $settings = UserSettingsConfig::find()->where([
-            'access_level' => [1, 2]
+            'access_level' => Yii::$app->user->identity->hasRole('admin') ? [UserSettingsConfig::CHANGE_USER_AND_ADMIN, 3] : [UserSettingsConfig::CHANGE_USER_AND_ADMIN, 2]
         ])->all();
         
         if ($this->request->isPost && $model->load($this->request->post()) && $model->validate()) {
