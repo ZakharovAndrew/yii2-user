@@ -87,7 +87,7 @@ class UserSettingsConfig extends \yii\db\ActiveRecord
     
     public function getUserSettingValue($user_id = null)
     {
-        if (empty($user_id)) {
+        if (is_null($user_id)) {
             $user_id = Yii::$app->user->id;
         }
         

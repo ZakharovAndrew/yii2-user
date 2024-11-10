@@ -80,6 +80,7 @@ return [
     'Change Status' => 'Изменить статус',
     'Update Status' => 'Обновить статус',
     'Statuses changed' => 'Статусы изменены',
+    'User created' => 'Пользователь создан',
     
     'Select Role' => 'Выберите роль',
     'Roles added' => 'Роли добавлены',

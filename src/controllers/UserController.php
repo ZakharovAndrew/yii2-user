@@ -58,6 +58,10 @@ class UserController extends ParentController
     public function actionCreate()
     {
         $model = new User();
+        
+        $settings = UserSettingsConfig::find()->where([
+            'access_level' => [UserSettingsConfig::CHANGE_ADMIN_ONLY, UserSettingsConfig::CHANGE_USER_AND_ADMIN]
+        ])->all();
 
         if ($this->request->isPost && $model->load($this->request->post())) {
             // generate a random password
@@ -73,6 +77,14 @@ class UserController extends ParentController
             
             if (!$model->save()) {
                 Yii::$app->session->setFlash('error', Module::t('Error. Failed to save user during creation'));
+            } else {
+                // save user settings
+                foreach ($settings as $setting) {
+                    $value = Yii::$app->request->post($setting->code) ?? null;
+                    UserSettings::saveValue($model->id, $setting->id, $value);
+                }
+
+                Yii::$app->session->setFlash('success', Module::t('User created'));
             }
             
             return $this->redirect(Url::previous('user_index') ?? ['index']);
@@ -82,6 +94,7 @@ class UserController extends ParentController
 
         return $this->render('create', [
             'model' => $model,
+            'settings' => $settings,
         ]);
     }
 
