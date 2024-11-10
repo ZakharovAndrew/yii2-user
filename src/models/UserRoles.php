@@ -47,6 +47,7 @@ class UserRoles extends \yii\db\ActiveRecord
             'id' => 'ID',
             'user_id' => Module::t('User'),
             'role_id' => Module::t('Role'),
+            'subject_id' => Module::t('Subject of the role'),
             'note' => Module::t('Note'),
             'created_at' => 'Created At',
         ];

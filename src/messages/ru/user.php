@@ -84,6 +84,7 @@ return [
     'Select Role' => 'Выберите роль',
     'Roles added' => 'Роли добавлены',
     'Role added' => 'Роль добавлена',
+    'Subject of the role' => 'Субъект роли',
     'Import' => 'Импортировать',
     'Import users' => 'Импортировать пользователей',
     'Select CSV file and status to import users' => 'Выберите CSV файл и статус для импортирования пользователей',

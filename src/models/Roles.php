@@ -102,4 +102,20 @@ class Roles extends \yii\db\ActiveRecord
         
         return $subject;
     }
+    
+    /**
+     * Getting role subjects
+     * @return array
+     */
+    public function getSubjects()
+    {
+        if (!empty($this->function_to_get_all_subjects) && is_callable($this->function_to_get_all_subjects)) {
+            // function name
+            $func = $this->function_to_get_all_subjects;
+            // exec function
+            return $func();
+        }
+        
+        return [];
+    }
 }
