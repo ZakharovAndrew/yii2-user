@@ -62,7 +62,7 @@ $this->registerJs($script, yii\web\View::POS_READY);
     
     <?= $form->field($model, 'subject_id')->textInput(['maxlength' => true]) ?>
     
-    <div id="role_subject_group" class="form-group">
+    <div id="role_subject_group" class="form-group" style="display: none">
         <label class="control-label" for="role_subject"><?= Module::t('Subject of the role') ?></label>
         <select id="role_subject" class="form-control form-select"></select>
     </div>
