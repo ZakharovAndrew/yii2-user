@@ -9,6 +9,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\AccessControl;
 use ZakharovAndrew\user\Module;
+use ZakharovAndrew\user\models\UserActivity;
 
 class ThanksController extends Controller
 {
@@ -86,5 +87,13 @@ class ThanksController extends Controller
         }
 
         throw new NotFoundHttpException(Module::t('The requested page does not exist.'));
+    }
+    
+    public function beforeAction($action)
+    {
+        // logging activity
+        UserActivity::setActivity();
+        
+        return parent::beforeAction($action);
     }
 }
