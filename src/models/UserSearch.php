@@ -48,6 +48,7 @@ class UserSearch extends User
         
         if (!empty($params['UserSearch']['roles'])) {
             $query->innerJoin('user_roles', 'user_roles.user_id = users.id AND user_roles.role_id='.(int)$params['UserSearch']['roles']);
+            $query->groupBy('users.id');
         }
 
         
@@ -57,6 +58,7 @@ class UserSearch extends User
                 $sql_roles[] = "'".$role."'";
             }
             $query->innerJoin('user_roles', 'user_roles.user_id = users.id AND user_roles.role_id IN (SELECT id FROM roles WHERE code IN('.implode(',', $sql_roles).') )');
+            $query->groupBy('users.id');
         }
         
         // add conditions that should always apply here
