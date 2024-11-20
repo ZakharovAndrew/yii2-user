@@ -70,6 +70,11 @@ return [
     'Profile update error' => 'Ошибка обновления профиля',
     'Today, no one is celebrating a birthday.' => 'Сегодня никто не празднует день рождения.',
     'Today’s birthdays:' => 'Сегодня отмечают дни рождения:',
+    'IP Address' => 'IP-адрес',
+    'Attempt Time' => 'Время попытки',
+    'Successful Attempt' => 'Успешная попытка',
+    'Too many unsuccessful attempts. Please wait an hour before trying again.' => 'Слишком много неудачных попыток. Пожалуйста, подождите час перед следующей попыткой.',
+    'Incorrect username or password.' => 'Неверное имя пользователя или пароль.',
     // actions
     'Create User' => 'Создать пользователя',
     'Save' => 'Сохранить',

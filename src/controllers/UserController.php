@@ -16,6 +16,7 @@ use ZakharovAndrew\user\models\PasswordResetRequestForm;
 use ZakharovAndrew\user\models\ChangePasswordForm;
 use ZakharovAndrew\user\models\UserSettings;
 use ZakharovAndrew\user\models\UserSettingsConfig;
+use ZakharovAndrew\user\models\LoginAttempt;
 use yii\helpers\Url;
 // for avatar uploading
 use yii\web\UploadedFile;
@@ -295,10 +296,25 @@ class UserController extends ParentController
         if (!Yii::$app->user->isGuest) {
             return $this->goHome();
         }
+        
+        // Get the user's IP address
+        $userIp = Yii::$app->request->userIP;
+
+        // Check if the IP address is blocked
+        if (LoginAttempt::isBlockedByIp($userIp)) {
+            Yii::$app->session->setFlash('error', Module::t('Too many unsuccessful attempts. Please wait an hour before trying again.'));
+            return $this->render('login', ['model' => $model]);
+        }
 
         $model = new \ZakharovAndrew\user\models\LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
+            // Successful authentication
+            LoginAttempt::logLoginAttempt($model->username, true);
             return $this->goBack();
+        } else {
+            // Unsuccessful authentication
+            LoginAttempt::logLoginAttempt($model->username, false);
+            Yii::$app->session->setFlash('error', Module::t('Incorrect username or password.' ));
         }
 
         $model->password = '';
@@ -494,7 +510,7 @@ class UserController extends ParentController
             Yii::$app->session->set('gridViewColumnVisibility', $columnVisibility);
         }
     }
-    
+     
     /**
      * Finds the User model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
