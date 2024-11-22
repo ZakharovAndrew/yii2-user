@@ -297,6 +297,8 @@ class UserController extends ParentController
             return $this->goHome();
         }
         
+        $model = new \ZakharovAndrew\user\models\LoginForm();
+        
         // Get the user's IP address
         $userIp = Yii::$app->request->userIP;
 
@@ -306,15 +308,16 @@ class UserController extends ParentController
             return $this->render('login', ['model' => $model]);
         }
 
-        $model = new \ZakharovAndrew\user\models\LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            // Successful authentication
-            LoginAttempt::logLoginAttempt($model->username, true);
-            return $this->goBack();
-        } else {
-            // Unsuccessful authentication
-            LoginAttempt::logLoginAttempt($model->username, false);
-            Yii::$app->session->setFlash('error', Module::t('Incorrect username or password.' ));
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->login()) {
+                // Successful authentication
+                LoginAttempt::logLoginAttempt($model->username, $userIp, true);
+                return $this->goBack();
+            } else {
+                // Unsuccessful authentication
+                LoginAttempt::logLoginAttempt($model->username, $userIp, false);
+                Yii::$app->session->setFlash('error', Module::t('Incorrect username or password.' ));
+            }
         }
 
         $model->password = '';
