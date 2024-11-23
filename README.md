@@ -14,6 +14,7 @@ Yii2 user authentication module for management users and their rights.
 - Supports role creation
 - Multiple user roles are supported
 - Happy Birthday widgets
+- logging of failed authorization attempts and blocking access via IP
 - Supports languages: English, Russian
 
 ## Installation
