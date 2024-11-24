@@ -1,11 +1,23 @@
 <?php
 
+/**
+ * @copyright Copyright &copy; Andrey Zakharov, 2023 - 2024
+ * @package yii2-user
+ * @version 0.5.7
+ */
+
 namespace ZakharovAndrew\user\models;
 
 use Yii;
 use yii\db\ActiveRecord;
 use ZakharovAndrew\user\Module;
 
+/**
+ * Class for logging authorization attempts and blocking IP access if unsuccessful
+ *
+ * @author Andrey Zakharov
+ * @since 0.5.7
+ */
 class LoginAttempt extends ActiveRecord
 {
     const MAX_ATTEMPT = 3;
@@ -45,7 +57,8 @@ class LoginAttempt extends ActiveRecord
     
     /**
      * Method to check if the IP address is blocked
-     * @param string $ipAddress
+     *
+     * @param string $ipAddress User IP address
      * @return boolean
      */
     public static function isBlockedByIp($ipAddress)
@@ -60,8 +73,9 @@ class LoginAttempt extends ActiveRecord
     
     /**
      * Method to log the login attempt
-     * @param string $username
-     * @param string $ipAddress
+     * 
+     * @param string $username user login
+     * @param string $ipAddress User IP address
      * @param boolean $successful
      * @return boolean
      */
