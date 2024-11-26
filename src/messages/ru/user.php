@@ -190,6 +190,10 @@ return [
     "The user's birthday is not today" => 'День рождения пользователя не сегодня',
     'Congratulations sent' => 'Поздравление отправлено',
     'Error saving greetings' => 'Ошибка сохранения поздравления',
+    'We hope this brings a smile to your face and makes your day even more special!' => 'Мы надеемся, что это вызовет у вас улыбку и сделает ваш день еще более особенным!',
+    'Best wishes' => 'С наилучшими пожеланиями',
+    'Read Your Birthday Greeting' => 'Прочитать ваше поздравление',
+    
     'Yes' => 'Да',
     'No' => 'Нет',
     'Created by' => 'Кем создано',
@@ -204,5 +208,6 @@ return [
     'Separator' => 'Разделитель',
     'default' => 'по умолчанию',
     'Add a role to a user' => 'Добавить роль пользователю',
-    'The requested page does not exist.' => 'Запрошенная страница не существует.'
+    'The requested page does not exist.' => 'Запрошенная страница не существует.',
+    
 ];
