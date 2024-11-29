@@ -103,6 +103,18 @@ class Roles extends \yii\db\ActiveRecord
         return $subject;
     }
     
+    public static function getRolesWithSubjects()
+    {
+        $list = [];
+        
+        $roles = static::find()->all();
+        foreach ($roles as $role) {
+            $list[$role->id] = $role->getSubjects();
+        }
+        
+        return $list;
+    }
+    
     /**
      * Getting role subjects
      * @return array

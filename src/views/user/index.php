@@ -64,6 +64,8 @@ $(".settings-modal .btn-modal-close").click(function() {
 JS;
 
 $this->registerJs($script, yii\web\View::POS_READY);
+
+echo $this->render('../user-roles/_js');
 ?>
 
 <style>
@@ -310,11 +312,15 @@ $this->registerJs($script, yii\web\View::POS_READY);
     ]) ?>
     <div class="form-group">
         <label><?= Module::t('Role') ?></label>
-        <?= Html::dropDownList('role', null, Roles::getRolesList(), ['class' => 'form-control form-select']) ?>
+        <?= Html::dropDownList('role', null, Roles::getRolesList(), ['class' => 'form-control form-select', 'id' => 'role_id']) ?>
     </div>
     <div class="form-group">
         <label><?= Module::t('Subject of the role') ?></label>
-        <?= Html::input('text', 'subject_id', null, ['class' => 'form-control']) ?>
+        <?= Html::input('text', 'subject_id', null, ['class' => 'form-control', 'id' => 'subject_id']) ?>
+    </div>
+    <div id="role_subject_group" class="form-group" style="display: none">
+        <label class="control-label" for="role_subject"><?= Module::t('Subject of the role') ?></label>
+        <select id="role_subject" class="form-control form-select"></select>
     </div>
     <?php $classModal::end() ?>
     
