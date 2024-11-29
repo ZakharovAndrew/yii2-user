@@ -477,10 +477,13 @@ class UserController extends ParentController
         $users = User::find()->where(['id' => $selectedUserIds])->all();
         
         if ($action == 'Add Role') {
+            //Subject of the role
+            $subject_id = Yii::$app->request->post('subject_id') ?? null;
             foreach ($users as $user) {
                 $model = new \ZakharovAndrew\user\models\UserRoles([
                     'role_id' => $role,
                     'user_id' => $user->id,
+                    'subject_id' => $subject_id
                 ]);
                 $model->save();
                 unset($model);

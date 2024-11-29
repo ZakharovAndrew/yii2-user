@@ -304,11 +304,18 @@ $this->registerJs($script, yii\web\View::POS_READY);
     
     <?php $classModal::begin([
         'id' => 'role-modal',
-        ($bootstrapVersion==3 ? 'header' : 'title') => '<h2>'.Module::t('Select Role').'</h2>',
+        ($bootstrapVersion==3 ? 'header' : 'title') => '<h2>'.Module::t('Add Role').'</h2>',
         'footer' => '<button type="button" class="btn btn-default" data-dismiss="modal">' . Module::t('Close') . '</button>' . 
                         Html::submitButton(Module::t('Add Role'), ['name' => 'form-action', 'value' => 'Add Role', 'class' => 'btn btn-primary'])
     ]) ?>
-    <?= Html::dropDownList('role', null, Roles::getRolesList(), ['class' => 'form-control form-select']) ?>
+    <div class="form-group">
+        <label><?= Module::t('Role') ?></label>
+        <?= Html::dropDownList('role', null, Roles::getRolesList(), ['class' => 'form-control form-select']) ?>
+    </div>
+    <div class="form-group">
+        <label><?= Module::t('Subject of the role') ?></label>
+        <?= Html::input('text', 'subject_id', null, ['class' => 'form-control']) ?>
+    </div>
     <?php $classModal::end() ?>
     
     <?= Html::endForm() ?>
