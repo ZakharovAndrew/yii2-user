@@ -13,7 +13,7 @@ class m240112_232411_create_user_settings_log_table extends Migration
             'id' => $this->primaryKey(),
             'user_settings_id' => $this->integer()->notNull(),
             'changed_by' => $this->integer()->notNull(),
-            'changed_at' => $this->dateTime()->notNull(),
+            'changed_at' => $this->timestamp()->defaultValue( new \yii\db\Expression('CURRENT_TIMESTAMP') ),
             'old_value' => $this->string(500)->null(),
             'new_value' => $this->string(500)->notNull(),
         ]);

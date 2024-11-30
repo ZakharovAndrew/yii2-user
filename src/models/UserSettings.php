@@ -79,8 +79,24 @@ class UserSettings extends \yii\db\ActiveRecord
             $model = new UserSettings($params);
         }
         
+        // Logging the old value before the change
+        $oldValue = $model ? $model->values : null;
+        
         // change value
         $model->values = $values;
         $model->save();
+        
+        // Do not log if the value has not changed
+        if ($oldValue == $values) {
+            return true;
+        }
+        
+        // Save log
+        $log = new UserSettingsLog();
+        $log->user_settings_id = $model->id;
+        $log->changed_by = Yii::$app->user->id; // ID current user
+        $log->old_value = $oldValue;
+        $log->new_value = $values;
+        $log->save();
     }
 }
