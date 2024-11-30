@@ -99,4 +99,14 @@ class UserSettings extends \yii\db\ActiveRecord
         $log->new_value = $values;
         $log->save();
     }
+    
+    /**
+     * Gets the change log for the setting.
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getChangeLog()
+    {
+        return $this->hasMany(UserSettingsLog::class, ['user_settings_id' => 'id']);
+    }
 }
