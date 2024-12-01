@@ -232,6 +232,7 @@ echo $this->render('../user-roles/_js');
             [
                 'attribute' => 'status',
                 'format' => 'raw',
+                'filter' => User::getStatusList(),
                 'value' => function ($model) {
                     return User::getStatusList()[$model->status] ?? '';
                 },
