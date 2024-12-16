@@ -5,14 +5,16 @@ UserAssets::register($this);
 
 /* @var $this \yii\web\View */
 /* @var $headerMessage string */
-/* @var $users ZakharovAndrew\user\models\User[] */
+/* @var $isMonday boolean */
+/* @var $usersToday ZakharovAndrew\user\models\User[] */
+/* @var $usersWeekend ZakharovAndrew\user\models\User[] */
 ?>
 
 <div class="birthday-widget">
     <?php if (!empty($usersToday)): ?>
     <h3><?= htmlspecialchars($headerMessage) ?></h3>
     <ul>
-        <?php foreach ($users as $user): ?>
+        <?php foreach ($usersToday as $user): ?>
             <li>
                 <a href="<?= Url::to(['/user/birthday-greeting/send', 'id' => $user->id]) ?>"><?php if ($useAvatars) {?>
                 <img src="<?= !$user->getAvatarUrl() ?
