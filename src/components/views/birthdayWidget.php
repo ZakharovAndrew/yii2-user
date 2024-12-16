@@ -5,7 +5,9 @@ UserAssets::register($this);
 
 /* @var $this \yii\web\View */
 /* @var $headerMessage string */
-/* @var $users ZakharovAndrew\user\models\User[] */
+/* @var $isMonday boolean */
+/* @var $usersToday ZakharovAndrew\user\models\User[] */
+/* @var $usersWeekend ZakharovAndrew\user\models\User[] */
 ?>
 
 <div class="birthday-widget">
