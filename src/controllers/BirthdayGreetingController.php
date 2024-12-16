@@ -61,7 +61,14 @@ class BirthdayGreetingController extends Controller
             return $this->redirect(['/user/user/profile', 'id' => $user->id]);
         }
         
-        if (!$user->isBirthdayToday()) {
+        // Check if today is Monday
+        $isMonday = (date('N') == 1); // 1 means Monday
+        
+        // Calculate the dates for the previous Saturday and Sunday
+        $saturday = date('m-d', strtotime('last Saturday')); // Get last Saturday's date
+        $sunday = date('m-d', strtotime('last Sunday')); // Get last Sunday's date
+        
+        if (!$user->isBirthdayToday() && !$isMonday && !in_array(date('m-d', strtotime($user->birthday)), [$saturday, $sunday])) {
             Yii::$app->session->setFlash('error', Module::t("The user's birthday is not today"));
             
             return $this->redirect(['/user/user/profile', 'id' => $user->id]);
