@@ -42,31 +42,26 @@ class DashboardController extends Controller
             throw new NotFoundHttpException(Module::t('The requested page does not exist.'));
         }
         
-        $settings = ArrayHelper::getColumn(UserSettingsConfig::find()->all(), 'code');
+        $settings = ArrayHelper::map(UserSettingsConfig::find()->all(), 'code', 'title');
 
-        if (!$filter) {
-            $settings = [$settings[0]];
-        }
+        $setting_name = (!$filter || !isset($settings[$filter])) ? [array_key_first($settings)] : $filter;
         
-        $query = User::find()->alias('u');
         $setting_i = 1;
-            
-        foreach ($settings as $setting_name) {
-            $query->leftJoin(UserSettingsConfig::tableName(). ' s'.$setting_i,
-                    ['s'.$setting_i.".code" => $setting_name]
-                );
-            $query->leftJoin(UserSettings::tableName(). ' us'.$setting_i,
-                    "us{$setting_i}.setting_config_id = s{$setting_i}.id AND us{$setting_i}.user_id = u.id"  
-                );
-            //$setting_i++;
-            $query->select(['cnt' => 'count(*)', "us{$setting_i}.values"]);
-        }
-        
-        $query->groupBy(["us{$setting_i}.values"]);
-        $query->orderBy("cnt DESC");
+        $data = User::find()->alias('u')
+                    ->select(['cnt' => 'count(*)', "us{$setting_i}.values"])
+                    ->leftJoin(UserSettingsConfig::tableName(). ' s'.$setting_i,
+                        ['s'.$setting_i.".code" => $setting_name]
+                    )
+                    ->leftJoin(UserSettings::tableName(). ' us'.$setting_i,
+                        "us{$setting_i}.setting_config_id = s{$setting_i}.id AND us{$setting_i}.user_id = u.id"  
+                    )
+                    ->groupBy(["us{$setting_i}.values"])
+                    ->orderBy("cnt DESC")
+                    ->asArray()->all();
 
         return $this->render('index', [
-            'data' => $query->asArray()->all()
+            'data' => $data,
+            'settings' => $settings
         ]);
     }
 }
