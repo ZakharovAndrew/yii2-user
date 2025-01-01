@@ -169,6 +169,7 @@ echo $this->render('../user-roles/_js');
 .user-index .btn-settings {
     display: inline-block;
     float:right;
+    margin-left: 3px;
 }
 .user-index .btn-settings, .btn-action {border-color:#e1e0df; }
 .user-index .btn-settings svg {margin-top:-5px; fill:#716d66}
