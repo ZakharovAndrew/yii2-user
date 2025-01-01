@@ -3,9 +3,7 @@
 namespace ZakharovAndrew\user\controllers;
 
 use Yii;
-use ZakharovAndrew\user\models\Thanks;
-use ZakharovAndrew\user\models\ThanksSearch;
-use yii\web\Controller;
+use ZakharovAndrew\user\controllers\ParentController;
 use yii\web\NotFoundHttpException;
 use yii\filters\AccessControl;
 use ZakharovAndrew\user\Module;
@@ -14,29 +12,17 @@ use ZakharovAndrew\user\models\UserSettingsConfig;
 use ZakharovAndrew\user\models\User;
 use \yii\helpers\ArrayHelper;
 
-class DashboardController extends Controller
+class DashboardController extends ParentController
 {
-    public function behaviors()
-    {
-        return [
-            'access' => [
-                'class' => AccessControl::className(),
-                'rules' => [
-                    [
-                        'allow' => true,
-                        'roles' => ['@'],
-                    ],
-                ],
-            ],
-        ];
-    }
 
+    public $controller_id = 1006;
+    
     /**
-     * Lists all Thanks models.
+     * Main dashboard
      *
      * @return string
      */
-    public function actionIndex($filter = null)
+    public function actionIndex($setting = null)
     {
         if (!Yii::$app->user->identity->hasRole('admin')) {
             throw new NotFoundHttpException(Module::t('The requested page does not exist.'));
@@ -44,23 +30,28 @@ class DashboardController extends Controller
         
         $settings = ArrayHelper::map(UserSettingsConfig::find()->all(), 'code', 'title');
 
-        $setting_name = (!$filter || !isset($settings[$filter])) ? [array_key_first($settings)] : $filter;
+        $setting_name = (!$setting || !isset($settings[$setting])) ? [array_key_first($settings)] : $setting;
         
-        $setting_i = 1;
         $data = User::find()->alias('u')
-                    ->select(['cnt' => 'count(*)', "us{$setting_i}.values"])
-                    ->leftJoin(UserSettingsConfig::tableName(). ' s'.$setting_i,
-                        ['s'.$setting_i.".code" => $setting_name]
+                    ->select(['cnt' => 'count(*)', new \yii\db\Expression("
+                        case 
+                        when us.values is null or us.values = '' 
+                        then 'Value not set' 
+                        else us.values 
+                        end as setting_value")])
+                    ->leftJoin(UserSettingsConfig::tableName(). ' s',
+                        ['s.code' => $setting_name]
                     )
-                    ->leftJoin(UserSettings::tableName(). ' us'.$setting_i,
-                        "us{$setting_i}.setting_config_id = s{$setting_i}.id AND us{$setting_i}.user_id = u.id"  
+                    ->leftJoin(UserSettings::tableName(). ' us',
+                        "us.setting_config_id = s.id AND us.user_id = u.id"  
                     )
-                    ->groupBy(["us{$setting_i}.values"])
+                    ->groupBy(["setting_value"])
                     ->orderBy("cnt DESC")
                     ->asArray()->all();
 
         return $this->render('index', [
             'data' => $data,
+            'setting' => $setting,
             'settings' => $settings
         ]);
     }

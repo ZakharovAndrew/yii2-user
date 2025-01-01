@@ -72,3 +72,11 @@
     list-style-type: none;
     padding: 4px 0px;
 }
+
+.dashboard-icon {
+    width:20px;
+    height:20px;
+    background-image: url("dashboard.svg");
+    display:block;
+    margin: 2px 0;
+}
