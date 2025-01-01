@@ -26,6 +26,6 @@ class Telegram extends \yii\base\Model
     {
         $url = self::BASE_API_URL . $this->token."/sendMessage?chat_id=".$chatID."&text=".urlencode($message);
         
-        return file_get_contents($url);
+        return @file_get_contents($url);
     }
 }
