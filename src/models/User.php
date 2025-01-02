@@ -395,10 +395,10 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
      */
     public static function getUsersByStatus($status_id)
     {
-        return Yii::$app->cache->getOrSet('get_users_list'.$status_id, function () {
+        return Yii::$app->cache->getOrSet('get_users_list'.$status_id, function () use ($status_id) {
             return ArrayHelper::map(
                     self::find()
-                    ->where(['in','status', self::GROUP_ALLOW_ADM])
+                    ->where(['in','status', $status_id])
                     ->asArray()
                     ->all(), 'id', 'name');
         }, 3600);
