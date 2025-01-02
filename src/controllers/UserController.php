@@ -191,6 +191,23 @@ class UserController extends ParentController
         ]);
     }
     
+    public function actionAdminResetPassword($id)
+    {
+        $user = $this->findModel($id);
+        
+        $password = User::genPassword();
+        
+        if ($user->setPassword($password) && $user->save() && $user->sendPasswordEmail($password, 'reset')) {
+            Yii::$app->session->setFlash('success', Module::t('A new password has been set and sent to') .' '. $user->email);
+            return $this->redirect(Url::previous('user_index') ?? ['index']);
+        } else {
+            Yii::$app->session->setFlash('error', Module::t('There was an error during the password reset'));
+            return $this->redirect(Url::previous('adm_user_index') ?? ['adm-user/index']);
+        }
+        
+        echo $password;die();
+    }
+    
     /**
      * Change email
      * 

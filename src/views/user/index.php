@@ -8,12 +8,14 @@ use yii\grid\GridView;
 use ZakharovAndrew\user\Module;
 use ZakharovAndrew\user\models\UserRoles;
 use ZakharovAndrew\user\models\Roles;
+use yii\bootstrap\ButtonDropdown;
 
 use ZakharovAndrew\user\assets\UserAssets;
 UserAssets::register($this);
 
 $bootstrapVersion = Yii::$app->getModule('user')->bootstrapVersion;
 $classModal = "\\yii\bootstrap".($bootstrapVersion==3 ? '' : $bootstrapVersion)."\\Modal";
+$classButtonDropdown = "\\yii\bootstrap".($bootstrapVersion==3 ? '' : $bootstrapVersion)."\\ButtonDropdown";
 
 /** @var yii\web\View $this */
 /** @var ZakharovAndrew\user\models\UserSearch $searchModel */
@@ -279,11 +281,29 @@ echo $this->render('../user-roles/_js');
                 
                 }
             ],
-            
-            //
-            //'updated_at',
-            
             [
+                
+                'format' => 'raw',
+                'value' => function ($model) use ($classButtonDropdown) {
+            
+                    
+                    return $classButtonDropdown::widget([
+                        'label' => Module::t('Action'),
+                        'dropdown' => [
+                            'items' => [
+                                ['label' => Module::t('Profile'), 'url' => Url::toRoute(['profile', 'id' => $model->id])],
+                                ['label' => Module::t('Edit'), 'url' => Url::toRoute(['edit-profile', 'id' => $model->id])],
+                                ['label' => Module::t('Delete'), 'url' => Url::toRoute(['delete', 'id' => $model->id])],
+                                '<div class="dropdown-divider"></div>',
+                                ['label' => Module::t('Appreciation'), 'url' => Url::toRoute(['/user/thanks/view', 'id' => $model->id])],
+                                ['label' => Module::t('Reset password'), 'url' => Url::toRoute(['admin-reset-password', 'id' => $model->id])],
+                            ],
+                        ],
+                    ]);
+                }
+            ],
+            
+            /*[
                 'class' => ActionColumn::className(),
                 'urlCreator' => function ($action, $model, $key, $index, $column) {
                     if ($action == 'view') {
@@ -294,7 +314,7 @@ echo $this->render('../user-roles/_js');
                     }
                     return Url::toRoute([$action, 'id' => $model->id]);
                 }
-            ],
+            ],*/
         ],
     ]); ?>
     
