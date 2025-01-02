@@ -8,7 +8,6 @@ use yii\grid\GridView;
 use ZakharovAndrew\user\Module;
 use ZakharovAndrew\user\models\UserRoles;
 use ZakharovAndrew\user\models\Roles;
-use yii\bootstrap\ButtonDropdown;
 
 use ZakharovAndrew\user\assets\UserAssets;
 UserAssets::register($this);
@@ -28,6 +27,7 @@ $this->params['breadcrumbs'][] = $this->title;
 $columnVisibility = \ZakharovAndrew\user\models\User::getColumnVisibility();
 
 $toggleUrl = Url::to(['/user/user/toggle-column-visibility']);
+$language = \Yii::$app->language;
 
 $script = <<< JS
 $('#users-update-status').on('click', function() {
@@ -54,17 +54,53 @@ $('.toggleColumn').on('click', function() {
     });
 });
 
-$("#settings").click(function() {
-    if ($(".settings-modal").hasClass('show')) {
-        $(".settings-modal").removeClass('show');
-    } else {
-        $(".settings-modal").addClass('show');
-    }
-});
+    $("#settings").click(function() {
+        if ($(".settings-modal").hasClass('show')) {
+            $(".settings-modal").removeClass('show');
+        } else {
+            $(".settings-modal").addClass('show');
+        }
+    });
+
+    $(".settings-modal .btn-modal-close").click(function() {
+        $(this).parent().parent().removeClass('show');
+    });
         
-$(".settings-modal .btn-modal-close").click(function() {
-    $(this).parent().parent().removeClass('show');
-});
+        
+    const updateStatusButton = $('#users-update-status');
+    const selectedCountLabel = $('#selected-count'); // Make sure to add an element for this in your HTML
+
+    // Function to update the count of selected checkboxes
+    function updateSelectedCount() {
+        const selectedCount = $('input[name="selection[]"]:checked').length; // Adjust the name if necessary
+        const currentLanguage = '$language';
+        let message;
+
+        if (selectedCount === 1) {
+            message = (currentLanguage === 'ru') ? "Выбран 1 пользователь" : "1 user selected";
+        } else if (selectedCount > 1 && selectedCount < 5) {
+            message = (currentLanguage === 'ru') ? `Выбрано {count} пользователя` : `{count} users selected`;
+        } else {
+            message = (currentLanguage === 'ru') ? `Выбрано {count} пользователей` : `{count} users selected`;
+        }
+        
+        selectedCountLabel.text(message.replace('{count}', selectedCount));
+        
+        // Enable or disable the button based on selection
+        if (selectedCount > 0) {
+            $('#selected-block').addClass('show-flex');
+        } else {
+            $('#selected-block').removeClass('show-flex')
+        }
+    }
+
+    // Event listener for checkbox changes
+    $('input[name="selection[]"]').on('change', function() {
+        updateSelectedCount();
+    });
+
+    // Initial count update
+    updateSelectedCount();
             
 JS;
 
@@ -177,19 +213,49 @@ echo $this->render('../user-roles/_js');
 .user-index .btn-settings svg {margin-top:-5px; fill:#716d66}
 .user-index .btn-settings:hover svg {fill:#2196f3}
 .user-index .btn-settings:hover, .user-index .btn-settings:active, .user-index .btn-action:hover, .user-index .btn-action:active {background:#f3f9fe;border-color: #d0e2f1;}
+#selected-count {
+    padding-top: 0.375rem;
+    margin: 0 10px 0 15px;
+}
+#selected-block {display: flex;align-items: stretch;display:none;}
+.top-control-panel {
+    display:flex;justify-content:space-between;align-items:stretch;
+}
+.show-flex {
+    display:flex !important;
+}
+#selected-block .dropdown-toggle {
+    background-color: #f06445;color:#fff;
+}
 </style>
 <div class="user-index">
 
     <?php if (Yii::$app->getModule('user')->showTitle) {?><h1><?= Html::encode($this->title) ?></h1><?php } ?>
 
     <?= Html::beginForm(['users-update'], 'post') ?>
-    <p>
-        <?= Html::a(Module::t('Create User'), ['create'], ['class' => 'btn btn-success']) ?>
-        <?= Html::a('<span class="dashboard-icon"></span>', ['/user/dashboard/index'], ['class' => 'btn btn-settings']) ?>
-        <?= Html::button(Module::t('Change Status'), ['class' => 'btn btn-danger',  'id' => 'users-update-status']) ?>
-        <?= Html::button(Module::t('Add Role'), ['class' => 'btn btn-action',  'id' => 'users-add-role']) ?>
-        <span id="settings" class="btn btn-settings"><svg height="18" width="18" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 489.802 489.802" xml:space="preserve"><path d="m20.701 281.901 32.1.2c4.8 24.7 14.3 48.7 28.7 70.5l-22.8 22.6c-8.2 8.1-8.2 21.2-.2 29.4l24.6 24.9c8.1 8.2 21.2 8.2 29.4.2l22.8-22.6c21.6 14.6 45.5 24.5 70.2 29.5l-.2 32.1c-.1 11.5 9.2 20.8 20.7 20.9l35 .2c11.5.1 20.8-9.2 20.9-20.7l.2-32.1c24.7-4.8 48.7-14.3 70.5-28.7l22.6 22.8c8.1 8.2 21.2 8.2 29.4.2l24.9-24.6c8.2-8.1 8.2-21.2.2-29.4l-22.6-22.8c14.6-21.6 24.5-45.5 29.5-70.2l32.1.2c11.5.1 20.8-9.2 20.9-20.7l.2-35c.1-11.5-9.2-20.8-20.7-20.9l-32.1-.2c-4.8-24.7-14.3-48.7-28.7-70.5l22.8-22.6c8.2-8.1 8.2-21.2.2-29.4l-24.6-24.9c-8.1-8.2-21.2-8.2-29.4-.2l-22.8 22.6c-21.6-14.6-45.5-24.5-70.2-29.5l.2-32.1c.1-11.5-9.2-20.8-20.7-20.9l-35-.2c-11.5-.1-20.8 9.2-20.9 20.7l-.3 32.1c-24.8 4.8-48.8 14.3-70.5 28.7l-22.6-22.8c-8.1-8.2-21.2-8.2-29.4-.2l-24.8 24.6c-8.2 8.1-8.2 21.2-.2 29.4l22.6 22.8c-14.6 21.6-24.5 45.5-29.5 70.2l-32.1-.2c-11.5-.1-20.8 9.2-20.9 20.7l-.2 35c-.1 11.4 9.2 20.8 20.7 20.9zm158.6-103.3c36.6-36.2 95.5-35.9 131.7.7s35.9 95.5-.7 131.7-95.5 35.9-131.7-.7-35.9-95.5.7-131.7z"/></svg></span>
-    </p>
+    
+    <div class="top-control-panel">
+        <div style="display:flex">
+            <?= Html::a(Module::t('Create User'), ['create'], ['class' => 'btn btn-success']) ?>
+            <div id="selected-block">
+                <p id="selected-count">Выбрано 0 пользователей</p>
+                <?= $classButtonDropdown::widget([
+                                'label' => Module::t('Action'),
+                                'dropdown' => [
+                                    'items' => [
+                                        '<a href="#" id="users-update-status" class="dropdown-item">'.Module::t('Change Status').'</a>',
+                                        '<a href="#" id="users-add-role" class="dropdown-item">'.Module::t('Add Role').'</a>',
+                                    ],
+                                ],
+                            ]);?>
+            </div>
+        </div>
+        <div>
+            <?= Html::a('<span class="dashboard-icon"></span>', ['/user/dashboard/index'], ['class' => 'btn btn-settings']) ?>
+            <span id="settings" class="btn btn-settings"><svg height="18" width="18" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 489.802 489.802" xml:space="preserve"><path d="m20.701 281.901 32.1.2c4.8 24.7 14.3 48.7 28.7 70.5l-22.8 22.6c-8.2 8.1-8.2 21.2-.2 29.4l24.6 24.9c8.1 8.2 21.2 8.2 29.4.2l22.8-22.6c21.6 14.6 45.5 24.5 70.2 29.5l-.2 32.1c-.1 11.5 9.2 20.8 20.7 20.9l35 .2c11.5.1 20.8-9.2 20.9-20.7l.2-32.1c24.7-4.8 48.7-14.3 70.5-28.7l22.6 22.8c8.1 8.2 21.2 8.2 29.4.2l24.9-24.6c8.2-8.1 8.2-21.2.2-29.4l-22.6-22.8c14.6-21.6 24.5-45.5 29.5-70.2l32.1.2c11.5.1 20.8-9.2 20.9-20.7l.2-35c.1-11.5-9.2-20.8-20.7-20.9l-32.1-.2c-4.8-24.7-14.3-48.7-28.7-70.5l22.8-22.6c8.2-8.1 8.2-21.2.2-29.4l-24.6-24.9c-8.1-8.2-21.2-8.2-29.4-.2l-22.8 22.6c-21.6-14.6-45.5-24.5-70.2-29.5l.2-32.1c.1-11.5-9.2-20.8-20.7-20.9l-35-.2c-11.5-.1-20.8 9.2-20.9 20.7l-.3 32.1c-24.8 4.8-48.8 14.3-70.5 28.7l-22.6-22.8c-8.1-8.2-21.2-8.2-29.4-.2l-24.8 24.6c-8.2 8.1-8.2 21.2-.2 29.4l22.6 22.8c-14.6 21.6-24.5 45.5-29.5 70.2l-32.1-.2c-11.5-.1-20.8 9.2-20.9 20.7l-.2 35c-.1 11.4 9.2 20.8 20.7 20.9zm158.6-103.3c36.6-36.2 95.5-35.9 131.7.7s35.9 95.5-.7 131.7-95.5 35.9-131.7-.7-35.9-95.5.7-131.7z"/></svg></span>
+        </div>
+    </div>
+   
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
     
@@ -245,7 +311,6 @@ echo $this->render('../user-roles/_js');
                 },
                 'visible' => isset($columnVisibility['sex']) ? $columnVisibility['sex'] : true,
             ],
-                        //created_by
             [
                 'attribute' => 'created_by',
                 'format' => 'raw',
@@ -282,11 +347,8 @@ echo $this->render('../user-roles/_js');
                 }
             ],
             [
-                
                 'format' => 'raw',
                 'value' => function ($model) use ($classButtonDropdown) {
-            
-                    
                     return $classButtonDropdown::widget([
                         'label' => Module::t('Action'),
                         'dropdown' => [
@@ -302,19 +364,6 @@ echo $this->render('../user-roles/_js');
                     ]);
                 }
             ],
-            
-            /*[
-                'class' => ActionColumn::className(),
-                'urlCreator' => function ($action, $model, $key, $index, $column) {
-                    if ($action == 'view') {
-                        return Url::toRoute(['profile', 'id' => $model->id]);
-                    }
-                    if ($action == 'update') {
-                        return Url::toRoute(['edit-profile', 'id' => $model->id]);
-                    }
-                    return Url::toRoute([$action, 'id' => $model->id]);
-                }
-            ],*/
         ],
     ]); ?>
     
