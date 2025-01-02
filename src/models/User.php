@@ -341,8 +341,6 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     {
         $this->telegram_code = md5(time().$this->username);
     }
-    
-    
 
     /**
      * Find a user by email
@@ -407,20 +405,30 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     }
     
     /**
-     * Generating a new password
-     * @param int $length - new password length
-     * @return string new password
+     * Generates a random password.
+     *
+     * @param int $length The desired length of the password. Default is 10.
+     * @param bool $use_special Whether to include special characters in the password. Default is false.
+     * @return string The generated password.
      */
-    public static function genPassword($length = 10)
+    public static function genPassword($length = 10, $use_special = false)
     {
-        $chars = "qazxswedcvfrtgbnhyujmkiolp1234567890QAZXSWEDCVFRTGBNHYUJMKIOLP!@#$%&*?";
-        $length = intval($length);
-        $size = strlen($chars) - 1;
-        $password = "";
-        while($length--) {
-            $password .= $chars[rand(0, $size)];
-        }
+        $lowercase = range('a', 'z');
+        $uppercase = range('A', 'Z');
+        $digits = range(0, 9);
         
+        // If special characters are to be used, create an array of special characters
+        $special = $use_special ? ['!', '@', '#', '$', '%', '^', '&', '*'] : [];
+        
+        // Merge all character arrays into one array for password generation
+        $chars = array_merge($lowercase, $uppercase, $digits, $special);
+        $password = '';
+
+        // Loop to generate each character of the password
+        for ($i = 0; $i < intval($length); $i++) {
+            $password .= $chars[random_int(0, count($chars) - 1)];
+        }
+
         return $password;
     }
     
