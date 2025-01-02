@@ -490,10 +490,6 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
             return [];
         }
         
-        if (empty($subjects)) {
-            return [];
-        }
-        
         if ($subject_id) {
             $subject_id = !is_array($subject_id) ? [$subject_id] : $subject_id;
             $subjects = array_intersect($subject_id, $subjects);
@@ -545,12 +541,18 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
         return $this->id;
     }
     
+    /**
+     * Checks if today is the user's birthday.
+     *
+     * @return bool Returns true if today is the birthday, otherwise false.
+     */
     public function isBirthdayToday()
     {
         if (empty($this->birthday)) {
             return false;
         }
         
+        // Compare the day and month of the birthday with today's date
         return date('d.m', strtotime($this->birthday)) == date('d.m');
     }
         
