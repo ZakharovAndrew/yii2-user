@@ -445,32 +445,38 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     }
     
     /**
-     * 
-     * @param string|array $role
+     * Retrieves an array of subject IDs associated with a given user role.
+     *
+     * @param string $role The role code for which to retrieve subjects.
+     * @return array An array of unique subject IDs associated with the specified role.
      */
     public function getRoleSubjectsArray($role)
     {
+        // Fetch roles and associated subject IDs from the database
         $roles = UserRoles::find()
                 ->select(['user_roles.subject_id', 'roles.function_to_get_all_subjects'])
                 ->leftJoin('roles', 'user_roles.role_id = roles.id')
-                ->where(['user_roles.user_id' => $this->id])
-                ->andWhere(['roles.code' => $role])
+                ->where(['user_roles.user_id' => $this->id]) // Filter by user ID
+                ->andWhere(['roles.code' => $role]) // Filter by role code
                 ->asArray()
                 ->all();
         
-        // list of subjects
+        // Initialize an empty list for subjects
         $subjects = [];
         
         foreach ($roles as $role) {
+             // Check if a subject ID is set and add it to the subjects array
             if (isset($role['subject_id'])) {
                 $subjects = array_unique(array_merge([$role['subject_id']], $subjects));
+            // If a function to get all subjects is defined and callable
             } else if (isset($role['function_to_get_all_subjects']) && is_callable($role['function_to_get_all_subjects'])) {
-                
+                // Call the function to get subjects and merge the results
                 $result = $role['function_to_get_all_subjects']();
                 $subjects = array_unique(array_merge(array_keys($result), $subjects));
             }
         }
         
+        // Return the array of unique subject IDs
         return $subjects;
     }
     
