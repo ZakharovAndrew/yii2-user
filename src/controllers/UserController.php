@@ -514,11 +514,9 @@ class UserController extends ParentController
             Yii::$app->session->setFlash('success', Module::t('Statuses changed'));
         }
         
-
-        
         
         // redirect back to the GridView
-        return $this->redirect(['index']);
+        return $this->redirect(Url::previous('user_index') ?? ['index']);
     }
     
     public function actionToggleColumnVisibility()
