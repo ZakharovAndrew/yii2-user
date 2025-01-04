@@ -204,8 +204,6 @@ class UserController extends ParentController
             Yii::$app->session->setFlash('error', Module::t('There was an error during the password reset'));
             return $this->redirect(Url::previous('adm_user_index') ?? ['adm-user/index']);
         }
-        
-        echo $password;die();
     }
     
     /**
@@ -506,12 +504,26 @@ class UserController extends ParentController
                 unset($model);
             }
             Yii::$app->session->setFlash('success', Module::t('Roles added'));
-        } else {
+        } else if ($action == 'Update Status') {
             foreach ($users as $user) {
                 $user->status = $status;
                 $user->save();
             }
             Yii::$app->session->setFlash('success', Module::t('Statuses changed'));
+        } else {
+            $cntSuccess = 0;
+            $cntError = 0;
+            foreach ($users as $user) {
+                $password = User::genPassword();
+        
+                if ($user->setPassword($password) && $user->save() && $user->sendPasswordEmail($password, 'reset')) {
+                    $cntSuccess++;
+                } else {
+                    $cntError++;
+                }
+            }
+            
+            Yii::$app->session->setFlash('info', Module::t('Successfully reset passwords').': <b>'.$cntSuccess .'</b><br> '.Module::t('Password reset errors').': '.$cntError);
         }
         
         

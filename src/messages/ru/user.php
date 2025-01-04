@@ -83,6 +83,7 @@ return [
     'Delete' => 'Удалить',
     'Send' => 'Отправить',
     'Close' => 'Закрыть',
+    'Cancel' => 'Отмена',
     'Action' => 'Действие',
     'Select Status' => 'Выберите статус',
     'Change Status' => 'Изменить статус',
@@ -91,6 +92,10 @@ return [
     'User created' => 'Пользователь создан',
     'A new password has been set and sent to' => 'Новый пароль установлен и выслан на',
     'There was an error during the password reset' => 'Произошла ошибка при сбросе пароля',
+    'Are you sure you want to reset the passwords for the selected users?' => 'Вы уверены, что хотите сбросить пароли для выбранных пользователей?',
+    'Processing, please wait..' => 'Идет обработка, пожалуйста, подождите...',
+    'Successfully reset passwords' => 'Успешно сброшено паролей',
+    'Password reset errors' => 'Ошибок сброса пароля',
     
     'Select Role' => 'Выберите роль',
     'Roles added' => 'Роли добавлены',

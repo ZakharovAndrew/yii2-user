@@ -28,14 +28,16 @@ $columnVisibility = \ZakharovAndrew\user\models\User::getColumnVisibility();
 
 $toggleUrl = Url::to(['/user/user/toggle-column-visibility']);
 $language = \Yii::$app->language;
+$waitMessage = Module::t('Processing, please wait..');
 
 $script = <<< JS
 $('#users-update-status').on('click', function() {
     $('#status-modal').modal('show');
 });
-$('#users-add-role').on('click', function() {
-    $('#role-modal').modal('show');
+$('#submit-reset-password').on('click', function() {
+    $('#reset-password-modal .modal-body').text('$waitMessage');
 });
+        
 $('.toggleColumn').on('click', function() {
     let column = $(this).data('column');
     let visibility = $(this).data('visibility');
@@ -238,13 +240,26 @@ echo $this->render('../user-roles/_js');
         <div style="display:flex">
             <?= Html::a(Module::t('Create User'), ['create'], ['class' => 'btn btn-success']) ?>
             <div id="selected-block">
-                <p id="selected-count">Выбрано 0 пользователей</p>
+                <p id="selected-count"></p>
                 <?= $classButtonDropdown::widget([
                                 'label' => Module::t('Action'),
                                 'dropdown' => [
                                     'items' => [
                                         '<a href="#" id="users-update-status" class="dropdown-item">'.Module::t('Change Status').'</a>',
-                                        '<a href="#" id="users-add-role" class="dropdown-item">'.Module::t('Add Role').'</a>',
+                                        Html::a(Module::t('Add Role'), '#', [
+                                            'class' => 'dropdown-item',
+                                            'data' => [
+                                                'bs-toggle' => 'modal',
+                                                'bs-target' => '#role-modal',
+                                            ],
+                                        ]),
+                                        Html::a(Module::t('Reset password'), '#', [
+                                            'class' => 'dropdown-item',
+                                            'data' => [
+                                                'bs-toggle' => 'modal',
+                                                'bs-target' => '#reset-password-modal',
+                                            ],
+                                        ]),
                                     ],
                                 ],
                             ]);?>
@@ -371,7 +386,7 @@ echo $this->render('../user-roles/_js');
     <?php $classModal::begin([
         'id' => 'status-modal',
         ($bootstrapVersion==3 ? 'header' : 'title') => '<h2>'.Module::t('Select Status').'</h2>',
-        'footer' => '<button type="button" class="btn btn-default" data-dismiss="modal">' . Module::t('Close') . '</button>' . 
+        'footer' => '<button type="button" class="btn btn-default" data-dismiss="modal" data-bs-dismiss="modal">' . Module::t('Close') . '</button>' . 
                         Html::submitButton(Module::t('Update Status'), ['name' => 'form-action', 'value' => 'Update Status','class' => 'btn btn-primary'])
     ]) ?>
 
@@ -379,10 +394,11 @@ echo $this->render('../user-roles/_js');
 
     <?php $classModal::end() ?>
     
+    <!-- Modal form for role selection -->
     <?php $classModal::begin([
         'id' => 'role-modal',
         ($bootstrapVersion==3 ? 'header' : 'title') => '<h2>'.Module::t('Add Role').'</h2>',
-        'footer' => '<button type="button" class="btn btn-default" data-dismiss="modal">' . Module::t('Close') . '</button>' . 
+        'footer' => '<button type="button" class="btn btn-default" data-dismiss="modal" data-bs-dismiss="modal">' . Module::t('Close') . '</button>' . 
                         Html::submitButton(Module::t('Add Role'), ['name' => 'form-action', 'value' => 'Add Role', 'class' => 'btn btn-primary'])
     ]) ?>
     <div class="form-group">
@@ -396,6 +412,21 @@ echo $this->render('../user-roles/_js');
     <div id="role_subject_group" class="form-group" style="display: none">
         <label class="control-label" for="role_subject"><?= Module::t('Subject of the role') ?></label>
         <select id="role_subject" class="form-control form-select"></select>
+    </div>
+    <?php $classModal::end() ?>
+    
+    <!-- Modal form for confirming password reset for users -->
+    <?php $classModal::begin([
+        'id' => 'reset-password-modal',
+        ($bootstrapVersion==3 ? 'header' : 'title') => '<h2>'.Module::t('Reset password').'</h2>',
+        'footer' => '' 
+                        
+    ]) ?>
+
+    <p style="text-align:center"><?= Module::t('Are you sure you want to reset the passwords for the selected users?') ?></p>
+    <div style="display:flex;justify-content: center;gap:4px;">
+        <?= Html::submitButton(Module::t('Reset password'), ['name' => 'form-action', 'value' => 'Reset Password','class' => 'btn btn-danger']) ?>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-dismiss="modal"><?= Module::t('Cancel') ?></button>
     </div>
     <?php $classModal::end() ?>
     
