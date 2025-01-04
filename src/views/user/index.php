@@ -31,9 +31,6 @@ $language = \Yii::$app->language;
 $waitMessage = Module::t('Processing, please wait..');
 
 $script = <<< JS
-$('#users-update-status').on('click', function() {
-    $('#status-modal').modal('show');
-});
 $('#submit-reset-password').on('click', function() {
     $('#reset-password-modal .modal-body').text('$waitMessage');
 });
@@ -245,7 +242,13 @@ echo $this->render('../user-roles/_js');
                                 'label' => Module::t('Action'),
                                 'dropdown' => [
                                     'items' => [
-                                        '<a href="#" id="users-update-status" class="dropdown-item">'.Module::t('Change Status').'</a>',
+                                        Html::a(Module::t('Change Status'), '#', [
+                                            'class' => 'dropdown-item',
+                                            'data' => [
+                                                'bs-toggle' => 'modal',
+                                                'bs-target' => '#status-modal',
+                                            ],
+                                        ]),
                                         Html::a(Module::t('Add Role'), '#', [
                                             'class' => 'dropdown-item',
                                             'data' => [
