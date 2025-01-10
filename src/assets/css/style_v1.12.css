@@ -74,9 +74,9 @@
 }
 
 .dashboard-icon {
-    width:20px;
-    height:20px;
+    width: 1.3em;
+    height: 1.3em;
     background-image: url("dashboard.svg");
     display:block;
-    margin: 2px 0;
+    margin: 1px 0;
 }

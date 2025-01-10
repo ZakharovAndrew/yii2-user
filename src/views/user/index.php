@@ -215,6 +215,8 @@ echo $this->render('../user-roles/_js');
 #selected-count {
     padding-top: 0.375rem;
     margin: 0 10px 0 15px;
+    display: flex;
+    align-items: center;
 }
 #selected-block {display: flex;align-items: stretch;display:none;}
 .top-control-panel {
@@ -242,27 +244,33 @@ echo $this->render('../user-roles/_js');
                                 'label' => Module::t('Action'),
                                 'dropdown' => [
                                     'items' => [
-                                        Html::a(Module::t('Change Status'), '#', [
+                                        '<li>'. Html::a(Module::t('Change Status'), '#', [
                                             'class' => 'dropdown-item',
                                             'data' => [
+                                                'toggle' => 'modal',
+                                                'target' => '#status-modal',
                                                 'bs-toggle' => 'modal',
                                                 'bs-target' => '#status-modal',
                                             ],
-                                        ]),
-                                        Html::a(Module::t('Add Role'), '#', [
+                                        ]).'</li>',
+                                        '<li>'. Html::a(Module::t('Add Role'), '#', [
                                             'class' => 'dropdown-item',
                                             'data' => [
+                                                'toggle' => 'modal',
+                                                'target' => '#role-modal',
                                                 'bs-toggle' => 'modal',
                                                 'bs-target' => '#role-modal',
                                             ],
-                                        ]),
-                                        Html::a(Module::t('Reset password'), '#', [
+                                        ]).'</li>',
+                                        '<li>'. Html::a(Module::t('Reset password'), '#', [
                                             'class' => 'dropdown-item',
                                             'data' => [
+                                                'toggle' => 'modal',
+                                                'target' => '#reset-password-modal',
                                                 'bs-toggle' => 'modal',
                                                 'bs-target' => '#reset-password-modal',
                                             ],
-                                        ]),
+                                        ]).'</li>',
                                     ],
                                 ],
                             ]);?>
