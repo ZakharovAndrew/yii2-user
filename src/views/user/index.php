@@ -29,6 +29,7 @@ $columnVisibility = \ZakharovAndrew\user\models\User::getColumnVisibility();
 $toggleUrl = Url::to(['/user/user/toggle-column-visibility']);
 $language = \Yii::$app->language;
 $waitMessage = Module::t('Processing, please wait..');
+$rolesCopiedMessage = Module::t('Roles Copied');
 
 $script = <<< JS
 $('#submit-reset-password').on('click', function() {
@@ -100,7 +101,27 @@ $('.toggleColumn').on('click', function() {
 
     // Initial count update
     updateSelectedCount();
-            
+        
+
+    $(document).on('click', '.copy-roles', function() {
+        const userId = $(this).data('id');
+        console.log('Copy roles for user ID:', userId);
+
+        localStorage.setItem('copyRolesUserId', userId);
+        
+        $(this).attr('disabled', true).text('$rolesCopiedMessage');
+        
+        $('.paste-roles').show();
+        $(this).parent().find('.paste-roles').hide();
+    });
+
+    $(document).on('click', '.paste-roles', function() {
+        const copiedUserId = localStorage.getItem('copyRolesUserId');
+        if (copiedUserId) {
+            console.log(copiedUserId);
+        }
+    }
+
 JS;
 
 $this->registerJs($script, yii\web\View::POS_READY);
@@ -385,6 +406,15 @@ echo $this->render('../user-roles/_js');
                                 '<div class="dropdown-divider"></div>',
                                 ['label' => Module::t('Appreciation'), 'url' => Url::toRoute(['/user/thanks/view', 'id' => $model->id])],
                                 ['label' => Module::t('Reset password'), 'url' => Url::toRoute(['admin-reset-password', 'id' => $model->id])],
+                                 // roles
+                                ['label' => Module::t('Copy Roles'), 'url' => '#', 'options' => [
+                                    'class' => 'copy-roles',
+                                    'data-id' => $model->id,
+                                ]],
+                                ['label' => Module::t('Paste Roles'), 'url' => '#', 'options' => [
+                                    'class' => 'paste-roles',
+                                    'style' => 'display: none;'
+                                ]],
                             ],
                         ],
                     ]);
