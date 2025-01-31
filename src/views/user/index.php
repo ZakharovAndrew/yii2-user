@@ -103,7 +103,7 @@ $('.toggleColumn').on('click', function() {
     updateSelectedCount();
         
 
-    $(document).on('click', '.copy-roles', function() {
+    $(document).on('click', '.copy-roles', function(e) {
         const userId = $(this).data('id');
         console.log('Copy roles for user ID:', userId);
 
@@ -113,15 +113,22 @@ $('.toggleColumn').on('click', function() {
         
         $('.paste-roles').show();
         $(this).parent().find('.paste-roles').hide();
+        e.preventDefault();
     });
+        
+    let copiedUserId = localStorage.getItem('copyRolesUserId');
+    if (copiedUserId) {
+        $('.paste-roles').show();
+    }
 
     $(document).on('click', '.paste-roles', function() {
-        const copiedUserId = localStorage.getItem('copyRolesUserId');
+        copiedUserId = localStorage.getItem('copyRolesUserId');
         if (copiedUserId) {
             console.log(copiedUserId);
         }
-    }
+    });
 
+    
 JS;
 
 $this->registerJs($script, yii\web\View::POS_READY);
@@ -248,6 +255,10 @@ echo $this->render('../user-roles/_js');
 }
 #selected-block .dropdown-toggle {
     background-color: #f06445;color:#fff;
+}
+.dropdown-menu-action .dropdown-menu {
+    right: 0;
+    left: auto;
 }
 </style>
 <div class="user-index">
@@ -403,9 +414,10 @@ echo $this->render('../user-roles/_js');
                                 ['label' => Module::t('Profile'), 'url' => Url::toRoute(['profile', 'id' => $model->id])],
                                 ['label' => Module::t('Edit'), 'url' => Url::toRoute(['edit-profile', 'id' => $model->id])],
                                 ['label' => Module::t('Delete'), 'url' => Url::toRoute(['delete', 'id' => $model->id])],
-                                '<div class="dropdown-divider"></div>',
+                                '<div class="dropdown-divider divider"></div>',
                                 ['label' => Module::t('Appreciation'), 'url' => Url::toRoute(['/user/thanks/view', 'id' => $model->id])],
                                 ['label' => Module::t('Reset password'), 'url' => Url::toRoute(['admin-reset-password', 'id' => $model->id])],
+                                '<div class="dropdown-divider divider"></div>',
                                  // roles
                                 ['label' => Module::t('Copy Roles'), 'url' => '#', 'options' => [
                                     'class' => 'copy-roles',
@@ -418,7 +430,8 @@ echo $this->render('../user-roles/_js');
                             ],
                         ],
                     ]);
-                }
+                },
+                'contentOptions' => ['class' => 'dropdown-menu-action'],
             ],
         ],
     ]); ?>

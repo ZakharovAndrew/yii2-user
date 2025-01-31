@@ -100,6 +100,8 @@ return [
     'Select Role' => 'Выберите роль',
     'Roles added' => 'Роли добавлены',
     'Role added' => 'Роль добавлена',
+    'Copy Roles' => 'Скопировать роли',
+    'Paste Roles' => 'Вставить роли',
     'Subject of the role' => 'Субъект роли',
     'Import' => 'Импортировать',
     'Import users' => 'Импортировать пользователей',
