@@ -75,6 +75,8 @@ return [
     'Successful Attempt' => 'Успешная попытка',
     'Too many unsuccessful attempts. Please wait an hour before trying again.' => 'Слишком много неудачных попыток. Пожалуйста, подождите час перед следующей попыткой.',
     'Incorrect username or password.' => 'Неверное имя пользователя или пароль.',
+    'Are you sure you want to delete this user?' => 'Вы уверены, что хотите удалить этого пользователя?',
+    'Roles Copied' => 'Роли скопированы',
     // actions
     'Create User' => 'Создать пользователя',
     'Save' => 'Сохранить',

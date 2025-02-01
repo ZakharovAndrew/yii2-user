@@ -27,9 +27,11 @@ $this->params['breadcrumbs'][] = $this->title;
 $columnVisibility = \ZakharovAndrew\user\models\User::getColumnVisibility();
 
 $toggleUrl = Url::to(['/user/user/toggle-column-visibility']);
+$pasteRolesUrl = Url::to(['/user/user/paste-roles']);
 $language = \Yii::$app->language;
 $waitMessage = Module::t('Processing, please wait..');
 $rolesCopiedMessage = Module::t('Roles Copied');
+$copyRolesdMessage = Module::t('Copy Roles');
 
 $script = <<< JS
 $('#submit-reset-password').on('click', function() {
@@ -104,29 +106,55 @@ $('.toggleColumn').on('click', function() {
         
 
     $(document).on('click', '.copy-roles', function(e) {
-        const userId = $(this).data('id');
-        console.log('Copy roles for user ID:', userId);
+        localStorage.setItem('copyRolesUserId', $(this).data('id'));
+        loadCopiedUserId();
 
-        localStorage.setItem('copyRolesUserId', userId);
-        
-        $(this).attr('disabled', true).text('$rolesCopiedMessage');
-        
-        $('.paste-roles').show();
-        $(this).parent().find('.paste-roles').hide();
         e.preventDefault();
     });
-        
-    let copiedUserId = localStorage.getItem('copyRolesUserId');
-    if (copiedUserId) {
-        $('.paste-roles').show();
-    }
+
+    loadCopiedUserId();
 
     $(document).on('click', '.paste-roles', function() {
-        copiedUserId = localStorage.getItem('copyRolesUserId');
+        // check disabled
+        let disabled = $(this).attr("disabled");
+        if (disabled === 'disabled') {
+         return false;
+        }
+        // copying
+        let copiedUserId = loadCopiedUserId();
+        let userId  = $(this).data('id');
         if (copiedUserId) {
             console.log(copiedUserId);
+            $.ajax({
+                type: "POST",
+                url: "$pasteRolesUrl",
+                data: {
+                    from: copiedUserId,
+                    to: userId
+                },
+                success: function(data) {
+                    window.location.reload();
+                }
+            });
         }
     });
+        
+    function loadCopiedUserId() {
+        let copiedUserId = localStorage.getItem('copyRolesUserId');
+        
+        console.log(copiedUserId);
+        
+        if (copiedUserId) {
+        console.log(copiedUserId);
+            $('.paste-roles').show();
+            $('.copy-roles').attr('disabled', false).text('$copyRolesdMessage');
+            $('.copy-roles-'+copiedUserId).attr('disabled', true).text('$rolesCopiedMessage');
+            $('.copy-roles-'+copiedUserId).parent().find('.paste-roles').hide();
+        }
+        
+        return copiedUserId;
+    }
+        
 
     
 JS;
@@ -257,8 +285,15 @@ echo $this->render('../user-roles/_js');
     background-color: #f06445;color:#fff;
 }
 .dropdown-menu-action .dropdown-menu {
-    right: 0;
-    left: auto;
+    right: 0 !important;
+    left: auto !important;
+}
+.dropdown-menu-action .paste-roles {
+    display:none;
+}
+.dropdown-menu-action a[disabled="disabled"] {
+    pointer-events: none;
+    color: #898989;
 }
 </style>
 <div class="user-index">
@@ -413,22 +448,40 @@ echo $this->render('../user-roles/_js');
                             'items' => [
                                 ['label' => Module::t('Profile'), 'url' => Url::toRoute(['profile', 'id' => $model->id])],
                                 ['label' => Module::t('Edit'), 'url' => Url::toRoute(['edit-profile', 'id' => $model->id])],
-                                ['label' => Module::t('Delete'), 'url' => Url::toRoute(['delete', 'id' => $model->id])],
+                                [
+                                    'label' => Module::t('Delete'),
+                                    'url' => Url::toRoute(['delete', 'id' => $model->id]),
+                                    'linkOptions' => [
+                                        'data' => [
+                                            'method' => 'post',
+                                            'confirm' => Module::t('Are you sure you want to delete this user?'),
+                                        ],
+                                    ],
+                                ],
                                 '<div class="dropdown-divider divider"></div>',
                                 ['label' => Module::t('Appreciation'), 'url' => Url::toRoute(['/user/thanks/view', 'id' => $model->id])],
                                 ['label' => Module::t('Reset password'), 'url' => Url::toRoute(['admin-reset-password', 'id' => $model->id])],
                                 '<div class="dropdown-divider divider"></div>',
                                  // roles
-                                ['label' => Module::t('Copy Roles'), 'url' => '#', 'options' => [
-                                    'class' => 'copy-roles',
-                                    'data-id' => $model->id,
-                                ]],
-                                ['label' => Module::t('Paste Roles'), 'url' => '#', 'options' => [
-                                    'class' => 'paste-roles',
-                                    'style' => 'display: none;'
-                                ]],
+                                [
+                                    'label' => Module::t('Copy Roles'),
+                                    'url' => '#',
+                                    'linkOptions' => [
+                                        'class' => 'copy-roles copy-roles-'.$model->id,
+                                        'data-id' => $model->id,
+                                    ],
+                                ],
+                                [
+                                    'label' => Module::t('Paste Roles'),
+                                    'url' => '#',
+                                    'linkOptions' => [
+                                        'class' => 'paste-roles',
+                                        'data-id' => $model->id,
+                                    ]
+                                ],
                             ],
                         ],
+                        
                     ]);
                 },
                 'contentOptions' => ['class' => 'dropdown-menu-action'],

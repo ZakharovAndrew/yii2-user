@@ -478,6 +478,42 @@ class UserController extends ParentController
         return $this->redirect(['/user/user/profile']);
     }
     
+    public function actionPasteRoles()
+    {
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        
+        if ($this->request->isPost) {
+            $from = Yii::$app->request->post('from');
+            $to = Yii::$app->request->post('to');
+            
+            $fromUsers = User::findOne(['id' => $from]);
+            $toUsers = User::findOne(['id' => $to]);
+            
+            if (!$fromUsers || !$toUsers) {
+                return ['result' => 'error', 'massage' => 'Wrong users!'];
+            }
+            
+            $rolesToCopy = \ZakharovAndrew\user\models\UserRoles::find()->where(['user_id' => $fromUsers->id])->all();
+            
+            foreach($rolesToCopy as $role) {
+                $userRole = new \ZakharovAndrew\user\models\UserRoles([
+                    'user_id' => $toUsers->id,
+                    'role_id' => $role->role_id,
+                    'note' => $role->note,
+                    'subject_id' => $role->subject_id,
+                ]);
+                
+                $userRole->save();
+                unset($userRole);
+            }
+            
+            return ['result' => 'ok'];
+        }
+        
+        return ['result' => 'error'];
+    }
+    
+    
     public function actionUsersUpdate()
     {
         if (!Yii::$app->user->identity->hasRole('admin')) {
