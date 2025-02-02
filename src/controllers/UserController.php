@@ -546,6 +546,11 @@ class UserController extends ParentController
                 $user->save();
             }
             Yii::$app->session->setFlash('success', Module::t('Statuses changed'));
+        } else if ($action == 'Delete users') {
+            foreach ($users as $user) {
+                $user->delete();
+            }
+            Yii::$app->session->setFlash('success', Module::t('Users deleted'));
         } else {
             $cntSuccess = 0;
             $cntError = 0;

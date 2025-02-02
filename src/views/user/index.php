@@ -295,6 +295,10 @@ echo $this->render('../user-roles/_js');
     pointer-events: none;
     color: #898989;
 }
+#users tr:hover td {
+    background-color:#e0f7fa;
+}
+
 </style>
 <div class="user-index">
 
@@ -308,39 +312,48 @@ echo $this->render('../user-roles/_js');
             <div id="selected-block">
                 <p id="selected-count"></p>
                 <?= $classButtonDropdown::widget([
-                                'label' => Module::t('Action'),
-                                'dropdown' => [
-                                    'items' => [
-                                        '<li>'. Html::a(Module::t('Change Status'), '#', [
-                                            'class' => 'dropdown-item',
-                                            'data' => [
-                                                'toggle' => 'modal',
-                                                'target' => '#status-modal',
-                                                'bs-toggle' => 'modal',
-                                                'bs-target' => '#status-modal',
-                                            ],
-                                        ]).'</li>',
-                                        '<li>'. Html::a(Module::t('Add Role'), '#', [
-                                            'class' => 'dropdown-item',
-                                            'data' => [
-                                                'toggle' => 'modal',
-                                                'target' => '#role-modal',
-                                                'bs-toggle' => 'modal',
-                                                'bs-target' => '#role-modal',
-                                            ],
-                                        ]).'</li>',
-                                        '<li>'. Html::a(Module::t('Reset password'), '#', [
-                                            'class' => 'dropdown-item',
-                                            'data' => [
-                                                'toggle' => 'modal',
-                                                'target' => '#reset-password-modal',
-                                                'bs-toggle' => 'modal',
-                                                'bs-target' => '#reset-password-modal',
-                                            ],
-                                        ]).'</li>',
-                                    ],
+                    'label' => Module::t('Action'),
+                    'dropdown' => [
+                        'items' => [
+                            '<li>'. Html::a(Module::t('Change Status'), '#', [
+                                'class' => 'dropdown-item',
+                                'data' => [
+                                    'toggle' => 'modal',
+                                    'target' => '#status-modal',
+                                    'bs-toggle' => 'modal',
+                                    'bs-target' => '#status-modal',
                                 ],
-                            ]);?>
+                            ]).'</li>',
+                            '<li>'. Html::a(Module::t('Add Role'), '#', [
+                                'class' => 'dropdown-item',
+                                'data' => [
+                                    'toggle' => 'modal',
+                                    'target' => '#role-modal',
+                                    'bs-toggle' => 'modal',
+                                    'bs-target' => '#role-modal',
+                                ],
+                            ]).'</li>',
+                            '<li>'. Html::a(Module::t('Reset password'), '#', [
+                                'class' => 'dropdown-item',
+                                'data' => [
+                                    'toggle' => 'modal',
+                                    'target' => '#reset-password-modal',
+                                    'bs-toggle' => 'modal',
+                                    'bs-target' => '#reset-password-modal',
+                                ],
+                            ]).'</li>',
+                            '<li>'. Html::a(Module::t('Delete'), '#', [
+                                'class' => 'dropdown-item',
+                                'data' => [
+                                    'toggle' => 'modal',
+                                    'target' => '#delete-users-modal',
+                                    'bs-toggle' => 'modal',
+                                    'bs-target' => '#delete-users-modal',
+                                ],
+                            ]).'</li>',
+                        ],
+                    ],
+                ]);?>
             </div>
         </div>
         <div>
@@ -521,21 +534,20 @@ echo $this->render('../user-roles/_js');
         <select id="role_subject" class="form-control form-select"></select>
     </div>
     <?php $classModal::end() ?>
-    
-    <!-- Modal form for confirming password reset for users -->
-    <?php $classModal::begin([
-        'id' => 'reset-password-modal',
-        ($bootstrapVersion==3 ? 'header' : 'title') => '<h2>'.Module::t('Reset password').'</h2>',
-        'footer' => '' 
-                        
+       
+    <?= $this->render('_confirm-action-modal', [
+        'id'        => 'reset-password-modal',
+        'title'     => 'Reset password',
+        'message'   => 'Are you sure you want to reset the passwords for the selected users?',
+        'action'    => 'Reset password'
     ]) ?>
-
-    <p style="text-align:center"><?= Module::t('Are you sure you want to reset the passwords for the selected users?') ?></p>
-    <div style="display:flex;justify-content: center;gap:4px;">
-        <?= Html::submitButton(Module::t('Reset password'), ['name' => 'form-action', 'value' => 'Reset Password','class' => 'btn btn-danger']) ?>
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-dismiss="modal"><?= Module::t('Cancel') ?></button>
-    </div>
-    <?php $classModal::end() ?>
+    
+    <?= $this->render('_confirm-action-modal', [
+        'id'        => 'delete-users-modal',
+        'title'     => 'Delete users',
+        'message'   => 'Are you sure you want to delete the selected users?',
+        'action'    => 'Delete users'
+    ]) ?>
     
     <?= Html::endForm() ?>
 
