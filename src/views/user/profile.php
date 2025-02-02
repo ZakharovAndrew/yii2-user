@@ -110,13 +110,13 @@ $this->title = Module::t('Profile');
         </div>
     </div>
     
-    <?php if ($model->id == Yii::$app->user->id) {?>
+    <?php if ($model->id == Yii::$app->user->id && !empty(Yii::$app->getModule('user')->telegramBotLink)) {?>
     <div class="white-block">
-        <p><?= Module::t('You can receive notifications from a telegram bot') ?> <a href="<?= Yii::$app->getModule('user')->telegramBotLink ?>" target="_blank"><?= Yii::$app->getModule('user')->telegramBotLink ?></a>
+        <p><?= Module::t('You can receive notifications from a telegram bot') ?> <a href="<?= Yii::$app->getModule('user')->telegramBotLink ?>" target="_blank"><?= str_replace(['https://t.me/', 'http://t.me/'], '@', Yii::$app->getModule('user')->telegramBotLink) ?></a>
 
         <?php if (empty($model->telegram_id)) {?>
         <p><?= Module::t('Send the bot a message') ?>:</p>
-        <div class="alert alert-success">/register <?= $model->telegram_code ?></div></div>
+        <div style="display: flex"><div class="alert alert-success">/register <?= $model->telegram_code ?></div><div class="alert">or go to <a href="<?= Yii::$app->getModule('user')->telegramBotLink ?>/register <?= $model->telegram_code ?>" target="_blank">link</a></div></div>
         <?php } else { ?>
         <p><a href="<?= Url::to(['unlink-telegram']) ?>" class="btn btn-danger"><?= Module::t('Unlink your account to the Telegram Bot') ?></a></p>
         <?php } ?>
