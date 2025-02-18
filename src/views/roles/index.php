@@ -7,13 +7,21 @@ use yii\helpers\Url;
 use yii\grid\ActionColumn;
 use yii\grid\GridView;
 
+use ZakharovAndrew\user\assets\UserAssets;
+UserAssets::register($this);
+
 /** @var yii\web\View $this */
-/** @var app\models\RolesSearch $searchModel */
+/** @var ZakharovAndrew\user\models\RolesSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
 $this->title = Module::t('Roles');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+<style>
+    .white-block .table-bordered {
+        box-shadow: none;
+    }
+</style>
 <div class="roles-index">
 
     <?php if (Yii::$app->getModule('user')->showTitle) {?><h1><?= Html::encode($this->title) ?></h1><?php } ?>
@@ -23,7 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
+    <div class="white-block">
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
@@ -42,6 +50,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ],
     ]); ?>
+    </div>
 
 
 </div>

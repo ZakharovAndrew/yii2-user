@@ -6,6 +6,7 @@ use ZakharovAndrew\user\models\Roles;
 use ZakharovAndrew\user\models\RolesSearch;
 use ZakharovAndrew\user\controllers\ParentController;
 use yii\web\NotFoundHttpException;
+use yii\helpers\Url;
 
 /**
  * RolesController implements the CRUD actions for Roles model.
@@ -24,6 +25,8 @@ class RolesController extends ParentController
     {
         $searchModel = new RolesSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
+        
+        Url::remember('', 'roles_index');
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -42,7 +45,7 @@ class RolesController extends ParentController
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['index']);
+                return $this->redirect(Url::previous('roles_index') ?? ['index']);
             }
         } else {
             $model->loadDefaultValues();
@@ -65,7 +68,7 @@ class RolesController extends ParentController
         $model = $this->findModel($id);
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['index']);
+            return $this->redirect(Url::previous('roles_index') ?? ['index']);
         }
 
         return $this->render('update', [
@@ -84,7 +87,7 @@ class RolesController extends ParentController
     {
         $this->findModel($id)->delete();
 
-        return $this->redirect(['index']);
+        return $this->redirect(Url::previous('roles_index') ?? ['index']);
     }
 
     /**
