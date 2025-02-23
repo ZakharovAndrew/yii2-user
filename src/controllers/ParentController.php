@@ -5,6 +5,7 @@ namespace ZakharovAndrew\user\controllers;
 use Yii;
 use yii\web\Controller;
 use yii\filters\AccessControl;
+use ZakharovAndrew\user\models\UserActivity;
 
 /**
  * Parental controller for access control.
@@ -25,6 +26,12 @@ class ParentController extends Controller
      * @var array 
      */
     public $auth_access_actions = [];
+    
+    /**
+     * Actions and the roles for which they are available
+     * @var array 
+     */
+    public $action_allowed_roles = [];
     
     /**
      * {@inheritdoc}
@@ -53,12 +60,28 @@ class ParentController extends Controller
                                 return false;
                             }
                             
+                            // Does the user have a role that is required to access this action?
+                            if (isset($this->action_allowed_roles[$action->id]) && !Yii::$app->user->identity->hasRole($this->action_allowed_roles[$action->id])) {
+                                return false;
+                            }
+                            
                             return \ZakharovAndrew\user\models\User::isActionAllowed(Yii::$app->user->id, $this->controller_id, $action->id);
                         }
                     ],
                 ],
             ],
         ];
+    }
+    
+    /**
+     * @inheritdoc
+     */
+    public function beforeAction($action)
+    {
+        // Логирования начала и конца активности
+        UserActivity::setActivity();
+        
+        return parent::beforeAction($action);
     }
 
 }
