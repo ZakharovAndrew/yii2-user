@@ -11,17 +11,18 @@ class m250223_110111_create_notifications_table extends Migration
     {
         $this->createTable('notifications', [
             'id' => $this->primaryKey(),
-            'group_id' => $this->integer()->notNull()->unsigned(),
+            'notification_group_id' => $this->integer()->notNull(),
             'name' => $this->string()->notNull(),
             'description' => $this->text()->null(),
             'created_at' => $this->timestamp()->defaultExpression('CURRENT_TIMESTAMP'),
             'updated_at' => $this->timestamp()->defaultExpression('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'),
         ]);
-
+        
+        // Add foreign key       
         $this->addForeignKey(
             'fk-notifications-group_id',
             'notifications',
-            'group_id',
+            'notification_group_id',
             'notification_groups',
             'id',
             'CASCADE'
