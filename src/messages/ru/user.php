@@ -230,6 +230,12 @@ return [
     'Add a role to a user' => 'Добавить роль пользователю',
     'The requested page does not exist.' => 'Запрошенная страница не существует.',
     
-    'Happy New Year! Wishing you luck and success in all your endeavors!' => 'С Новым годом! Желаем вам удачи и успехов во всех ваших начинаниях!'
+    'Happy New Year! Wishing you luck and success in all your endeavors!' => 'С Новым годом! Желаем вам удачи и успехов во всех ваших начинаниях!',
+    //Notifications
+    'Notifications' => 'Уведомления',
+    'Add Group' => 'Добавить группу',
+    'Delete Group' => 'Удалить группу',
+    'Add Notification Group' => 'Добавить группу уведомлений',
+    'Add Notification' => 'Добавить уведомление'
     
 ];

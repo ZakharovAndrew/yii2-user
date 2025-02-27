@@ -17,17 +17,17 @@ class Notification extends ActiveRecord
     public function rules()
     {
         return [
-            [['group_id', 'name'], 'required'],
-            [['group_id'], 'integer'],
+            [['notification_group_id', 'name'], 'required'],
+            [['notification_group_id'], 'integer'],
             [['name'], 'string', 'max' => 255],
             [['description'], 'string'],
-            [['group_id'], 'exist', 'skipOnError' => true, 'targetClass' => NotificationGroup::class, 'targetAttribute' => ['group_id' => 'id']],
+            [['notification_group_id'], 'exist', 'skipOnError' => true, 'targetClass' => NotificationGroup::class, 'targetAttribute' => ['notification_group_id' => 'id']],
         ];
     }
 
     public function getGroup()
     {
-        return $this->hasOne(NotificationGroup::class, ['id' => 'group_id']);
+        return $this->hasOne(NotificationGroup::class, ['id' => 'notification_group_id']);
     }
 
     public function getUserSettings()

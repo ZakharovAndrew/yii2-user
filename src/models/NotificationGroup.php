@@ -25,7 +25,7 @@ class NotificationGroup extends ActiveRecord
 
     public function getNotifications()
     {
-        return $this->hasMany(Notification::class, ['group_id' => 'id']);
+        return $this->hasMany(Notification::class, ['notification_group_id' => 'id']);
     }
     
     public function beforeSave($insert)
