@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use ZakharovAndrew\user\Module;
+use ZakharovAndrew\user\models\Roles;
 
 /* @var $this yii\web\View */
 /* @var $groups ZakharovAndrew\user\models\NotificationGroup[] */
@@ -21,14 +22,14 @@ $pencil_svg = '<svg aria-hidden="true" style="display:inline-block;font-size:inh
 $trash_svg = '<svg aria-hidden="true" style="display:inline-block;font-size:inherit;height:1em;overflow:visible;vertical-align:-.125em;width:.875em" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M32 464a48 48 0 0048 48h288a48 48 0 0048-48V128H32zm272-256a16 16 0 0132 0v224a16 16 0 01-32 0zm-96 0a16 16 0 0132 0v224a16 16 0 01-32 0zm-96 0a16 16 0 0132 0v224a16 16 0 01-32 0zM432 32H312l-9-19a24 24 0 00-22-13H167a24 24 0 00-22 13l-9 19H16A16 16 0 000 48v32a16 16 0 0016 16h416a16 16 0 0016-16V48a16 16 0 00-16-16z"></path></svg>';
 ?>
 <style>
-    .notification-item {
+    .notification-name {
         padding-left: 25px !important;
     }
     .notification-group td {
         /*background-color:#E1F5FE*/
     }
     .table-notification tr:hover td{background-color: #f8f8f8}
-    .table-notification td {border-bottom: 1px dashed #cdcdcd;vertical-align: middle;}
+    .table-notification td {border-bottom: 1px dashed #cdcdcd;vertical-align: middle !important;}
     .edit-notification-button {
         background-color: #0d99ff1a;
         border-color:#0d99ff1a;
@@ -92,20 +93,23 @@ $trash_svg = '<svg aria-hidden="true" style="display:inline-block;font-size:inhe
                     </td>
                 </tr>
                 <?php foreach ($group->notifications as $notification): ?>
-                <tr>
-                    <td colspan="2" class="notification-item"><?= Html::encode($notification->name) ?></td>
+                <tr id="row-<?= $notification->id ?>">
+                    <td colspan="2" class="notification-name" title="<?= $notification->description ?>"><?= Html::encode($notification->name) ?></td>
                     <td align="right">
                         <?= Html::a($pencil_svg, '#', [
                             'class' => 'btn btn-sm btn-info edit-notification-button',
                             'data-notification-id' => $notification->id,
                             'data-notification-name' => $notification->name,
                             'data-notification-description' => $notification->description,
-                            'title' => 'Edit Notification',
+                            'data-notification-code-name' => $notification->code_name,
+                            'data-notification-function-to-call' => $notification->function_to_call,
+                            'data-notification-roles' => json_encode(array_column($notification->roles, 'id')),
+                            'title' => Module::t('Edit Notification'),
                         ]) ?>
                         <?= Html::a($trash_svg, '#', [
                             'class' => 'btn btn-sm btn-danger delete-notification-button',
                             'data-notification-id' => $notification->id,
-                            'title' => 'Delete Notification',
+                            'title' => Module::t('Delete Notification'),
                         ]) ?>
                     </td>
                 </tr>
@@ -142,8 +146,16 @@ $classModal::begin([
     'id' => 'add-notification-modal',
 ]);
 $form = ActiveForm::begin(['id' => 'add-notification-form']);
-echo $form->field($modalNotification, 'name')->textInput(['maxlength' => true]);
-echo $form->field($modalNotification, 'description')->textarea(['rows' => 6]);
+echo $form->field($modelNotification, 'name')->textInput(['maxlength' => true]);
+echo $form->field($modelNotification, 'description')->textarea(['rows' => 4]);
+echo $form->field($modelNotification, 'code_name')->textInput(['maxlength' => 255]);
+echo $form->field($modelNotification, 'function_to_call')->textInput(['maxlength' => 255]);
+
+// Поле для выбора ролей
+echo $form->field($modelNotification, 'roles')->checkboxList(
+    \yii\helpers\ArrayHelper::map(Roles::find()->all(), 'id', 'title')
+);
+
 echo Html::hiddenInput('notification_group_id', '', ['id' => 'notification-group-id']);
 echo '<div class="form-group">';
 echo Html::submitButton('Create', ['class' => 'btn btn-success']);
@@ -163,7 +175,7 @@ echo $form->field($model, 'name')->textInput(['maxlength' => true]);
 echo $form->field($model, 'description')->textarea(['rows' => 6]);
 echo Html::hiddenInput('groupId', '', ['id' => 'edit-group-id']);
 echo '<div class="form-group">';
-echo Html::submitButton('Save', ['class' => 'btn btn-success']);
+echo Html::submitButton(Module::t('Save'), ['class' => 'btn btn-success']);
 echo '</div>';
 ActiveForm::end();
 $classModal::end();
@@ -172,15 +184,24 @@ $classModal::end();
 <?php
 // Modal for editing a notification
 $classModal::begin([
-    ($bootstrapVersion == 3 ? 'header' : 'title') => '<h2>Edit Notification</h2>',
+    ($bootstrapVersion == 3 ? 'header' : 'title') => '<h2>'.Module::t('Edit Notification').'</h2>',
     'id' => 'edit-notification-modal',
 ]);
 $form = ActiveForm::begin(['id' => 'edit-notification-form']);
-echo $form->field($modalNotification, 'name')->textInput(['maxlength' => true]);
-echo $form->field($modalNotification, 'description')->textarea(['rows' => 6]);
+
+echo $form->field($modelNotification, 'name')->textInput(['maxlength' => true]);
+echo $form->field($modelNotification, 'description')->textarea(['rows' => 4]);
+echo $form->field($modelNotification, 'code_name')->textInput(['maxlength' => 255]);
+echo $form->field($modelNotification, 'function_to_call')->textInput(['maxlength' => 255]);
+
+// Поле для выбора ролей
+echo $form->field($modelNotification, 'roles')->checkboxList(
+    \yii\helpers\ArrayHelper::map(Roles::find()->all(), 'id', 'title')
+);
+
 echo Html::hiddenInput('notificationId', '', ['id' => 'edit-notification-id']);
 echo '<div class="form-group">';
-echo Html::submitButton('Save', ['class' => 'btn btn-success']);
+echo Html::submitButton(Module::t('Save'), ['class' => 'btn btn-success']);
 echo '</div>';
 ActiveForm::end();
 $classModal::end();
@@ -279,11 +300,21 @@ $script = <<< JS
         var notificationId = $(this).data('notification-id');
         var notificationName = $(this).data('notification-name');
         var notificationDescription = $(this).data('notification-description');
+        var codeName = $(this).data('notification-code-name');
+        var functionToCall = $(this).data('notification-function-to-call');
+        var roles = JSON.parse($(this).attr('data-notification-roles') || []);
+        console.log('as', roles, $(this).data('notification-roles'));
 
-        console.log('asd', notificationId, notificationName);
         $('#edit-notification-id').val(notificationId);
         $('#edit-notification-form input[name="Notification[name]"]').val(notificationName);
         $('#edit-notification-form textarea[name="Notification[description]"]').val(notificationDescription);
+        $('#edit-notification-form input[name="Notification[code_name]"]').val(codeName);
+        $('#edit-notification-form input[name="Notification[function_to_call]"]').val(functionToCall);
+
+        $('#edit-notification-form input[name="Notification[roles][]"]').prop('checked', false);
+        $.each(roles, function(index, roleId) {
+            $('#edit-notification-form input[name="Notification[roles][]"][value="' + roleId + '"]').prop('checked', true);
+        });
 
         $('#edit-notification-modal').modal('show');
     });
@@ -299,7 +330,16 @@ $script = <<< JS
             data: formData,
             success: function(response) {
                 if (response.success) {
-                    location.reload();
+                    // Обновляем данные уведомления в DOM
+                    var notificationRow = $('#row-' + response.notification.id);
+                    notificationRow.find('.notification-name').text(response.notification.name);
+                    notificationRow.find('.notification-name').attr('title', response.notification.description);
+                    notificationRow.find('.edit-notification-button').attr('data-notification-roles', response.notification.roles);
+                    
+                    notificationRow.find('.edit-notification-button').attr('data-notification-roles', JSON.stringify(response.notification.roles));
+                    notificationRow.find('.edit-notification-button').data('notification-roles', JSON.stringify(response.notification.roles));
+
+                    $('#edit-notification-modal').modal('hide');
                 } else {
                     $.each(response.errors, function(key, val) {
                         $('#edit-notification-form').yiiActiveForm('addError', key, val);

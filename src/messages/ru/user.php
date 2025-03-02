@@ -233,9 +233,12 @@ return [
     'Happy New Year! Wishing you luck and success in all your endeavors!' => 'С Новым годом! Желаем вам удачи и успехов во всех ваших начинаниях!',
     //Notifications
     'Notifications' => 'Уведомления',
+    'Edit Notification' => 'Редактировать уведомление',
     'Add Group' => 'Добавить группу',
     'Delete Group' => 'Удалить группу',
     'Add Notification Group' => 'Добавить группу уведомлений',
-    'Add Notification' => 'Добавить уведомление'
-    
+    'Add Notification' => 'Добавить уведомление',
+    'Delete Notification' => 'Удалить уведомление',
+    'Code Name' => 'Кодовое имя',
+    'Function to call' => 'Функция для вызова',
 ];

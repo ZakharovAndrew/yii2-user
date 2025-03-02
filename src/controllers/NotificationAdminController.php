@@ -18,7 +18,7 @@ class NotificationAdminController extends Controller
         return $this->render('index', [
             'groups' => $groups,
             'model' => new NotificationGroup(),
-            'modalNotification' => new Notification()
+            'modelNotification' => new Notification()
         ]);
     }
     
@@ -50,7 +50,12 @@ class NotificationAdminController extends Controller
         return $this->redirect(['index']); // Перенаправление обратно на страницу с группами
     }
     
-    // Action для создания уведомления через AJAX
+
+    /**
+     * Сreating a notification
+     * @param integer $groupId - ID of the group to which the notification is added
+     * @return type
+     */
     public function actionCreateNotificationAjax($groupId)
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
@@ -75,14 +80,51 @@ class NotificationAdminController extends Controller
         Yii::$app->response->format = Response::FORMAT_JSON;
 
         $model = Notification::findOne($id);
-        if ($model && $model->load(Yii::$app->request->post()) && $model->save()) {
-            return ['success' => true, 'notification' => $model];
+        if (!$model) {
+            return ['success' => false, 'message' => 'Notification not found'];
+        }
+        
+        if ($model->load(Yii::$app->request->post())) {
+            // Save roles
+            $roleIds = Yii::$app->request->post('Notification')['roles'] ?? [];
+            $model->setRoles($roleIds);
+
+            if ($model->save()) {
+                // Convert roles to an array for returning in JSON
+                $roles = array_map(function ($role) {
+                    return $role->id;
+                }, $model->roles);
+                
+                return [
+                    'success' => true,
+                    'notification' => [
+                        'id' => $model->id,
+                        'name' => $model->name,
+                        'description' => $model->description,
+                        'code_name' => $model->code_name,
+                        'function_to_call' => $model->function_to_call,
+                        'roles' => $roles,
+                    ],
+                ];
+            }
         }
 
         return ['success' => false, 'errors' => $model->getErrors()];
     }
+    
+    public function actionDeleteNotificationAjax($id)
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
 
-    // Action для редактирования группы через AJAX
+        $model = Notification::findOne($id);
+        if ($model) {
+            $model->delete();
+            return ['success' => true];
+        }
+
+        return ['success' => false, 'message' => 'Notification not found'];
+    }
+
     public function actionEditGroupAjax($id)
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
@@ -96,16 +138,6 @@ class NotificationAdminController extends Controller
         return ['success' => false, 'errors' => $model->getErrors()];
     }
 
-
-
-    // Action to view a specific NotificationGroup
-    public function actionViewGroup($id)
-    {
-        $group = $this->findGroup($id);
-        return $this->render('view-group', [
-            'group' => $group,
-        ]);
-    }
 
     // Helper method to find a NotificationGroup by ID
     protected function findGroup($id)
