@@ -56,14 +56,10 @@ class Notification extends ActiveRecord
         return $this->hasOne(NotificationGroup::class, ['id' => 'notification_group_id']); // One-to-one relationship with NotificationGroup.
     }
 
-    /**
-     * This method defines the relationship between a notification and user settings.
-     * 
-     * @return \yii\db\ActiveQuery the relation to the UserNotificationSetting model.
-     */
-    public function getUserSettings()
+
+    public function getUserSetting($userId)
     {
-        return $this->hasMany(UserNotificationSetting::class, ['notification_id' => 'id']); // One-to-many relationship with UserNotificationSetting.
+        return UserNotificationSetting::findOne(['notification_id' => $this->id, 'user_id' => $userId]);
     }
 
     /**
@@ -96,10 +92,13 @@ class Notification extends ActiveRecord
     {
         $currentRoleIds = $this->getRoleIds(); // Получаем текущие ID ролей
 
-        $rolesToAdd = array_diff($roleIds, $currentRoleIds);
-
-        $rolesToRemove = array_diff($currentRoleIds, $roleIds);
-
+        if (is_array($roleIds)) {
+            $rolesToAdd = array_diff($roleIds, $currentRoleIds);
+            $rolesToRemove = array_diff($currentRoleIds, $roleIds);
+        } else {
+            $rolesToAdd = [];
+            $rolesToRemove = $currentRoleIds ?? [];
+        }
         
         foreach ($rolesToRemove as $roleId) {
             $this->unlink('roles', Roles::findOne($roleId), true);

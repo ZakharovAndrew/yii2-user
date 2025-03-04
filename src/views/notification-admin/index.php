@@ -50,6 +50,7 @@ $trash_svg = '<svg aria-hidden="true" style="display:inline-block;font-size:inhe
         border-color: #FF5E5E;
         color:#fff;
     }
+    #notification-roles label {width:49%}
     
 </style>
 <?php if (Yii::$app->getModule('user')->showTitle) {?><h1><?= Html::encode($this->title) ?></h1><?php } ?>

@@ -4,6 +4,7 @@ namespace ZakharovAndrew\user\models;
 
 use Yii;
 use ZakharovAndrew\user\Module;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "user_roles".
@@ -72,6 +73,26 @@ class UserRoles extends \yii\db\ActiveRecord
     }
     
     /**
+     * Get all user IDs roles
+     * 
+     * @param integer $user_id User ID
+     * @return array
+     */
+    public static function getUserRolesIds($user_id)
+    {
+        return Yii::$app->cache->getOrSet('get_users_roles_ids_'.$user_id, function () use ($user_id) {
+            return ArrayHelper::getColumn(
+                static::find()
+                ->select('DISTINCT(user_roles.role_id)')
+                ->where(['user_roles.user_id' => $user_id])
+                ->asArray()
+                ->all(),
+                'role_id'
+            );
+        }, 600);
+    }
+    
+    /**
      * Get a list of users who have a role
      * 
      * @param $user
@@ -91,7 +112,7 @@ class UserRoles extends \yii\db\ActiveRecord
             $model->andWhere(["or", ["user_roles.subject_id" => $subject_id], ["subject_id" => null]]);
         }
    
-        return \yii\helpers\ArrayHelper::getColumn(
+        return ArrayHelper::getColumn(
                 $model->asArray()->all(),
                 'user_id'
                 );
@@ -127,6 +148,7 @@ class UserRoles extends \yii\db\ActiveRecord
     {
         parent::afterSave($insert, $changedAttributes);
         Yii::$app->cache->delete('get_users_roles_'.$this->user_id);
+        Yii::$app->cache->delete('get_users_roles_ids_'.$this->user_id);
         Yii::$app->cache->delete('get_roles_by_user_'.$this->user_id);
     }
 }
