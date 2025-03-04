@@ -619,4 +619,28 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
 
         return false;
     }
+    
+    public static function isOnline($user_id)
+    {
+        $model = UserActivity::find()
+                    ->where(['date_at' => date('Y-m-d')])
+                    ->andWhere(['user_id' => $user_id])
+                    ->one();
+        
+        if (!$model) {
+            return false;
+        }
+        
+        // Получаем текущее время
+        $currentDateTime = new \DateTime();
+
+        // Получаем время из модели
+        $stopActivityDateTime = new \DateTime($model->stop_activity);
+
+        // Вычисляем разницу между текущим временем и временем в модели
+        $interval = $currentDateTime->diff($stopActivityDateTime);
+
+        // Проверяем, больше ли разница 5 минут
+        return  !($interval->i >= 5 || $interval->h > 0);
+    }
 }
