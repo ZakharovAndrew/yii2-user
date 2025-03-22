@@ -138,6 +138,6 @@ Widget for congratulating the user on his birthday:
 ]) ?>
 ```
 
-## License
+## 📄 License
 
 **yii2-user** it is available under a MIT License. Detailed information can be found in the `LICENSE.md`.
