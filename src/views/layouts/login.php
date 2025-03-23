@@ -26,11 +26,23 @@ $bootstrapVersion = Yii::$app->getModule('user')->bootstrapVersion;
     <style>
         .container {margin-top:15px}
         .content {padding: 10% !important}
+        .form-login {
+            width: 450px;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 37px rgba(8, 21, 66, 0.05);
+            margin: 0 auto;
+            background-color: #fff;
+        }
         @media (max-width: 768px) {
             .content {
                 padding-left: 20px;
                 padding-right: 20px;
                 height: 80vh;
+                paddin:5%;
+            }
+            .form-login {
+                width: 100%;
             }
         }
     </style>

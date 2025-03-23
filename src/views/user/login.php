@@ -17,14 +17,6 @@ $this->params['breadcrumbs'][] = $this->title;
         color: #7366ff;text-align: right;
     }
     h1 {text-align: center;}
-    .form-login {
-        width: 450px;
-        padding: 40px;
-        border-radius: 10px;
-        box-shadow: 0 0 37px rgba(8, 21, 66, 0.05);
-        margin: 0 auto;
-        background-color: #fff;
-    }
     .form-login-header {
         background-color: #03a9f4;
         color: #fff;
@@ -41,11 +33,11 @@ $this->params['breadcrumbs'][] = $this->title;
         background-color: #f3f3ff;
         transition: all 0.3s ease;
         border-color: #efefef;
-    font-size: 14px;
-    color: #898989;
-    padding: 12px 10px;
-    -webkit-box-shadow: none;
-    box-shadow: none;
+        font-size: 14px;
+        color: #898989;
+        padding: 12px 10px;
+        -webkit-box-shadow: none;
+        box-shadow: none;
     }
     body {
         background: #f8f9fe;
@@ -61,7 +53,6 @@ $this->params['breadcrumbs'][] = $this->title;
         justify-content: center;
         align-items: center;
         display: flex;
-        padding:11%;
     }
     .btn-primary {
         text-transform: uppercase;
@@ -111,7 +102,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 'layout' => 'horizontal',
                 'fieldConfig' => [
                     'template' => "<label class=\"col-form-label\">{label}</label><div class=\"col-lg-12\">{input}</div>\n<br><div class=\"\">{error}</div>",
-                    //'labelOptions' => ['class' => ''], //col-lg-1 control-label
                 ],
             ]); ?>
 
