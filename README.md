@@ -118,7 +118,7 @@ Add this to your main configuration's urlManager array
 ],
 ```
 
-## Happy Birthday widget
+## 🎉 Happy Birthday widget
 
 You can use the birthday greeting widget by customizing both the header and the message indicating that there are no birthdays today:
 
@@ -137,6 +137,16 @@ Widget for congratulating the user on his birthday:
     'message' => '<h1>Happy Birthday, {username}!</h1>'
 ]) ?>
 ```
+
+## 👥 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
 ## 📄 License
 
