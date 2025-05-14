@@ -17,7 +17,7 @@ Yii2 user authentication module for management users and their rights.
 - logging of failed authorization attempts and blocking access via IP
 - Supports languages: English, Russian
 
-## Installation
+## 🚀 Installation
 
 The preferred way to install this extension is through [composer](http://getcomposer.org/download/).
 
@@ -62,7 +62,7 @@ return [
 ];
 ```
 
-## Usage
+## 🛠 Usage
 
 Add this to your main configuration's modules array
 
