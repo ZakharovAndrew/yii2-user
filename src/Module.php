@@ -21,7 +21,7 @@ class Module extends \yii\base\Module
     /**
      * @var string Module version
      */
-    protected $version = "0.6.0";
+    protected $version = "0.6.4";
 
     /**
      * @var string Alias for module
@@ -36,9 +36,16 @@ class Module extends \yii\base\Module
     public $useTranslite = false;
     
     /**
-     * @var string show H1
+     * @var bool show H1
      */
     public $showTitle = true;
+    
+    /**
+     * Determines whether user registration/signup is enabled on the site.
+     * 
+     * @var bool
+     */
+    public $enableUserSignup = false;
     
     /**
      *
