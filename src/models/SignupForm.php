@@ -4,14 +4,15 @@ namespace ZakharovAndrew\user\models;
 
 use Yii;
 use yii\base\Model;
+use ZakharovAndrew\user\Module;
 
 /**
- * RegisterForm is the model behind the register form.
+ * SignupForm is the model behind the sign up form.
  *
  * @property-read User|null $user
  *
  */
-class RegisterForm extends Model
+class SignupForm extends Model
 {
     /**
      * @var string User login
@@ -46,6 +47,7 @@ class RegisterForm extends Model
             ['password', 'validatePassword'],
         ];
     }
+    
 
     /**
      * Validates the password.
@@ -63,6 +65,21 @@ class RegisterForm extends Model
                 $this->addError($attribute, 'Incorrect username or password.');
             }
         }
+    }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function attributeLabels()
+    {
+        return [
+            'id' => 'ID',
+            'username' => Module::t('Login'),
+            'password' => Module::t('Password'),
+            'email' => 'Email',
+            'name' => Module::t('Name'),
+            'phone' => Module::t('Phone'),
+        ];
     }
 
     /**

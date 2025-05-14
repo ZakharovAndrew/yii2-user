@@ -45,7 +45,7 @@ class Module extends \yii\base\Module
      * 
      * @var bool
      */
-    public $enableUserSignup = false;
+    public $enableUserSignup = true;
     
     /**
      *

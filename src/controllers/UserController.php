@@ -358,7 +358,7 @@ class UserController extends ParentController
             return $this->render('signup_disabled');
         }
         
-        $model = new \ZakharovAndrew\user\models\RegisterForm();
+        $model = new \ZakharovAndrew\user\models\SignupForm();
         
         return $this->render('signup', [
             'model' => $model,
