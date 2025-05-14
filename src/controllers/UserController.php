@@ -29,7 +29,7 @@ class UserController extends ParentController
 {
     public $controller_id = 1001;
     
-    public $full_access_actions = ['login', 'logout', 'request-password-reset', 'reset-password', 'set-new-email', 'change-password', 'telegram-registration'];
+    public $full_access_actions = ['login', 'logout', 'request-password-reset', 'reset-password', 'set-new-email', 'change-password', 'telegram-registration', 'signup'];
 
     public $auth_access_actions = ['profile', 'edit-profile', 'upload-avatar', 'delete-avatar'];
             
@@ -341,6 +341,30 @@ class UserController extends ParentController
         ]);
     }
     
+    /**
+     * Register action.
+     *
+     * @return Response|string
+     */
+    public function actionSignup()
+    {
+        $this->layout = 'login';
+        
+        if (!Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+        
+        if (!Yii::$app->getModule('user')->enableUserSignup) {
+            return $this->render('signup_disabled');
+        }
+        
+        $model = new \ZakharovAndrew\user\models\RegisterForm();
+        
+        return $this->render('signup', [
+            'model' => $model,
+        ]);
+    }
+        
     /**
      * User profile
      * 

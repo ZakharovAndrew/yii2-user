@@ -80,6 +80,7 @@ return [
     'Delete users' => 'Удалить пользователей',
     'Users deleted' => 'Пользователи удалены',
     'Roles Copied' => 'Роли скопированы',
+    'Registration is disabled' => 'Регистрация отключена',
     // actions
     'Create User' => 'Создать пользователя',
     'Save' => 'Сохранить',
