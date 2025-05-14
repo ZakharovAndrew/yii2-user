@@ -113,6 +113,7 @@ Add this to your main configuration's urlManager array
         'login' => 'user/user/login',
         'logout' => 'user/user/logout',
         'profile' => 'user/user/profile',
+        'signup' => 'user/user/signup',
         //...
     ],
     //...
