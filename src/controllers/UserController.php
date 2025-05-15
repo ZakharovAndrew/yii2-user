@@ -360,6 +360,10 @@ class UserController extends ParentController
         
         $model = new \ZakharovAndrew\user\models\SignupForm();
         
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            
+        }
+        
         return $this->render('signup', [
             'model' => $model,
         ]);

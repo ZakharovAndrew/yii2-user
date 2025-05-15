@@ -5,6 +5,7 @@ namespace ZakharovAndrew\user\models;
 use Yii;
 use yii\base\Model;
 use ZakharovAndrew\user\Module;
+use ZakharovAndrew\user\models\User;
 
 /**
  * SignupForm is the model behind the sign up form.
@@ -42,7 +43,8 @@ class SignupForm extends Model
     {
         return [
             [['username', 'name', 'email', 'password'], 'required'],
-
+            ['email', 'email'],
+            ['email', 'unique', 'targetClass' => User::className(), 'message' => Module::t('This email is already taken!')],
             // password is validated by validatePassword()
             ['password', 'validatePassword'],
         ];
