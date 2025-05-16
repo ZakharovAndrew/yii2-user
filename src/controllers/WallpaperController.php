@@ -7,6 +7,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use ZakharovAndrew\user\models\User;
 use ZakharovAndrew\user\models\UserSettings;
+use ZakharovAndrew\user\models\UserSettingsConfig;
 
 class WallpaperController extends Controller
 {
@@ -33,12 +34,16 @@ class WallpaperController extends Controller
     public function actionSelect($wallpaperId)
     {
         $userId = Yii::$app->user->id;
-        $settingConfigId = 11; // ID настройки для обоев
-
-        // Сохраняем выбранный фон в пользовательских настройках
+        
+        // Getting the setting ID by the code 'user_wallpaper_id'.
+        $settingConfig = UserSettingsConfig::findOne(['code' => 'user_wallpaper_id']);
+        if ($settingConfig === null) {
+            throw new NotFoundHttpException('Настройка не найдена.');
+        }
+        
         UserSettings::saveValue($userId, $settingConfigId, $wallpaperId);
 
-        // Перенаправляем обратно на страницу выбора обоев или куда-то еще
+        // Redirecting back to the wallpaper selection page
         return $this->redirect(['index']);
     }
 }
