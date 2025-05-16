@@ -128,7 +128,9 @@ return [
     'Wrong password.' => 'Неверный пароль.',
     'You are not authorized to change Email' => 'Вы не авторизованы для смены Email',
     'Invalid data for changing Email.' => 'Неверные данные для смены Email.',
-    
+
+    // wallpapers
+    'Select' => 'Выбрать',
     
     //
     'Hello' => 'Здравствуйте',
