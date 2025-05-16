@@ -1,5 +1,6 @@
 <?php
 use yii\helpers\Html;
+use ZakharovAndrew\user\Module;
 
 /* @var $this yii\web\View */
 /* @var $wallpapers array */
@@ -22,7 +23,7 @@ $this->title = 'Обои';
         <?php foreach ($wallpapers as $wallpaper): ?>
             <div class="wallpaper-item <?= $currentWallpaperId == $wallpaper['url'] ? 'active' : '' ?>">
                 <img src="<?= Html::encode($wallpaper['url']) ?>" alt="Wallpaper" class="wallpaper-image">
-                <a href="<?= \yii\helpers\Url::to(['select', 'wallpaperId' => $wallpaper['url']]) ?>" class="btn btn-primary">Выбрать</a>
+                <a href="<?= \yii\helpers\Url::to(['select', 'wallpaperId' => $wallpaper['url']]) ?>" class="btn btn-primary"><?= Module::t('Select') ?></a>
             </div>
         <?php endforeach; ?>
     <?php endif; ?>
