@@ -84,7 +84,18 @@ Add this to your main configuration's modules array
                             ],
                         ], 
                 1002 => ['/user/roles/index' => 'Roles']
-            ]
+            ],
+            'wallpapers' => [
+                [
+                    'url' => 'path/to/wallpaper1.jpg',
+                    'roles' => ['user', 'admin'], // available to which roles
+                ],
+                [
+                    'url' => 'path/to/wallpaper2.jpg',
+                    'roles' => ['admin'], // only for admin
+                ],
+            // ...
+            ],
         ],
         // ...
     ],
@@ -114,6 +125,7 @@ Add this to your main configuration's urlManager array
         'logout' => 'user/user/logout',
         'profile' => 'user/user/profile',
         'signup' => 'user/user/signup',
+        'wallpapers' => 'user/wallpaper/index',
         //...
     ],
     //...
