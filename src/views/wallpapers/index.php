@@ -17,6 +17,7 @@ $this->title = 'Обои';
             <?php foreach ($wallpapers as $wallpaper): ?>
                 <li>
                     <img src="<?= Html::encode($wallpaper) ?>" alt="Wallpaper" style="max-width: 100%; height: auto;">
+                    <?= Html::a('Выбрать', ['select', 'wallpaperId' => $wallpaper['id']], ['class' => 'btn btn-primary']) ?>
                 </li>
             <?php endforeach; ?>
         </ul>
