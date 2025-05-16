@@ -62,6 +62,11 @@ class Module extends \yii\base\Module
      * @var array config access
      */
     public $controllersAccessList = [];
+ 
+    /**
+     * @var array wallapers for user
+     */
+    public $wallpapers = [];
     
     /**
      *
