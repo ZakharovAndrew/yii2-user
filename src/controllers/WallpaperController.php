@@ -26,8 +26,15 @@ class WallpaperController extends Controller
             }
         }
 
+        // Getting the setting ID by the code 'user_wallpaper_id'.
+        $settingConfig = UserSettingsConfig::findOne(['code' => 'user_wallpaper_id']);
+        if ($settingConfig === null) {
+            throw new NotFoundHttpException('Настройка не найдена.');
+        }
+
         return $this->render('index', [
             'wallpapers' => $availableWallpapers,
+            'currentWallpaperId' => $settingConfig->getUserSettingValue(Yii::$app->user->id) ?? 0,
         ]);
     }
 
