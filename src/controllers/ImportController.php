@@ -13,7 +13,6 @@ use ZakharovAndrew\user\models\ImportForm;
 class ImportController extends ParentController
 {
     public $controller_id = 1005;
-    
        
     /**
      * Importing users from a csv file
@@ -25,10 +24,12 @@ class ImportController extends ParentController
         $model = new ImportForm();
         
         if ($model->load(Yii::$app->request->post())) {
+
+            set_time_limit(600);
             
             $result = $model->import();
                     
-            if (!$model->import()) {
+            if (!$result) {
                 Yii::$app->getSession()->setFlash('error', 'Ошибка при импортировании пользователей' . var_export($model->getErrors(), true));   
                 unset($result);
             }
