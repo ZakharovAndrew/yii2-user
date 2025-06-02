@@ -63,7 +63,7 @@ $this->params['breadcrumbs'][] = $this->title;
         background-color: #7366ff;
         border-color: #7366ff;
     }
-    .form-login .col-form-label {
+    /*.form-login .col-form-label {
         font-size: 16px !important;
         letter-spacing: 0.4px;
 
@@ -75,7 +75,7 @@ $this->params['breadcrumbs'][] = $this->title;
         margin-bottom: 0;
         font-size: inherit;
         line-height: 1.5;
-    }
+    }*/
     .field-loginform-rememberme {margin-top:10px;margin-bottom:45px!important;}
     .mg10 {padding-top:10px}
     p {
@@ -100,9 +100,9 @@ $this->params['breadcrumbs'][] = $this->title;
             <?php $form = $classActiveForm::begin([
                 'id' => 'login-form',
                 'layout' => 'horizontal',
-                'fieldConfig' => [
+                /*'fieldConfig' => [
                     'template' => "<label class=\"col-form-label\">{label}</label><div class=\"col-lg-12\">{input}</div>\n<br><div class=\"\">{error}</div>",
-                ],
+                ],*/
             ]); ?>
 
             <?= $form->field($model, 'name', [
