@@ -109,4 +109,14 @@ class UserSettings extends \yii\db\ActiveRecord
     {
         return $this->hasMany(UserSettingsLog::class, ['user_settings_id' => 'id']);
     }
+    
+    
+    /**
+     * Reset cache after saving
+     */
+    public function afterSave($insert, $changedAttributes)
+    {
+        parent::afterSave($insert, $changedAttributes);
+        Yii::$app->cache->delete('get_users_settings_'.$this->user_id.'_'.$this->setting_config_id);
+    }
 }

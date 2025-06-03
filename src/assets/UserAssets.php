@@ -13,7 +13,7 @@ class UserAssets extends AssetBundle
     public $sourcePath = '@vendor/zakharov-andrew/yii2-user/src/assets';
 
     public $css = [
-        'css/style_v1.12.css',
+        'css/style_v1.13.css',
     ];
 
     public $js = [

@@ -91,14 +91,20 @@ class UserSettingsConfig extends \yii\db\ActiveRecord
             $user_id = Yii::$app->user->id;
         }
         
-        $model = UserSettings::find()
-            ->select('values')
-            ->where([
-                'setting_config_id' => $this->id,
-                'user_id' => $user_id
-            ])->one();
+        $setting_id = $this->id;
         
-        return $model->values ?? null;
+        return Yii::$app->cache->getOrSet('get_users_settings_'.$user_id.'_'.$setting_id, function () use ($setting_id, $user_id) {
+            $model = UserSettings::find()
+                ->select('values')
+                ->where([
+                    'setting_config_id' => $setting_id,
+                    'user_id' => $user_id
+                ])->one();
+
+            return $model->values ?? null;
+        }, 600);
+        
+        
     }
     
     public function getValues()

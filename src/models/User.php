@@ -553,6 +553,33 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
         return $this->id;
     }
     
+    public function getWallpaper()
+    {
+        return Yii::$app->cache->getOrSet('user_wallpaper_'.Yii::$app->user->id, function () {
+        
+            $wallpapers = Yii::$app->getModule('user')->wallpapers;
+
+            // Getting the setting ID by the code 'user_wallpaper_id'.
+            $settingConfig = UserSettingsConfig::findOne(['code' => 'user_wallpaper_id']);
+            if ($settingConfig === null) {
+                return false;
+            }
+
+            $currentWallpaperId =  $settingConfig->getUserSettingValue(Yii::$app->user->id) ?? 0;
+
+            if (!isset($wallpapers[$currentWallpaperId])) {
+                return false;
+            }
+
+            // Getting the roles of the current user
+            $userRoles = ArrayHelper::getColumn(Roles::getRolesByUserId(Yii::$app->user->id), 'code');
+
+            if (array_intersect($userRoles, $wallpapers[$currentWallpaperId]['roles'])) {
+                return $wallpapers[$currentWallpaperId]['url'];
+            }
+        }, 600);
+    }
+    
     /**
      * Checks if today is the user's birthday.
      *

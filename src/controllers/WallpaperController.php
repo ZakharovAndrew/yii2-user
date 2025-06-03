@@ -5,11 +5,14 @@ namespace ZakharovAndrew\user\controllers;
 use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use yii\helpers\ArrayHelper;
 use ZakharovAndrew\user\models\User;
 use ZakharovAndrew\user\models\UserSettings;
 use ZakharovAndrew\user\models\UserSettingsConfig;
+use ZakharovAndrew\user\models\Roles;
+use ZakharovAndrew\user\controllers\ParentController;
 
-class WallpaperController extends Controller
+class WallpaperController extends ParentController
 {
     public function actionIndex()
     {
@@ -17,12 +20,12 @@ class WallpaperController extends Controller
         $availableWallpapers = [];
 
         // Getting the roles of the current user
-        $userRoles = User::getRolesByUserId(Yii::$app->user->id);
-
-        foreach ($wallpapers as $wallpaper) {
+        $userRoles = ArrayHelper::getColumn(Roles::getRolesByUserId(Yii::$app->user->id), 'code');
+        
+        foreach ($wallpapers as $id => $wallpaper) {
             // Checking if the wallpaper is available for the user.
             if (array_intersect($userRoles, $wallpaper['roles'])) {
-                $availableWallpapers[] = $wallpaper['url'];
+                $availableWallpapers[$id] = $wallpaper['url'];
             }
         }
 
@@ -48,7 +51,9 @@ class WallpaperController extends Controller
             throw new NotFoundHttpException('Настройка не найдена.');
         }
         
-        UserSettings::saveValue($userId, $settingConfigId, $wallpaperId);
+        UserSettings::saveValue($userId, $settingConfig->id, $wallpaperId);
+        
+        Yii::$app->cache->delete('user_wallpaper_'.$userId);
 
         // Redirecting back to the wallpaper selection page
         return $this->redirect(['index']);

@@ -80,3 +80,26 @@
     display:block;
     margin: 1px 0;
 }
+
+/* wallpapers */
+.wallpaper-item {
+    flex: 1 0 30%;
+    position: relative;
+    cursor: pointer;
+    border: 2px solid #ccc;
+    transition: border-color 0.3s;
+}
+
+.wallpaper-image,
+.no-wallpaper {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+.no-wallpaper {
+    background-color: #f0f0f0; /* Цвет фона для варианта "без обоев" */
+}
+.no-wallpaper {
+    background: url(../images/no-image.png) no-repeat center;
+}
