@@ -676,4 +676,9 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
         // Проверяем, больше ли разница 5 минут
         return  !($interval->i >= 5 || $interval->h > 0);
     }
+    
+    public function isClient()
+    {
+        return $this->status == static::STATUS_CLIENT;
+    }
 }
