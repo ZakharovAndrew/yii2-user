@@ -30,6 +30,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     const STATUS_DELETED = 0;
     const STATUS_CLIENT = 4;
     const STATUS_USER = 5;
+    const STATUS_PARTNER = 6;
         
     const STATUS_MANAGER = 20;
     const STATUS_SENIOR_MANAGER = 25;
@@ -680,5 +681,10 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     public function isClient()
     {
         return $this->status == static::STATUS_CLIENT;
+    }
+
+    public function isPartner()
+    {
+        return $this->status == static::STATUS_PARTNER;
     }
 }
