@@ -54,6 +54,7 @@ return [
     'Avatar' => 'Аватар',
     'Deleted' => 'Удален',
     'Client' => 'Клиент',
+    'Partner' => 'Партнер',
     'User' => 'Пользователь',
     'Manager' => 'Менеджер',
     'Senior manager' => 'Старший менеджер',
