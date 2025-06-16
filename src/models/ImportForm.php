@@ -4,9 +4,12 @@ namespace ZakharovAndrew\user\models;
 
 use Yii;
 use yii\base\Model;
-use ZakharovAndrew\user\models\User;
-use ZakharovAndrew\user\Module;
+use yii\helpers\ArrayHelper;
 use yii\web\UploadedFile;
+use ZakharovAndrew\user\Module;
+use ZakharovAndrew\user\models\User;
+use ZakharovAndrew\user\models\UserSettings;
+use ZakharovAndrew\user\models\UserSettingsConfig;
 
 class ImportForm extends Model
 {
@@ -52,6 +55,9 @@ class ImportForm extends Model
         $rows = array_map(function($v) use($separator) {return str_getcsv($v, $separator);}, file($uploadedFile->tempName));
         $headers = array_shift($rows);
         
+        // getting setting fields
+        $settings = ArrayHelper::map(UserSettingsConfig::find()->select(['id', 'code'])->asArray()->all(), 'code', 'id');
+
         $result = [];
 
         foreach ($rows as $row) {
@@ -66,6 +72,14 @@ class ImportForm extends Model
             $user->generateTelegramCode(); // set telegram code
             $user->created_by = Yii::$app->user->id;
             $user->status = $this->status;
+            
+            if (!empty($data['phone'])) {
+                $user->phone = $data['phone'];
+            }
+            
+            if (!empty($data['city'])) {
+                $user->city = $data['city'];
+            }
             
             // Trying to send the password to the email and save the password
             if (!$user->setPassword($password) || !$user->save() || !$user->sendPasswordEmail($password)) {
@@ -88,6 +102,19 @@ class ImportForm extends Model
                         ]);
 
                         $role->save();
+                    }
+                }
+                
+                // save settings
+                foreach ($settings as $setting_code => $setting_id) {
+                    if (isset($data[$setting_code])) {
+                        $setting = new UserSettings([
+                            'user_id' => $user->id,
+                            'setting_config_id' => $setting_id,
+                            'values' => $data[$setting_code]
+                        ]);
+                        
+                        $setting->save();
                     }
                 }
                 
