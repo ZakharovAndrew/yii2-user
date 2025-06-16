@@ -2,8 +2,6 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use yii\helpers\ArrayHelper;
-use ZakharovAndrew\user\models\User;
 use ZakharovAndrew\user\Module;
 
 $this->title = Module::t('Send birthday congratulations');
