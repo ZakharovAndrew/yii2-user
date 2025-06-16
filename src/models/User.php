@@ -110,6 +110,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
             static::STATUS_DELETED          => Module::t('Deleted'),
             static::STATUS_USER             => Module::t('User'),
             static::STATUS_CLIENT           => Module::t('Client'),
+            static::STATUS_PARTNER          => Module::t('Partner'),
             static::STATUS_MANAGER          => Module::t('Manager'),
             static::STATUS_SENIOR_MANAGER   => Module::t('Senior manager'),
             static::STATUS_ADMIN            => Module::t('Administrator'),
