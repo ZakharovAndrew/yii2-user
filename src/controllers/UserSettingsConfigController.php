@@ -66,6 +66,10 @@ class UserSettingsConfigController extends ParentController
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
             return $this->redirect(['index']);
         }
+        
+        if (is_string($model->hidden_for_roles)) {
+            $model->hidden_for_roles = explode(',', $model->hidden_for_roles);
+        }
 
         return $this->render('update', [
             'model' => $model,
