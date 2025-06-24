@@ -20,6 +20,6 @@ class m250223_110411_create_wallpaper_setting extends Migration
      */
     public function down()
     {
-        $this->delete('notifications', ['code' => 'user_wallpaper_id']);
+        $this->delete('user_settings_config', ['code' => 'user_wallpaper_id']);
     }
 }
