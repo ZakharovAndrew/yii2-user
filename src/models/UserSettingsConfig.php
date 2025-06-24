@@ -27,6 +27,7 @@ class UserSettingsConfig extends \yii\db\ActiveRecord
     const TYPE_DATE = 3;
     const TYPE_TIME = 4;
     const TYPE_CHECKBOX = 5;
+    const TYPE_MULTI_SELECT_DROPDOWN = 6;
     
     /**
      * {@inheritdoc}
@@ -46,6 +47,7 @@ class UserSettingsConfig extends \yii\db\ActiveRecord
             [['type', 'access_level'], 'integer'],
             [['values'], 'string'],
             [['title', 'code'], 'string', 'max' => 255],
+            [['hidden_for_roles'], 'safe'],
         ];
     }
 
@@ -72,6 +74,7 @@ class UserSettingsConfig extends \yii\db\ActiveRecord
             static::TYPE_DATE => Module::t('Date'),
             static::TYPE_TIME => Module::t('Time'),
             static::TYPE_CHECKBOX => Module::t('Checkbox'),
+            static::TYPE_MULTI_SELECT_DROPDOWN => Module::t('Multi-select dropdown'),
         ];
     }
     
@@ -122,5 +125,14 @@ class UserSettingsConfig extends \yii\db\ActiveRecord
         $arr =  explode("\r\n", $this->values);
         
         return array_combine($arr, $arr);
+    }
+    
+    public function beforeSave($insert)
+    {
+        if (is_array($this->hidden_for_roles)) {
+            $this->hidden_for_roles = implode(',',$this->hidden_for_roles);
+        }
+            
+        return parent::beforeSave($insert);
     }
 }
