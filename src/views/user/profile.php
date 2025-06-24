@@ -97,9 +97,18 @@ $this->title = Module::t('Profile');
                 <div class="profile-user-settings">
                     <label><?= $setting->title . ' : ' ?></label>
                     <?php 
+                    //var_dump($setting->getValues());
                     $value = $setting->getUserSettingValue($model->id);
                     if ($setting->type == UserSettingsConfig::TYPE_CHECKBOX) {
                         echo $value == 1 ? Module::t('Yes') : Module::t('No');
+                    } else if ($setting->type == UserSettingsConfig::TYPE_MULTI_SELECT_DROPDOWN && !empty($value)) {
+                        $field_value = explode(',', $value);
+                        $arr = [];
+                        foreach ($field_value as $item_value) {
+                            $arr[] = $setting->getValues()[$item_value];
+                        }
+                        
+                        echo implode(', ', $arr);
                     } else if (!empty($setting->values) && !empty($value)) {
                         echo $setting->getValues()[$value] ?? $value;
                     } else {
