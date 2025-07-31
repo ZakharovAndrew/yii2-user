@@ -4,6 +4,8 @@ namespace ZakharovAndrew\user\models;
 
 use Yii;
 use ZakharovAndrew\user\Module;
+use ZakharovAndrew\user\models\Roles;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "user_settings_config".
@@ -108,6 +110,15 @@ class UserSettingsConfig extends \yii\db\ActiveRecord
         }, 600);
         
         
+    }
+    
+    public function getRolesForHiddenList()
+    {
+        if (empty($this->hidden_for_roles)) {
+            return [];
+        }
+        
+        return ArrayHelper::getColumn(Roles::find()->select('code')->where(['id' => explode(',', $this->hidden_for_roles)])->asArray()->all(), 'code');
     }
     
     public function getValues()

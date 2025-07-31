@@ -110,7 +110,7 @@ class UserSettings extends \yii\db\ActiveRecord
         return $this->hasMany(UserSettingsLog::class, ['user_settings_id' => 'id']);
     }
     
-    
+       
     /**
      * Reset cache after saving
      */
