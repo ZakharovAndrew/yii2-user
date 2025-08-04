@@ -162,7 +162,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
                 break;
             }
             
-            foreach ($role->getParametersList() as $controller_id => $actions) {
+            foreach ($role->parameters as $controller_id => $actions) {
                 if ($actions == '*') {
                     $list[$controller_id] = '*';
                     continue;

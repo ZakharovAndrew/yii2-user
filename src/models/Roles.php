@@ -5,6 +5,7 @@ namespace ZakharovAndrew\user\models;
 use Yii;
 use ZakharovAndrew\user\Module;
 use \yii\helpers\ArrayHelper;
+use yii\helpers\Json;
 
 /**
  * This is the model class for table "roles".
@@ -86,6 +87,54 @@ class Roles extends \yii\db\ActiveRecord
         }, 10);
     }
     
+    public static function getAllowedParametersList()
+    {
+        $items = [];
+        $controllersAccessList = Yii::$app->getModule('user')->controllersAccessList;
+        
+        foreach ($controllersAccessList as $controller_id => $params) {
+            if (is_string($controller_id)) {
+                $submenu = [];
+                // find submenu
+                foreach ($params as $item_id => $item) {
+                    $submenu = array_merge($submenu, static::getSubItem($item_id, $item));
+                }
+                // don't create submenu
+                if (count($submenu) == 1) {
+                    $items = array_merge($items, $submenu);
+                } else if (count($submenu) > 0) {
+                    $items[] = ['label' => $controller_id, 'items' => $submenu];
+                }
+            } else {
+                $items = array_merge($items, static::getSubItem($controller_id, $params));
+            }
+        }
+        
+        return $items;
+    }
+    
+    public static function getSubItem($controller_id, $items)
+    {
+        $menu_items = [];     
+
+        // Processing each menu item
+        foreach ($items as $link => $item) {
+            $url = $link;
+            $label = $item;
+            
+            if (is_array($item) && is_int($link)) {
+                $label = $item['label'];
+            } else if (is_array($item)) {
+                $menu_items[] = ['label' => $link, 'items' => static::getSubItem($controller_id, $item)];
+                continue;
+            }
+
+            $menu_items[] = ['label' => $label, 'id' => $controller_id];
+        }
+        
+        return $menu_items;
+    }
+    
     public function getParametersList()
     {
         return json_decode($this->parameters) ?? [];
@@ -129,5 +178,26 @@ class Roles extends \yii\db\ActiveRecord
         }
         
         return [];
+    }
+    
+    // Если нужно преобразовать JSON в массив при загрузке
+    public function afterFind()
+    {
+        parent::afterFind();
+        if ($this->parameters) {
+            $this->parameters = Json::decode($this->parameters);
+        }
+    }
+    
+    // Перед сохранением
+    public function beforeSave($insert)
+    {
+        if (parent::beforeSave($insert)) {
+            if (is_array($this->parameters)) {
+                $this->parameters = Json::encode($this->parameters);
+            }
+            return true;
+        }
+        return false;
     }
 }
