@@ -77,7 +77,10 @@ $this->title = Module::t('Profile');
             <div class="profile-action-block">
                 <?php if ($model->id == Yii::$app->user->id) {
                     echo Html::a(Module::t('Edit Profile'), ['edit-profile'], ['class' => 'btn btn-primary']);
-                    
+                } else if  (Yii::$app->user->identity->hasRole('admin')) {
+                    echo Html::a(Module::t('Edit Profile'), ['edit-profile', 'id' => $model->id], ['class' => 'btn btn-primary']);
+                }
+                if ($model->id == Yii::$app->user->id) {    
                     echo Html::a(Module::t('Appreciation'), ['thanks/view'], ['class' => 'btn btn-success']);
                 } else { 
                     echo Html::a(Module::t('Appreciation'), ['thanks/view', 'id' => $model->id], ['class' => 'btn btn-success']);
@@ -93,7 +96,14 @@ $this->title = Module::t('Profile');
     
     <div class="white-block">
         <div class="profile-additional">
-            <?php foreach ($settings as $setting) {?>
+            <?php foreach ($settings as $setting) { ?>
+                <?php 
+                if (!empty($setting->hidden_for_roles)) {
+                    if (Yii::$app->user->identity->hasRole($setting->getRolesForHiddenList())) {
+                        continue;
+                    }
+                }
+                ?>
                 <div class="profile-user-settings">
                     <label><?= $setting->title . ' : ' ?></label>
                     <?php 
