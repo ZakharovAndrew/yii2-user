@@ -8,10 +8,10 @@ use ZakharovAndrew\user\models\UserRoles;
 
 /**
  * Menu for navbar
- * *************
+ * ***************
  *  
  * @link https://github.com/ZakharovAndrew/yii2-user/
- * @copyright Copyright (c) 2023-2024 Zakharov Andrew
+ * @copyright Copyright (c) 2023-2025 Zakharov Andrew
  */
 class Menu extends \yii\base\Model
 {
@@ -52,8 +52,7 @@ class Menu extends \yii\base\Model
                 $items = array_merge($items, static::getMenuItem($controller_id, $params));
             }
         }
-        
-        //var_dump($items);die();
+
         return $items;
     }
     
@@ -79,6 +78,11 @@ class Menu extends \yii\base\Model
             if (is_array($item) && is_int($link) && isset($item['url'])) {
                 // checking for the role required to display the menu item
                 if (isset($item['roles']) && !static::checkRoles($item['roles'])) {
+                    continue;
+                }
+                
+                // checking for the status required to display the menu item
+                if (isset($item['statuses']) && !static::checkStatus($item['statuses'])) {
                     continue;
                 }
                 
@@ -118,5 +122,14 @@ class Menu extends \yii\base\Model
         }
         
         return false;
+    }
+    
+    public static function checkStatus($statuses)
+    {
+        if (is_string($statuses) || is_numeric($statuses)) {
+            $statuses = [$statuses];
+        }
+        
+        return in_array(Yii::$app->user->identity->status, $statuses);
     }
 }
