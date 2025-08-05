@@ -180,13 +180,12 @@ class Roles extends \yii\db\ActiveRecord
         return [];
     }
     
-    // Если нужно преобразовать JSON в массив при загрузке
     public function afterFind()
     {
         parent::afterFind();
-        if ($this->parameters) {
-            $this->parameters = Json::decode($this->parameters);
-        }
+
+        // If you need to parse JSON into an array during loading
+        $this->parameters = ($this->parameters) ? Json::decode($this->parameters) : [];        
     }
     
     // Перед сохранением
