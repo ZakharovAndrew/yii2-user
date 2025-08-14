@@ -50,7 +50,7 @@ class CheckboxMenuWithInput extends Widget
         }
 
         return Html::tag('div', 
-            Html::tag('h3', Html::encode($group['label']), ['class' => 'group-title']) . 
+            Html::tag('h3', $group['label'], ['class' => 'group-title']) . 
             Html::tag('div', $items, ['class' => 'group-items']),
             ['class' => 'menu-group']
         );
