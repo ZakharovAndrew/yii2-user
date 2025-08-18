@@ -22,8 +22,8 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a(Module::t('Create User Settings Configuration'), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
+    
+    <div class="white-block">
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
@@ -58,6 +58,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ],
     ]); ?>
+    </div>
 
 
 </div>
