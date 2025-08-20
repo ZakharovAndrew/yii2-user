@@ -12,8 +12,29 @@ UserAssets::register($this);
 /** @var ZakharovAndrew\user\models\UserRoles $model */
 /** @var yii\widgets\ActiveForm $form */
 
+// CSS/JS Select2
+$this->registerCssFile('https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css');
+$this->registerJsFile('https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js', ['depends' => [\yii\web\JqueryAsset::class]]);
+// init Select2
+$this->registerJs(<<<JS
+    $('.select2').select2({
+        placeholder: "Выберите...",
+        allowClear: true
+    });
+JS
+);
+
 echo $this->render('_js');
 ?>
+<style>
+    .user-roles-form .select2-container--default .select2-selection--single,
+    .user-roles-form .select2-container .select2-selection--multiple
+    {
+        background: #f5f8fa;
+        border: none;
+    }
+    
+</style>
 
 <div class="user-roles-form white-block">
 
@@ -21,7 +42,7 @@ echo $this->render('_js');
 
     <?= $form->field($model, 'user_id')->hiddenInput()->label(false) ?>
     
-    <?= $form->field($model, 'role_id')->dropDownList(Roles::getRolesList(), ['id' => 'role_id']) ?>
+    <?= $form->field($model, 'role_id')->dropDownList(Roles::getRolesList(), ['id' => 'role_id', 'prompt' => '', 'class' => 'form-control form-select select2']) ?>
     
     <?= $form->field($model, 'subject_id')->textInput(['maxlength' => true, 'id' => 'subject_id']) ?>
     
