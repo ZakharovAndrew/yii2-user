@@ -62,12 +62,14 @@ class Roles extends \yii\db\ActiveRecord
      */
     public static function getRolesList()
     {
-        $arr = static::find()
-                ->select(['id', 'title'])
-                ->asArray()
-                ->all();
-        
-        return ArrayHelper::map($arr, 'id', 'title');
+        return Yii::$app->cache->getOrSet('get_roles_list', function () {
+            $arr = static::find()
+                    ->select(['id', 'title'])
+                    ->asArray()
+                    ->all();
+
+            return ArrayHelper::map($arr, 'id', 'title');
+        }, 600);
     }
     
     /**
@@ -84,7 +86,7 @@ class Roles extends \yii\db\ActiveRecord
                 ->leftJoin('user_roles', 'user_roles.role_id = roles.id')
                 ->where(['user_roles.user_id' => $user_id])
                 ->all();
-        }, 10);
+        }, 60);
     }
     
     public static function getAllowedParametersList()
@@ -188,7 +190,7 @@ class Roles extends \yii\db\ActiveRecord
         $this->parameters = ($this->parameters) ? Json::decode($this->parameters) : [];        
     }
     
-    // Перед сохранением
+    // before saving
     public function beforeSave($insert)
     {
         if (parent::beforeSave($insert)) {
@@ -198,5 +200,15 @@ class Roles extends \yii\db\ActiveRecord
             return true;
         }
         return false;
+    }
+    
+    /**
+     * Reset cache after saving
+     */
+    public function afterSave($insert, $changedAttributes)
+    {
+        parent::afterSave($insert, $changedAttributes);
+        Yii::$app->cache->delete('get_roles_list');
+        Yii::$app->cache->delete('get_roles_by_user_'.$this->user_id);
     }
 }
