@@ -70,7 +70,13 @@ $this->title = Module::t('Profile');
             <div style="-webkit-flex: 0 1 100%;   flex: 0 1 100%;">
                 <h3><?= $model->name ?></h3>
                 <p><?= Module::t('City'). ' : ' . $model->city ?></p>
-                <p><?= Module::t('Birthday'). ' : ' . (empty($model->birthday) ? Module::t('Not specified') : date('d.m.Y', strtotime($model->birthday))) ?></p>
+                <p><?= Module::t('Birthday'). ' : ' . (empty($model->birthday) ? Module::t('Not specified') : date('d.m.Y', strtotime($model->birthday))) ?>
+                    <?php
+                // Happy Birthday button
+                if ($model->isBirthdayToday() && $model->id != Yii::$app->user->id) {
+                    echo' <a href="'.Url::to(['/user/birthday-greeting/send', 'id' => $model->id]).'" title="'.Module::t('Send birthday congratulations').'">🎁</a>';
+                }
+                ?></p>
                 <p><?= Module::t('Sex'). ' : ' . User::getSexList()[$model->sex] ?? Module::t('Not specified') ?></p> 
                 
             </div>
