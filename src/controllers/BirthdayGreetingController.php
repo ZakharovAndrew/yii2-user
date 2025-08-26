@@ -88,7 +88,10 @@ class BirthdayGreetingController extends Controller
             }
         }
 
-        return $this->render('send', ['model' => $model]);
+        return $this->render('send', [
+            'model' => $model,
+            'user' => $user
+        ]);
     }
 
     public function actionView($id = null)

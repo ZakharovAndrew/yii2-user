@@ -5,6 +5,7 @@ use yii\widgets\ActiveForm;
 use ZakharovAndrew\user\Module;
 
 $this->title = Module::t('Send birthday congratulations');
+$this->params['breadcrumbs'][] = ['label' => $user->name, 'url' => ['/user/user/profile', 'id' => $user->id]];
 $this->params['breadcrumbs'][] = $this->title;
 
 $this->registerJsFile('https://cdn.jsdelivr.net/npm/vanilla-emoji-picker@0.2.4/dist/emojiPicker.min.js', ['depends' => [\yii\web\JqueryAsset::class]]);
