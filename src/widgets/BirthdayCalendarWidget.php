@@ -53,13 +53,13 @@ class BirthdayCalendarWidget extends Widget
         foreach ($users as $user) {
             if (!empty($user->birthday)) {
                 // Get birthday in current year for comparison
-                $birthdayThisYear = date('Y') . substr($user->birthday, 4);
+                $birthdayThisYear = date('Y') . date('-m-d', strtotime($user->birthday));
                 
                 // Check if birthday falls within our date range (current week to next month)
                 if ($birthdayThisYear >= $currentDate && $birthdayThisYear <= $endDate) {
                     $birthdays[$birthdayThisYear][] = [
                         'user' => $user,
-                        'age' => $this->calculateAge($user->birthday),
+                        'age' => $this->calculateAge($user->birthday, $birthdayThisYear),
                         'birthday' => $user->birthday
                     ];
                 }
@@ -75,12 +75,13 @@ class BirthdayCalendarWidget extends Widget
     /**
      * Calculate age based on birthday
      * @param string $birthday Birthday date
+     * @param string $currentDay date
      * @return int Age
      */
-    protected function calculateAge($birthday)
+    protected function calculateAge($birthday, $currentDay)
     {
         $birthDate = new \DateTime($birthday);
-        $currentDate = new \DateTime();
+        $currentDate = new \DateTime($currentDay);
         return $currentDate->diff($birthDate)->y;
     }
 

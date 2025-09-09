@@ -1,11 +1,21 @@
 <?php
 use yii\helpers\Html;
 use yii\helpers\Url;
+use ZakharovAndrew\user\Module;
+
+use ZakharovAndrew\user\assets\UserAssets;
+UserAssets::register($this);
+
+// Функция для правильного склонения
+function plural($number, $forms) {
+    $cases = [2, 0, 1, 1, 1, 2];
+    return $forms[($number % 100 > 4 && $number % 100 < 20) ? 2 : $cases[min($number % 10, 5)]];
+}
 ?>
 
 <div class="birthday-calendar-widget">
     <div class="calendar-header">
-        <h4><?= Html::encode($title) ?></h4>
+        <h4><?= Html::encode(Module::t($title)) ?></h4>
         <div class="calendar-period">
             <?= Yii::$app->formatter->asDate('now', 'medium') ?> - 
             <?= Yii::$app->formatter->asDate('+1 month', 'medium') ?>
@@ -17,9 +27,9 @@ use yii\helpers\Url;
             <div class="calendar-week <?= $week['week_number'] == date('W') ? 'current-week' : '' ?>">
                 <div class="week-header">
                     <span class="week-range">
-                        Week <?= $week['week_number'] ?>: 
-                        <?= Yii::$app->formatter->asDate($week['start_date'], 'MMM d') ?> - 
-                        <?= Yii::$app->formatter->asDate($week['end_date'], 'MMM d') ?>
+                        <?= Module::t('Week {number}', ['number' => $week['week_number']]) ?>: 
+                        <?= Yii::$app->formatter->asDate($week['start_date'], 'd MMM') ?> - 
+                        <?= Yii::$app->formatter->asDate($week['end_date'], 'd MMM') ?>
                     </span>
                 </div>
                 
@@ -31,7 +41,7 @@ use yii\helpers\Url;
                             <?= $day['is_future'] ? 'future' : '' ?>">
                             
                             <div class="day-header">
-                                <span class="day-name"><?= $day['day_name'] ?></span>
+                                <span class="day-name"><?= Module::t($day['day_name']) ?></span>
                                 <span class="day-number"><?= $day['day_number'] ?></span>
                             </div>
                             
@@ -49,7 +59,7 @@ use yii\helpers\Url;
                                                     Html::encode($birthday['user']->name),
                                                     ['/user/admin/update', 'id' => $birthday['user']->id],
                                                     [
-                                                        'title' => 'View profile',
+                                                        'title' => Module::t('View profile'),
                                                         'class' => 'user-link'
                                                     ]
                                                 ) ?>
@@ -57,24 +67,32 @@ use yii\helpers\Url;
                                             
                                             <?php if ($showAge): ?>
                                                 <div class="user-age">
-                                                    <?= $birthday['age'] ?> years
+                                                    <?= Module::t('{age} years', [
+                                                        'age' => $birthday['age'],
+                                                        'plural' => plural($birthday['age'], ['год', 'года', 'лет'])
+                                                    ]) ?>
                                                 </div>
                                             <?php endif; ?>
                                             
                                             <div class="birthday-date">
-                                                <?= Yii::$app->formatter->asDate($birthday['birthday'], 'medium') ?>
+                                                <?= Yii::$app->formatter->asDate($birthday['birthday'], 'd MMMM yyyy') ?>
                                             </div>
                                         </div>
                                     <?php endforeach; ?>
                                     
                                     <?php if ($extraBirthdays > 0): ?>
                                         <div class="extra-birthdays">
-                                            +<?= $extraBirthdays ?> more birthday<?= $extraBirthdays > 1 ? 's' : '' ?>
+                                            <?= Module::t('+{count} more', [
+                                                'count' => $extraBirthdays
+                                            ]) ?>
+                                            <?= plural($extraBirthdays, ['день рождения', 'дня рождения', 'дней рождений']) ?>
                                         </div>
                                     <?php endif; ?>
                                 </div>
                             <?php else: ?>
-                                <div class="no-birthdays">No birthdays</div>
+                                <div class="no-birthdays">
+                                    <?= Module::t('No birthdays') ?>
+                                </div>
                             <?php endif; ?>
                         </div>
                     <?php endforeach; ?>

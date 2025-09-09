@@ -247,4 +247,37 @@ return [
     'Delete Notification' => 'Удалить уведомление',
     'Code Name' => 'Кодовое имя',
     'Function to call' => 'Функция для вызова',
+    
+    // Birthday Calendar
+    'Birthday Calendar (Next Month)' => 'Календарь дней рождений (на месяц вперед)',
+    'Upcoming Birthdays' => 'Предстоящие дни рождения',
+    'Week {number}' => 'Неделя {number}',
+    'View profile' => 'Посмотреть профиль',
+    '{age} years' => '{age} лет',
+    'No birthdays' => 'Нет дней рождений',
+    '+{count} more birthday' => '+{count} ещё день рождения',
+    '+{count} more birthdays' => '+{count} ещё дней рождений',
+    
+    // Days of week
+    'Mon' => 'Пн',
+    'Tue' => 'Вт',
+    'Wed' => 'Ср',
+    'Thu' => 'Чт',
+    'Fri' => 'Пт',
+    'Sat' => 'Сб',
+    'Sun' => 'Вс',
+    
+    // Months (if needed for formatter)
+    'January' => 'Январь',
+    'February' => 'Февраль',
+    'March' => 'Март',
+    'April' => 'Апрель',
+    'May' => 'Май',
+    'June' => 'Июнь',
+    'July' => 'Июль',
+    'August' => 'Август',
+    'September' => 'Сентябрь',
+    'October' => 'Октябрь',
+    'November' => 'Ноябрь',
+    'December' => 'Декабрь',
 ];
