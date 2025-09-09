@@ -225,3 +225,57 @@
 .birthday-item:last-child {
     margin-bottom: 0;
 }
+
+.birthday-calendar-widget .user-name {
+    font-weight: 600;
+    margin-bottom: 2px;
+}
+
+.birthday-calendar-widget .user-link {
+    color: #2196F3;
+    text-decoration: none;
+    font-size: 12px;
+}
+
+.birthday-calendar-widget .user-link:hover {
+    text-decoration: underline;
+}
+
+.birthday-calendar-widget .user-age {
+    font-size: 11px;
+    color: #666;
+    margin-bottom: 2px;
+}
+
+.birthday-calendar-widget .birthday-date {
+    font-size: 10px;
+    color: #999;
+}
+
+.no-birthdays {
+    font-size: 11px;
+    color: #999;
+    text-align: center;
+    padding: 10px 0;
+}
+
+.extra-birthdays {
+    font-size: 11px;
+    color: #666;
+    text-align: center;
+    padding: 5px;
+    background: #e8f5e8;
+    border-radius: 3px;
+    margin-top: 5px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .week-days {
+        grid-template-columns: repeat(1, 1fr);
+    }
+    
+    .calendar-day {
+        min-height: auto;
+    }
+}
