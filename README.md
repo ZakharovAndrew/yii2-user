@@ -153,7 +153,7 @@ Widget for congratulating the user on his birthday:
 ]) ?>
 ```
 
-📅 Birthday Calendar Widget
+### 📅 Birthday Calendar Widget
 
 Display a calendar of birthdays for the current week and next month:
 
@@ -165,7 +165,7 @@ Display a calendar of birthdays for the current week and next month:
 ]); ?>
 ```
 
-Options:
+**Options:**
 - title (string) - Calendar title
 - showAge (bool) - Show user age (default: true)
 - maxUsersPerDay (int) - Maximum number of users to show per day (default: 5)
@@ -173,12 +173,12 @@ Options:
 **Features:**
 
 - Shows birthdays from current week to next month
-- Weekly grouping with week numbers
-- Highlights current day
-- Clickable user names linking to profiles
-- Age display with proper pluralization
-- Responsive design for mobile devices
-- Multiple language support (English/Russian)
+- 📆 Weekly grouping with week numbers
+- 🎯 Current day highlighting
+- 👥 Clickable user names linking to profiles
+- 🔢 Age display with proper pluralization
+- 📱 Responsive design for mobile devices
+- 🌍 Multiple language support (English/Russian)
 
 Advanced usage with custom parameters:
 
