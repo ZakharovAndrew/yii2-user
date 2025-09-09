@@ -30,6 +30,29 @@ class SearchInput extends Widget
     left: 0.9rem;
     transform: translateY(-48%);
     height: 17px;
+}
+#search-input {
+    width: 100%;
+    display: block;
+    background-color: #eef2f8;
+    padding: 0.875rem 1.125rem;
+    font-weight: 400;
+    line-height: 1;
+    color: #69707a;
+    background-clip: padding-box;
+    border: 1px solid #c5ccd6;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    border: none;
+    border-radius: 50rem;
+    box-shadow: none;
+    padding-left: 4rem;
+    padding-right: 2rem;
+    line-height: 1.3;
+    box-shadow: none;
+    outline: none;
 }</style>';
         
         return $html;
