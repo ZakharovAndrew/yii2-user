@@ -14,6 +14,7 @@ Yii2 user authentication module for management users and their rights.
 - Supports role creation
 - Multiple user roles are supported
 - Happy Birthday widgets
+- Birthday Calendar widget
 - logging of failed authorization attempts and blocking access via IP
 - Supports languages: English, Russian
 
@@ -150,6 +151,59 @@ Widget for congratulating the user on his birthday:
 <?= \ZakharovAndrew\user\components\BirthdayGreetingWidget::widget([
     'message' => '<h1>Happy Birthday, {username}!</h1>'
 ]) ?>
+```
+
+📅 Birthday Calendar Widget
+
+Display a calendar of birthdays for the current week and next month:
+
+```php
+<?= \ZakharovAndrew\user\widgets\BirthdayCalendarWidget::widget([
+    'title' => 'Upcoming Birthdays',
+    'showAge' => true,
+    'maxUsersPerDay' => 3
+]); ?>
+```
+
+Options:
+- title (string) - Calendar title
+- showAge (bool) - Show user age (default: true)
+- maxUsersPerDay (int) - Maximum number of users to show per day (default: 5)
+
+**Features:**
+
+- Shows birthdays from current week to next month
+- Weekly grouping with week numbers
+- Highlights current day
+- Clickable user names linking to profiles
+- Age display with proper pluralization
+- Responsive design for mobile devices
+- Multiple language support (English/Russian)
+
+Advanced usage with custom parameters:
+
+```php
+<?= \ZakharovAndrew\user\widgets\BirthdayCalendarWidget::widget([
+    'title' => \ZakharovAndrew\user\Module::t('Upcoming Birthdays'),
+    'showAge' => true,
+    'maxUsersPerDay' => 5,
+    'view' => 'custom-calendar-view' // custom view file
+]); ?>
+```
+
+In controller action:
+
+```php
+public function actionBirthdayCalendar($year = null, $month = null)
+{
+    if (empty($year)) $year = date('Y');
+    if (empty($month)) $month = date('m');
+    
+    return $this->render('birthday-calendar-page', [
+        'year' => $year,
+        'month' => $month,
+    ]);
+}
 ```
 
 ## 👥 Contributing

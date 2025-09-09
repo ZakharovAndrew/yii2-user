@@ -15,7 +15,7 @@ function plural($number, $forms) {
 
 <div class="birthday-calendar-widget">
     <div class="calendar-header">
-        <h4><?= Html::encode(Module::t($title)) ?></h4>
+        <h4><?= Html::encode($title) ?></h4>
         <div class="calendar-period">
             <?= Yii::$app->formatter->asDate('now', 'medium') ?> - 
             <?= Yii::$app->formatter->asDate('+1 month', 'medium') ?>
