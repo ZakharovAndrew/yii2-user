@@ -612,6 +612,11 @@ class UserController extends ParentController
             Yii::$app->session->set('gridViewColumnVisibility', $columnVisibility);
         }
     }
+    
+    public function actionBirthdayCalendar()
+    {        
+        return $this->render('birthday-calendar', []);
+    }
      
     /**
      * Finds the User model based on its primary key value.

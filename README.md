@@ -191,21 +191,6 @@ Advanced usage with custom parameters:
 ]); ?>
 ```
 
-In controller action:
-
-```php
-public function actionBirthdayCalendar($year = null, $month = null)
-{
-    if (empty($year)) $year = date('Y');
-    if (empty($month)) $month = date('m');
-    
-    return $this->render('birthday-calendar-page', [
-        'year' => $year,
-        'month' => $month,
-    ]);
-}
-```
-
 ## 👥 Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.

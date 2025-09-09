@@ -249,6 +249,7 @@ return [
     'Function to call' => 'Функция для вызова',
     
     // Birthday Calendar
+    'Birthday Calendar' => 'Календарь дней рождений',
     'Birthday Calendar (Next Month)' => 'Календарь дней рождений (на месяц вперед)',
     'Upcoming Birthdays' => 'Предстоящие дни рождения',
     'Week {number}' => 'Неделя {number}',
