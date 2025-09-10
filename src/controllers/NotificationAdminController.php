@@ -3,13 +3,12 @@
 namespace ZakharovAndrew\user\controllers;
 
 use Yii;
-use yii\web\Controller;
 use ZakharovAndrew\user\models\NotificationGroup;
 use ZakharovAndrew\user\models\Notification;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
 
-class NotificationAdminController extends Controller
+class NotificationAdminController extends ParentController
 {
     public function actionIndex()
     {
