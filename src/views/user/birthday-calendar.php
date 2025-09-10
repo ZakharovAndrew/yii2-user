@@ -10,7 +10,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <div class="birthday-calendar-page">
-    <h1><?= Html::encode($this->title) ?></h1>
+    <?php if (Yii::$app->getModule('user')->showTitle) {?><h1><?= Html::encode($this->title) ?></h1><?php } ?>
     
     <?= BirthdayCalendarWidget::widget([
         'title' => Module::t('Upcoming Birthdays'),
