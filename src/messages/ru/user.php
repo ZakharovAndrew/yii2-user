@@ -388,5 +388,25 @@ return [
     'Deactivate' => 'Деактивировать',
     'Activate' => 'Активировать',
     'Are you sure you want to delete this item?' => 'Вы уверены, что хотите удалить этот элемент?',
+    
+    // Vacation controller translations
+    'Vacations' => 'Отпуска',
+    'My Vacations' => 'Мои отпуска',
+    'Calendar View' => 'Календарный вид',
+    'Vacation Details' => 'Детали отпуска',
+    'Employee' => 'Сотрудник',
+    'Are you sure you want to approve this vacation?' => 'Вы уверены, что хотите одобрить этот отпуск?',
+    'Are you sure you want to reject this vacation?' => 'Вы уверены, что хотите отклонить этот отпуск?',
+    'Are you sure you want to delete this vacation?' => 'Вы уверены, что хотите удалить этот отпуск?',
+    'Are you sure you want to cancel this vacation?' => 'Вы уверены, что хотите отменить этот отпуск?',
+    'You cannot edit this vacation' => 'Вы не можете редактировать этот отпуск',
+    'You cannot delete this vacation' => 'Вы не можете удалить этот отпуск',
 
+    'Vacation Calendar' => 'Календарь отпусков',
+    'Filters' => 'Фильтры',
+    'All Employees' => 'Все сотрудники',
+    'All Types' => 'Все типы',
+    'Apply Filters' => 'Применить фильтры',
+    'Clear Filters' => 'Очистить фильтры',
+    'Legend' => 'Легенда',
 ];
