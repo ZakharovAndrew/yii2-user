@@ -352,4 +352,41 @@ return [
     'Administrative Leave' => 'Административный отпуск',
     'Additional Leave' => 'Дополнительный отпуск',
     'Blood Donation Leave' => 'Отпуск для сдачи крови',
+    
+    // Vacation Type translations
+    'Vacation Types' => 'Типы отпусков',
+    'Create Vacation Type' => 'Создать тип отпуска',
+    'Update Vacation Type: {name}' => 'Редактировать тип отпуска: {name}',
+    'Vacation type created successfully' => 'Тип отпуска успешно создан',
+    'Vacation type updated successfully' => 'Тип отпуска успешно обновлен',
+    'Vacation type deleted successfully' => 'Тип отпуска успешно удален',
+    'Error deleting vacation type' => 'Ошибка удаления типа отпуска',
+    'Vacation type status updated' => 'Статус типа отпуска обновлен',
+    'Error updating vacation type status' => 'Ошибка обновления статуса типа отпуска',
+    
+    // VacationType attribute labels
+
+    'Is Paid' => 'Оплачиваемый',
+    'Color' => 'Цвет',
+    'Is Active' => 'Активный',
+    'Max Days Per Year' => 'Максимум дней в году',
+    'Min Days Per Request' => 'Минимум дней в заявке',
+    'Max Days Per Request' => 'Максимум дней в заявке',
+    'Requires Approval' => 'Требует одобрения',
+    'Priority' => 'Приоритет',
+
+    // VacationType messages
+    'This vacation type is not available' => 'Этот тип отпуска недоступен',
+    'Minimum {min} days required for this type' => 'Минимум {min} дней требуется для этого типа',
+    'Maximum {max} days allowed for this type' => 'Максимум {max} дней разрешено для этого типа',
+    'Max {days} days per year' => 'Макс. {days} дней в году',
+    'Min {days} days per request' => 'Мин. {days} дней в заявке',
+    'Max {days} days per request' => 'Макс. {days} дней в заявке',
+    'Cannot delete vacation type that is in use' => 'Нельзя удалить тип отпуска, который используется',
+    
+    // Vacation actions
+    'Deactivate' => 'Деактивировать',
+    'Activate' => 'Активировать',
+    'Are you sure you want to delete this item?' => 'Вы уверены, что хотите удалить этот элемент?',
+
 ];
