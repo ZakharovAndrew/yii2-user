@@ -281,4 +281,75 @@ return [
     'October' => 'Октябрь',
     'November' => 'Ноябрь',
     'December' => 'Декабрь',
+    
+    // Vacation model translations
+    'Employee' => 'Сотрудник',
+    'Vacation Type' => 'Тип отпуска',
+    'Start Date' => 'Дата начала',
+    'End Date' => 'Дата окончания',
+    'Days Count' => 'Количество дней',
+    'Status' => 'Статус',
+    'Comment' => 'Комментарий',
+    'Created By' => 'Кем создано',
+    'Approved By' => 'Кем одобрено',
+    'Approval Date' => 'Дата одобрения',
+    'Rejected By' => 'Кем отклонено',
+    'Rejection Date' => 'Дата отклонения',
+    'Created At' => 'Дата создания',
+    'Updated At' => 'Дата обновления',
+    
+    // Vacation status translations
+    'Requested' => 'Запрошен',
+    'Approved' => 'Одобрен',
+    'Rejected' => 'Отклонен',
+    'Cancelled' => 'Отменен',
+    'Completed' => 'Завершен',
+    
+    // Vacation type translations
+    'Paid Leave' => 'Оплачиваемый отпуск',
+    'Unpaid Leave' => 'Отпуск без сохранения заработной платы',
+    'Sick Leave' => 'Больничный',
+    'Maternity Leave' => 'Декретный отпуск',
+    'Study Leave' => 'Учебный отпуск',
+    'Administrative Leave' => 'Административный отпуск',
+    
+    // Vacation actions
+    'Request Vacation' => 'Запросить отпуск',
+    'Approve Vacation' => 'Одобрить отпуск',
+    'Reject Vacation' => 'Отклонить отпуск',
+    'Cancel Vacation' => 'Отменить отпуск',
+    'Edit Vacation' => 'Редактировать отпуск',
+    'View Vacation' => 'Просмотр отпуска',
+    'Vacation History' => 'История отпусков',
+    'Vacation Statistics' => 'Статистика отпусков',
+    'Upcoming Vacations' => 'Предстоящие отпуска',
+    'Current Vacations' => 'Текущие отпуска',
+    
+    // Vacation messages
+    'Vacation requested successfully' => 'Отпуск успешно запрошен',
+    'Vacation approved successfully' => 'Отпуск успешно одобрен',
+    'Vacation rejected successfully' => 'Отпуск успешно отклонен',
+    'Vacation cancelled successfully' => 'Отпуск успешно отменен',
+    'Cannot cancel vacation that has already started' => 'Нельзя отменить отпуск, который уже начался',
+    'Vacation dates cannot be in the past' => 'Даты отпуска не могут быть в прошлом',
+    'End date must be after start date' => 'Дата окончания должна быть после даты начала',
+    'You have overlapping vacations' => 'У вас есть пересекающиеся отпуска',
+    
+    // Vacation statistics
+    'Total Vacation Days' => 'Всего дней отпуска',
+    'Paid Vacation Days' => 'Оплачиваемые дни отпуска',
+    'Unpaid Vacation Days' => 'Неоплачиваемые дни отпуска',
+    'Remaining Vacation Days' => 'Оставшиеся дни отпуска',
+    'Used Vacation Days' => 'Использованные дни отпуска',
+    
+    'Annual Paid Leave' => 'Ежегодный оплачиваемый отпуск',
+    'Unpaid Leave' => 'Отпуск без сохранения заработной платы',
+    'Study Leave' => 'Учебный отпуск',
+    'Maternity Leave' => 'Декретный отпуск',
+    'Childcare Leave' => 'Отпуск по уходу за ребенком',
+    'Sick Leave' => 'Больничный',
+    'Creative Leave' => 'Творческий отпуск',
+    'Administrative Leave' => 'Административный отпуск',
+    'Additional Leave' => 'Дополнительный отпуск',
+    'Blood Donation Leave' => 'Отпуск для сдачи крови',
 ];
