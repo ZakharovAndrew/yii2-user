@@ -57,7 +57,7 @@ function plural($number, $forms) {
                                             <div class="user-name">
                                                 <?= Html::a(
                                                     Html::encode($birthday['user']->name),
-                                                    ['/user/admin/update', 'id' => $birthday['user']->id],
+                                                    ['/user/user/profile', 'id' => $birthday['user']->id],
                                                     [
                                                         'title' => Module::t('View profile'),
                                                         'class' => 'user-link'
