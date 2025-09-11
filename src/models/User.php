@@ -688,4 +688,9 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     {
         return $this->status == static::STATUS_PARTNER;
     }
+    
+    public function isAdmin()
+    {
+        return $this->hasRole('Admin');
+    }
 }
