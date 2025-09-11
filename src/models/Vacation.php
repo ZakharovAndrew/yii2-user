@@ -181,7 +181,7 @@ class Vacation extends ActiveRecord
                 'class' => 'badge badge-info'
             ],
         ];
-
+        
         return $statuses[$this->status] ?? ['label' => 'Неизвестно', 'class' => 'badge badge-dark'];
     }
 
