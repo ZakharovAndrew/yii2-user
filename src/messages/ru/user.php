@@ -409,4 +409,13 @@ return [
     'Apply Filters' => 'Применить фильтры',
     'Clear Filters' => 'Очистить фильтры',
     'Legend' => 'Легенда',
+    
+    'Start date cannot be in the past' => 'Дата начала не может быть в прошлом',
+    'End date must be after start date' => 'Дата окончания должна быть после даты начала',
+    'You have overlapping vacations' => 'У вас есть пересекающиеся отпуска',
+    'This vacation type is not available' => 'Этот тип отпуска недоступен',
+    'Minimum {min} days required for this type' => 'Минимум {min} дней требуется для этого типа',
+    'Maximum {max} days allowed for this type' => 'Максимум {max} дней разрешено для этого типа',
+    'All Vacations' => 'Все отпуска',
+    'Select vacation type...' => 'Выберите тип отпуска...',
 ];
