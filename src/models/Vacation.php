@@ -311,4 +311,116 @@ class Vacation extends ActiveRecord
         }
         return 0;
     }
+    
+    /**
+     * Check if vacation can be edited by current user
+     * @return bool
+     */
+    public function canBeEdited()
+    {
+        $userId = Yii::$app->user->id;
+
+        // Пользователь может редактировать только свои отпуски
+        if ($this->user_id != $userId) {
+            return false;
+        }
+
+        // Можно редактировать только запрошенные отпуски
+        return $this->status == self::STATUS_REQUESTED;
+    }
+
+    /**
+     * Check if user can view this vacation
+     * @return bool
+     */
+    public function canView()
+    {
+        $userId = Yii::$app->user->id;
+
+        // Пользователь может видеть свои отпуски
+        if ($this->user_id == $userId) {
+            return true;
+        }
+
+        // Менеджеры/админы могут видеть все отпуски
+        // Здесь должна быть проверка прав доступа
+        return Yii::$app->user->can('manageVacations');
+    }
+
+    /**
+     * Check if dates are valid
+     * @return bool
+     */
+    public function validateDates()
+    {
+        if ($this->start_date && $this->end_date) {
+            $start = new \DateTime($this->start_date);
+            $end = new \DateTime($this->end_date);
+            $today = new \DateTime();
+
+            // Дата начала не может быть в прошлом
+            if ($start < $today) {
+                $this->addError('start_date', Module::t('Start date cannot be in the past'));
+                return false;
+            }
+
+            // Дата окончания должна быть после даты начала
+            if ($end <= $start) {
+                $this->addError('end_date', Module::t('End date must be after start date'));
+                return false;
+            }
+        }
+
+        return true;
+    }
+    
+    /**
+     * Get vacations for calendar
+     * @param int|null $userId
+     * @param int|null $typeId
+     * @param string $startDate
+     * @param string $endDate
+     * @return array
+     */
+    public static function getForCalendar($userId = null, $typeId = null, $startDate = null, $endDate = null)
+    {
+        $query = self::find()
+            ->with(['user', 'type'])/*
+            ->where(['status' => self::STATUS_APPROVED])*/;
+
+        if ($userId) {
+            $query->andWhere(['user_id' => $userId]);
+        }
+
+        if ($typeId) {
+            $query->andWhere(['type_id' => $typeId]);
+        }
+
+        if ($startDate) {
+            $query->andWhere(['>=', 'start_date', $startDate]);
+        }
+
+        if ($endDate) {
+            $query->andWhere(['<=', 'end_date', $endDate]);
+        }
+
+        return $query->orderBy(['start_date' => SORT_ASC])->all();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function beforeSave($insert)
+    {
+        if (!parent::beforeSave($insert)) {
+            return false;
+        }
+
+        // Автоматически рассчитываем количество дней
+        if ($this->start_date && $this->end_date) {
+            $this->days_count = $this->calculateDaysCount();
+        }
+
+        return $this->validateDates();
+    }
 }
