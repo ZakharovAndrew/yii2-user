@@ -6,6 +6,7 @@ use Yii;
 use ZakharovAndrew\user\models\Vacation;
 use ZakharovAndrew\user\models\VacationSearch;
 use ZakharovAndrew\user\models\VacationType;
+use ZakharovAndrew\user\models\VacationRequestForm;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -240,6 +241,54 @@ class VacationController extends Controller
             'userId' => $userId,
             'typeId' => $typeId,
         ]);
+    }
+    
+    /**
+     * Approve or reject vacation request
+     * @param integer $id Vacation ID
+     * @return mixed
+     */
+    public function actionProcessRequest($id)
+    {
+        $vacation = $this->findModel($id);
+
+        // Проверяем права
+        if (!$this->canProcessRequest($vacation)) {
+            Yii::$app->session->setFlash('error', Module::t('You cannot process this vacation request'));
+            return $this->redirect(['view', 'id' => $id]);
+        }
+
+        $model = new VacationRequestForm();
+        $model->vacation_id = $id;
+
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->process()) {
+                return $this->redirect(['view', 'id' => $id]);
+            }
+        }
+
+        return $this->render('process-request', [
+            'model' => $model,
+            'vacation' => $vacation,
+        ]);
+    }
+
+    /**
+     * Check if user can process this vacation request
+     */
+    protected function canProcessRequest($vacation)
+    {
+        // Админы могут обрабатывать все запросы
+        if (Yii::$app->user->identity->isAdmin()) {
+            return true;
+        }
+
+        // Руководитель может обрабатывать запросы своих подчиненных
+        $manager = Yii::$app->user->identity;
+        $subordinates = $manager->getAllSubordinates();
+        $subordinateIds = ArrayHelper::getColumn($subordinates, 'id');
+
+        return in_array($vacation->user_id, $subordinateIds);
     }
 
     /**
