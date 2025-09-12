@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <div class="vacation-process-request">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <?php if (Yii::$app->getModule('user')->showTitle) {?><h1><?= Html::encode($this->title) ?></h1><?php } ?>
 
     <div class="card mb-4">
         <div class="card-header">
@@ -71,7 +71,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         Html::radio($name, $checked, [
                             'value' => $value,
                             'label' => $label,
-                            'labelOptions' => ['class' => "btn btn-outline-$color"]
+                            'labelOptions' => ['class' => "btn btn-$color"]
                         ]), 
                         ['class' => 'btn-group-toggle', 'data-toggle' => 'buttons']
                     );
