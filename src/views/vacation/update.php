@@ -21,7 +21,7 @@ $vacationTypes = VacationType::getTypesList();
 ?>
 <div class="vacation-update">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <?php if (Yii::$app->getModule('user')->showTitle) {?><h1><?= Html::encode($this->title) ?></h1><?php } ?>
 
     <div class="card">
         <div class="card-header">
@@ -136,7 +136,6 @@ $vacationTypes = VacationType::getTypesList();
                     <span class="badge <?= $status['class'] ?>">
                         <?= $status['label'] ?>
                     </span>
-                     <?php var_dump('asd',$model->getStatusLabel()) ;?>
                 </div>
                 <div class="col-md-4">
                     <strong><?= Module::t('Created') ?>:</strong><br>

@@ -23,7 +23,7 @@ $canCancel = false;
 ?>
 <div class="vacation-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <?php if (Yii::$app->getModule('user')->showTitle) {?><h1><?= Html::encode($this->title) ?></h1><?php } ?>
 
     <div class="row">
         <div class="col-md-8">
