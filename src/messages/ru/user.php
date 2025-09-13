@@ -470,4 +470,7 @@ return [
     'Current Vacation Details' => 'Текущие детали отпуска',
     'Current Type' => 'Текущий тип',
     'Current Period' => 'Текущий период',
+    
+    'Update Vacation: {name}' => 'Редактирование отпуска: {name}',
+    'Select status...' => 'Выберите статус...',
 ];

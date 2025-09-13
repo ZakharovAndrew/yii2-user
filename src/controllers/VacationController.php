@@ -282,13 +282,15 @@ class VacationController extends Controller
         if (Yii::$app->user->identity->isAdmin()) {
             return true;
         }
+        
+        return false;
 
         // Руководитель может обрабатывать запросы своих подчиненных
-        $manager = Yii::$app->user->identity;
+        /*$manager = Yii::$app->user->identity;
         $subordinates = $manager->getAllSubordinates();
         $subordinateIds = ArrayHelper::getColumn($subordinates, 'id');
 
-        return in_array($vacation->user_id, $subordinateIds);
+        return in_array($vacation->user_id, $subordinateIds);*/
     }
 
     /**

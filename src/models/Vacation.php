@@ -216,8 +216,6 @@ class Vacation extends ActiveRecord
         $this->approved_at = date('Y-m-d H:i:s');
         $this->rejected_by = null;
         $this->rejected_at = null;
-        $this->cancelled_by = null;
-        $this->cancelled_at = null;
         return $this->save();
     }
 
@@ -231,8 +229,6 @@ class Vacation extends ActiveRecord
         $this->rejected_at = date('Y-m-d H:i:s');
         $this->approved_by = null;
         $this->approved_at = null;
-        $this->cancelled_by = null;
-        $this->cancelled_at = null;
         if ($comment) {
             $this->comment = $comment;
         }
@@ -353,6 +349,11 @@ class Vacation extends ActiveRecord
      */
     public function validateDates()
     {
+        // Для утвержденных/завершенных отпусков не валидируем даты
+        if (in_array($this->status, [self::STATUS_APPROVED, self::STATUS_COMPLETED, self::STATUS_REJECTED])) {
+            return true;
+        }
+    
         if ($this->start_date && $this->end_date) {
             $start = new \DateTime($this->start_date);
             $end = new \DateTime($this->end_date);
