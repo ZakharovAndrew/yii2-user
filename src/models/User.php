@@ -555,31 +555,48 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
         return $this->id;
     }
     
+    /**
+     * Get user's wallpaper with cache support
+     * Returns wallpaper data including URL and CSS settings
+     * 
+     * @return array|bool Array with wallpaper data or false if not available
+     */
     public function getWallpaper()
     {
-        return Yii::$app->cache->getOrSet('user_wallpaper_'.Yii::$app->user->id, function () {
-        
-            $wallpapers = Yii::$app->getModule('user')->wallpapers;
-
-            // Getting the setting ID by the code 'user_wallpaper_id'.
+        return Yii::$app->cache->getOrSet('user_wallpaper_'.$this->id, function () {
+            // Get wallpaper ID from user settings
             $settingConfig = UserSettingsConfig::findOne(['code' => 'user_wallpaper_id']);
             if ($settingConfig === null) {
                 return false;
             }
-
-            $currentWallpaperId =  $settingConfig->getUserSettingValue(Yii::$app->user->id) ?? 0;
-
-            if (!isset($wallpapers[$currentWallpaperId])) {
+    
+            $currentWallpaperId = $settingConfig->getUserSettingValue($this->id) ?? 0;
+    
+            // Find active wallpaper
+            $wallpaper = Wallpaper::findOne([
+                'id' => $currentWallpaperId,
+                'status' => Wallpaper::STATUS_ACTIVE
+            ]);
+    
+            if (!$wallpaper) {
                 return false;
             }
-
-            // Getting the roles of the current user
-            $userRoles = ArrayHelper::getColumn(Roles::getRolesByUserId(Yii::$app->user->id), 'code');
-
-            if (array_intersect($userRoles, $wallpapers[$currentWallpaperId]['roles'])) {
-                return $wallpapers[$currentWallpaperId]['url'];
+    
+            // Check wallpaper availability for user roles
+            $userRoles = ArrayHelper::getColumn(Roles::getRolesByUserId($this->id), 'code');
+            
+            foreach ($userRoles as $role) {
+                if ($wallpaper->isAvailableForRole($role)) {
+                    return [
+                        'url' => $wallpaper->image_url,
+                        'css' => $wallpaper->getCssForDevice(),
+                        'id' => $wallpaper->id
+                    ];
+                }
             }
-        }, 600);
+    
+            return false;
+        }, 600); // Cache for 10 minutes
     }
     
     /**
