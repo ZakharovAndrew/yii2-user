@@ -7,6 +7,7 @@ use yii\web\NotFoundHttpException;
 use yii\helpers\ArrayHelper;
 use yii\data\ActiveDataProvider;
 use yii\web\UploadedFile;
+use ZakharovAndrew\user\Module;
 use ZakharovAndrew\user\models\Wallpaper;
 use ZakharovAndrew\user\models\Roles;
 use ZakharovAndrew\user\models\UserSettings;
@@ -133,20 +134,20 @@ class WallpaperAdminController extends ParentController
     }
 
     /**
-     * Update wallpaper positions (for sorting)
+     * Move wallpaper position up
      */
-    public function actionUpdatePositions()
+    public function actionMoveUp($id)
     {
-        $positions = Yii::$app->request->post('positions');
-        
-        if ($positions && is_array($positions)) {
-            foreach ($positions as $position => $id) {
-                Wallpaper::updateAll(['position' => $position], ['id' => $id]);
-            }
-            
-            Yii::$app->session->setFlash('success', 'Positions updated successfully.');
+        $model = $this->findModel($id);
+        if ($model->moveUp()) {
+            Yii::$app->session->setFlash('success', Module::t('Position updated successfully'));
+        } else {
+            Yii::$app->session->setFlash('error', Module::t('Cannot move wallpaper up'));
         }
-
+        
+        if (Yii::$app->request->isAjax) {
+            return $this->redirect(['index']);
+        }
         return $this->redirect(['index']);
     }
 

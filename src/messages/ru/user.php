@@ -134,6 +134,9 @@ return [
     // wallpapers
     'Select' => 'Выбрать',
     'Wallpapers' => 'Обои',
+    'Move up' => 'Поднять',
+    'Move down' => 'Опустить',
+    'Position updated successfully' => 'Позиция успешно обновлена',
     
     //
     'Hello' => 'Здравствуйте',
