@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
 use ZakharovAndrew\user\models\Wallpaper;
-use use ZakharovAndrew\user\Module;
+use ZakharovAndrew\user\Module;
 
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
