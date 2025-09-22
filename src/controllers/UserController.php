@@ -342,6 +342,18 @@ class UserController extends ParentController
     }
     
     /**
+     * Logout action.
+     *
+     * @return Response
+     */
+    public function actionLogout()
+    {
+        Yii::$app->user->logout();
+
+        return $this->goHome();
+    }
+    
+    /**
      * Register action.
      *
      * @return Response|string
