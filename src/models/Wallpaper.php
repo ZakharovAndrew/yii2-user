@@ -5,6 +5,7 @@ namespace ZakharovAndrew\user\models;
 use Yii;
 use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
+use ZakharovAndrew\user\Module;
 
 /**
  * This is the model class for table "user_wallpapers".
@@ -168,11 +169,12 @@ class Wallpaper extends ActiveRecord
      */
     public function beforeSave($insert)
     {
-        if (parent::beforeSave($insert)) {
-            // Set timestamps
-            if ($insert) {
-                $this->created_at = date('Y-m-d H:i:s');
+        if (parent::beforeSave($insert)) {            
+            if (empty($this->position)) {
+                $maxPosition = self::find()->max('position');
+                $this->position = $maxPosition ? $maxPosition + 1 : 1;
             }
+            
             $this->updated_at = date('Y-m-d H:i:s');
             return true;
         }
@@ -229,5 +231,49 @@ class Wallpaper extends ActiveRecord
     public function setAllowedRolesArray($roles)
     {
         $this->roles = implode(',', array_map('trim', $roles));
+    }
+    
+    /**
+     * Move wallpaper position up
+     * @return bool
+     */
+    public function moveUp()
+    {
+        $previous = self::find()
+            ->where(['<', 'position', $this->position])
+            ->orderBy(['position' => SORT_DESC])
+            ->one();
+            
+        if ($previous) {
+            $tempPosition = $this->position;
+            $this->position = $previous->position;
+            $previous->position = $tempPosition;
+            
+            return $this->save(false) && $previous->save(false);
+        }
+        
+        return false;
+    }
+
+    /**
+     * Move wallpaper position down
+     * @return bool
+     */
+    public function moveDown()
+    {
+        $next = self::find()
+            ->where(['>', 'position', $this->position])
+            ->orderBy(['position' => SORT_ASC])
+            ->one();
+            
+        if ($next) {
+            $tempPosition = $this->position;
+            $this->position = $next->position;
+            $next->position = $tempPosition;
+            
+            return $this->save(false) && $next->save(false);
+        }
+        
+        return false;
     }
 }
