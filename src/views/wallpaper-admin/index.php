@@ -9,7 +9,7 @@ use ZakharovAndrew\user\Module;
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Module::t('Wallpapers Management');
+$this->title = Module::t('Wallpapers');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="wallpaper-admin-index">
@@ -40,10 +40,8 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'contentOptions' => ['style' => 'width: 120px;']
                             ],
                             'name',
-                            [
-                                'attribute' => 'position',
-                                'contentOptions' => ['style' => 'width: 80px; text-align: center;']
-                            ],
+                            
+
                             [
                                 'attribute' => 'status',
                                 'value' => function($model) {
@@ -67,10 +65,45 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'format' => 'datetime',
                                 'contentOptions' => ['style' => 'width: 150px;']
                             ],
-                            [
+                                        [
                                 'class' => 'yii\grid\ActionColumn',
-                                'template' => '{view} {update} {toggle-status} {delete}',
+                                'template' => '{up} {down} {toggle-status} {update} {delete}',
                                 'buttons' => [
+                                    'up' => function($url, $model, $key) {
+                                        if ($model->position > 1) {
+                                            return Html::a(
+                                                '<svg width="12" height="12" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 4L4 8M8 4L12 8M8 4V12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+                                                ['move-up', 'id' => $model->id],
+                                                [
+                                                    'title' => Module::t('Move up'),
+                                                    'class' => 'btn btn-xs btn-default',
+                                                    'data' => [
+                                                        'method' => 'post',
+                                                        'pjax' => 1,
+                                                    ],
+                                                ]
+                                            );
+                                        }
+                                        return '';
+                                    },
+                                    'down' => function($url, $model, $key) {
+                                        $maxPosition = Wallpaper::find()->max('position');
+                                        if ($model->position < $maxPosition) {
+                                            return Html::a(
+                                                '<svg width="12" height="12" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 12L4 8M8 12L12 8M8 12V4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+                                                ['move-down', 'id' => $model->id],
+                                                [
+                                                    'title' => Module::t('Move down'),
+                                                    'class' => 'btn btn-xs btn-default',
+                                                    'data' => [
+                                                        'method' => 'post',
+                                                        'pjax' => 1,
+                                                    ],
+                                                ]
+                                            );
+                                        }
+                                        return '';
+                                    },
                                     'toggle-status' => function($url, $model, $key) {
                                         $icon = $model->status == Wallpaper::STATUS_ACTIVE ? 'fa-ban' : 'fa-check';
                                         $title = $model->status == Wallpaper::STATUS_ACTIVE ? 
@@ -87,6 +120,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                         );
                                     }
                                 ],
+                            
                                 'contentOptions' => ['style' => 'width: 120px; text-align: center;']
                             ],
                         ],
@@ -98,3 +132,28 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
     </div>
 </div>
+<style>
+   .btn-xs {
+    padding: 4px 5px;
+    font-size: 12px;
+    line-height: 1;
+    border-radius: 3px;
+    margin: 0 2px;
+    transition: all 0.2s ease;
+}
+
+.btn-xs:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+}
+
+.btn-default {
+    background: #f8f9fa;
+    border-color: #ddd;
+}
+
+.btn-default:hover {
+    background: #e9ecef;
+    border-color: #ccc;
+}
+</style>
