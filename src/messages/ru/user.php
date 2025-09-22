@@ -18,6 +18,7 @@
  */
 return [
     'Login' => 'Авторизоваться',
+    'Logout' => 'Выйти',
     'Sign in' => 'Войти',
     'Sign up' => 'Зарегистрироваться',
     'Forgot password?' => 'Забыли пароль?',
@@ -132,6 +133,7 @@ return [
 
     // wallpapers
     'Select' => 'Выбрать',
+    'Wallpapers' => 'Обои',
     
     //
     'Hello' => 'Здравствуйте',
