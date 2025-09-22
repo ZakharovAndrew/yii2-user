@@ -191,6 +191,61 @@ Advanced usage with custom parameters:
 ]); ?>
 ```
 
+## 👤 User Menu Widget
+
+Add a user menu to your navigation bar with avatar, name and dropdown options:
+
+### Basic Usage
+
+```php
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">Your App</a>
+        
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav me-auto">
+                <!-- Your menu items -->
+            </ul>
+            
+            <ul class="navbar-nav">
+                <?= \ZakharovAndrew\user\widgets\UserMenuWidget::widget() ?>
+            </ul>
+        </div>
+    </div>
+</nav>
+```
+
+### Custom Guest Content
+
+Customize the display for non-authenticated users:
+
+```php
+<?= \ZakharovAndrew\user\widgets\UserMenuWidget::widget([
+    'guestContent' => '
+        <div class="d-flex gap-2">
+            <a href="' . \yii\helpers\Url::to(['/user/auth/login']) . '" class="btn btn-outline-light btn-sm">
+                ' . \ZakharovAndrew\user\Module::t('Login') . '
+            </a>
+            <a href="' . \yii\helpers\Url::to(['/user/auth/signup']) . '" class="btn btn-primary btn-sm">
+                ' . \ZakharovAndrew\user\Module::t('Signup') . '
+            </a>
+        </div>
+    ',
+]) ?>
+```
+
+### Advanced Configuration
+
+```php
+<?= \ZakharovAndrew\user\widgets\UserMenuWidget::widget([
+    'guestView' => 'custom-guest-view', // custom view file
+    'guestContent' => [
+        'loginUrl' => ['/user/auth/login'],
+        'signupUrl' => ['/user/auth/signup'],
+    ],
+]) ?>
+```
+
 ## 👥 Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.

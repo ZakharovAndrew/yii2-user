@@ -9,7 +9,7 @@ UserAssets::register($this);
 /* @var $wallpapers array */
 /* @var $currentWallpaperId int */
 
-$this->title = 'Обои';
+$this->title = Module::t('Wallpapers');
 ?>
 <style>
     .wallpaper-item {
