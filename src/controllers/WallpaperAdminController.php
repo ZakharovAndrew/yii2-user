@@ -54,7 +54,7 @@ class WallpaperAdminController extends ParentController
 
         return $this->render('create', [
             'model' => $model,
-            'allRoles' => ArrayHelper::map(Roles::find()->all(), 'code', 'name')
+            'allRoles' => ArrayHelper::map(Roles::find()->all(), 'code', 'title')
         ]);
     }
 
@@ -80,7 +80,7 @@ class WallpaperAdminController extends ParentController
 
         return $this->render('update', [
             'model' => $model,
-            'allRoles' => ArrayHelper::map(Roles::find()->all(), 'code', 'name')
+            'allRoles' => ArrayHelper::map(Roles::find()->all(), 'code', 'title')
         ]);
     }
 
@@ -194,7 +194,7 @@ class WallpaperAdminController extends ParentController
         $usersCount = 0;
         if ($settingConfig) {
             $usersCount = UserSettings::find()
-                ->where(['setting_id' => $settingConfig->id, 'value' => $id])
+                ->where(['setting_config_id' => $settingConfig->id, 'values' => $id])
                 ->count();
         }
 
