@@ -152,6 +152,8 @@ return [
     'CSS Settings' => 'CSS настройки',
     'Desktop CSS:' => 'CSS для десктопа:',
     'Mobile CSS:' => 'CSS для мобильных:',
+    'Update Wallpaper: {name}' => 'Редактирование обоев: {name}',
+    'Enter image URL or upload file below' => 'Введите URL изображения или загрузите файл ниже',
     
     //
     'Hello' => 'Здравствуйте',
@@ -494,5 +496,6 @@ return [
     'Update Vacation: {name}' => 'Редактирование отпуска: {name}',
     'Select status...' => 'Выберите статус...',
 ];
+
 
 
