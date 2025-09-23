@@ -137,6 +137,7 @@ return [
     'Move up' => 'Поднять',
     'Move down' => 'Опустить',
     'Position updated successfully' => 'Позиция успешно обновлена',
+    'Current Image:' => 'Текущее изображение:',
     
     //
     'Hello' => 'Здравствуйте',
