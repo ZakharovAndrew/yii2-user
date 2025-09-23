@@ -138,6 +138,14 @@ return [
     'Move down' => 'Опустить',
     'Position updated successfully' => 'Позиция успешно обновлена',
     'Current Image:' => 'Текущее изображение:',
+
+    // Wallpaper Admin Translations
+    'Wallpapers Management' => 'Управление обоями',
+    'Create Wallpaper' => 'Создать обои',
+    'Are you sure you want to change status?' => 'Вы уверены, что хотите изменить статус?',
+    'Deactivate' => 'Деактивировать',
+    'Activate' => 'Активировать',
+    'All roles' => 'Все роли',
     
     //
     'Hello' => 'Здравствуйте',
@@ -480,3 +488,4 @@ return [
     'Update Vacation: {name}' => 'Редактирование отпуска: {name}',
     'Select status...' => 'Выберите статус...',
 ];
+
