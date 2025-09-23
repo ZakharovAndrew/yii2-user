@@ -146,6 +146,12 @@ return [
     'Deactivate' => 'Деактивировать',
     'Activate' => 'Активировать',
     'All roles' => 'Все роли',
+    'Are you sure you want to delete this item?' => 'Вы уверены, что хотите удалить этот элемент?',
+    'Usage Statistics' => 'Статистика использования',
+    'Users using this wallpaper:' => 'Пользователей используют эти обои:',
+    'CSS Settings' => 'CSS настройки',
+    'Desktop CSS:' => 'CSS для десктопа:',
+    'Mobile CSS:' => 'CSS для мобильных:',
     
     //
     'Hello' => 'Здравствуйте',
@@ -488,4 +494,5 @@ return [
     'Update Vacation: {name}' => 'Редактирование отпуска: {name}',
     'Select status...' => 'Выберите статус...',
 ];
+
 
