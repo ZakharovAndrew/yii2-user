@@ -150,6 +150,7 @@ return [
     'Usage Statistics' => 'Статистика использования',
     'Users using this wallpaper:' => 'Пользователей используют эти обои:',
     'CSS Settings' => 'CSS настройки',
+    'Mobile CSS Settings' => 'CSS настройки для мобильных',
     'Desktop CSS:' => 'CSS для десктопа:',
     'Mobile CSS:' => 'CSS для мобильных:',
     'Update Wallpaper: {name}' => 'Редактирование обоев: {name}',
@@ -169,7 +170,9 @@ return [
     'Error deleting wallpaper.' => 'Ошибка при удалении обоев.',
     'Error updating wallpaper status.' => 'Ошибка при изменении статуса обоев.',
     'Positions updated successfully.' => 'Позиции успешно обновлены.',
-    'Cannot delete wallpaper. It is used by {count} users.' => 'Нельзя удалить обои. Их используют {count} пользователей.'
+    'Cannot delete wallpaper. It is used by {count} users.' => 'Нельзя удалить обои. Их используют {count} пользователей.',
+    'Image URL' => 'URL изображения',
+    'Create' => 'Создать',
     
     //
     'Hello' => 'Здравствуйте',
