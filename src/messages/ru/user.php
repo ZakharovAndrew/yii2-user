@@ -162,6 +162,14 @@ return [
     'Current Image:' => 'Текущее изображение:',
     'Active' => 'Активно',
     'Inactive' => 'Неактивно',
+    'Wallpaper created successfully.' => 'Обои успешно созданы.',
+    'Wallpaper updated successfully.' => 'Обои успешно обновлены.',
+    'Wallpaper deleted successfully.' => 'Обои успешно удалены.',
+    'Wallpaper status updated.' => 'Статус обоев обновлен.',
+    'Error deleting wallpaper.' => 'Ошибка при удалении обоев.',
+    'Error updating wallpaper status.' => 'Ошибка при изменении статуса обоев.',
+    'Positions updated successfully.' => 'Позиции успешно обновлены.',
+    'Cannot delete wallpaper. It is used by {count} users.' => 'Нельзя удалить обои. Их используют {count} пользователей.'
     
     //
     'Hello' => 'Здравствуйте',
@@ -504,6 +512,7 @@ return [
     'Update Vacation: {name}' => 'Редактирование отпуска: {name}',
     'Select status...' => 'Выберите статус...',
 ];
+
 
 
 
