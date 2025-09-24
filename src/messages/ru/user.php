@@ -154,6 +154,14 @@ return [
     'Mobile CSS:' => 'CSS для мобильных:',
     'Update Wallpaper: {name}' => 'Редактирование обоев: {name}',
     'Enter image URL or upload file below' => 'Введите URL изображения или загрузите файл ниже',
+    'Select roles...' => 'Выберите роли...',
+    'Leave empty to make wallpaper available for all roles' => 'Оставьте пустым, чтобы обои были доступны для всех ролей',
+    'CSS for desktop devices. Example: background-size: cover; opacity: 0.8;' => 'CSS для десктопных устройств. Пример: background-size: cover; opacity: 0.8;',
+    'CSS for mobile devices. Will override desktop CSS on mobile.' => 'CSS для мобильных устройств. Будет переопределять десктопный CSS на мобильных.',
+    'Leave empty to keep current image' => 'Оставьте пустым, чтобы сохранить текущее изображение',
+    'Current Image:' => 'Текущее изображение:',
+    'Active' => 'Активно',
+    'Inactive' => 'Неактивно',
     
     //
     'Hello' => 'Здравствуйте',
@@ -496,6 +504,7 @@ return [
     'Update Vacation: {name}' => 'Редактирование отпуска: {name}',
     'Select status...' => 'Выберите статус...',
 ];
+
 
 
 
