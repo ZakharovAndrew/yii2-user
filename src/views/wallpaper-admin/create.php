@@ -23,49 +23,46 @@ $this->params['breadcrumbs'][] = $this->title;
 </style>
 
 <div class="wallpaper-admin-create">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-header">
-                    <h1><?= Html::encode($this->title) ?></h1>
+    <?php if (Yii::$app->getModule('user')->showTitle) {?><h1><?= Html::encode($this->title) ?></h1><?php } ?>
+    
+
+    <div class="card">
+        <div class="card-body">
+            <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
+
+                    <?= $form->field($model, 'image_url')->textInput(['maxlength' => true])
+                        ->hint(Module::t('Enter image URL or upload file below')) ?>
+
+                    <?= $form->field($model, 'status')->dropDownList($model->getStatusList()) ?>
                 </div>
-                <div class="card-body">
-                    <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
+                <div class="col-md-6">
+                    <?= $form->field($model, 'roles')->dropDownList($allRoles, [
+                            'options' => ['multiple' => true, 'placeholder' => Module::t('Select roles...')],
+                            'class' => 'form-control form-select select2'
+                        ])
+                        ->hint(Module::t('Leave empty to make wallpaper available for all roles')) ?>
 
-                    <div class="row">
-                        <div class="col-md-6">
-                            <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
-                            
-                            <?= $form->field($model, 'image_url')->textInput(['maxlength' => true])
-                                ->hint(Module::t('Enter image URL or upload file below')) ?>
-                                
-                            <?= $form->field($model, 'status')->dropDownList($model->getStatusList()) ?>
-                        </div>
-                        <div class="col-md-6">
-                            <?= $form->field($model, 'roles')->dropDownList($allRoles, [
-                                    'options' => ['multiple' => true, 'placeholder' => Module::t('Select roles...')],
-                                    'class' => 'form-control form-select select2'
-                                ])
-                                ->hint(Module::t('Leave empty to make wallpaper available for all roles')) ?>
-                            
-                            <?= $form->field($model, 'css_settings')->textarea(['rows' => 4])
-                                ->hint(Module::t('CSS for desktop devices. Example: background-size: cover; opacity: 0.8;')) ?>
-                                
-                            <?= $form->field($model, 'mobile_css_settings')->textarea(['rows' => 4])
-                                ->hint(Module::t('CSS for mobile devices. Will override desktop CSS on mobile.')) ?>
-                        </div>
-                    </div>
+                    <?= $form->field($model, 'css_settings')->textarea(['rows' => 4])
+                        ->hint(Module::t('CSS for desktop devices. Example: background-size: cover; opacity: 0.8;')) ?>
 
-                    <div class="form-group">
-                        <?= Html::submitButton(Module::t('Create'), ['class' => 'btn btn-success']) ?>
-                        <?= Html::a(Module::t('Cancel'), ['index'], ['class' => 'btn btn-default']) ?>
-                    </div>
-
-                    <?php ActiveForm::end(); ?>
+                    <?= $form->field($model, 'mobile_css_settings')->textarea(['rows' => 4])
+                        ->hint(Module::t('CSS for mobile devices. Will override desktop CSS on mobile.')) ?>
                 </div>
             </div>
+
+            <div class="form-group">
+                <?= Html::submitButton(Module::t('Create'), ['class' => 'btn btn-success']) ?>
+                <?= Html::a(Module::t('Cancel'), ['index'], ['class' => 'btn btn-default']) ?>
+            </div>
+
+            <?php ActiveForm::end(); ?>
         </div>
     </div>
+
 </div>
 
 <?php
