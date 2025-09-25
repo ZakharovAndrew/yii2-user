@@ -21,14 +21,6 @@ class WallpaperController extends ParentController
     public function actionIndex()
     {
         $wallpapers = Wallpaper::getAvailableWallpapersForUser(Yii::$app->user->identity);
-        $availableWallpapers = [];
-
-        foreach ($wallpapers as $wallpaper) {
-            $availableWallpapers[$wallpaper->id] = [
-                'url' => $wallpaper->image_url,
-                'name' => $wallpaper->name
-            ];
-        }
 
         // Getting the setting ID by the code 'user_wallpaper_id'.
         $settingConfig = UserSettingsConfig::findOne(['code' => 'user_wallpaper_id']);
@@ -37,7 +29,7 @@ class WallpaperController extends ParentController
         }
 
         return $this->render('index', [
-            'wallpapers' => $availableWallpapers,
+            'wallpapers' => $wallpapers,
             'currentWallpaperId' => $settingConfig->getUserSettingValue(Yii::$app->user->id) ?? 0,
         ]);
     }

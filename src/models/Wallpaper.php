@@ -150,16 +150,27 @@ class Wallpaper extends ActiveRecord
     {
         // Get all roles assigned to the user
         $userRoles = ArrayHelper::getColumn(Roles::getRolesByUserId($user->id), 'code');
-        
-        return static::find()
+
+        $wallpapers = static::find()
             ->where(['status' => self::STATUS_ACTIVE])
-            ->andWhere(['or', 
-                ['roles' => null],           // No role restrictions
-                ['roles' => ''],             // Empty role restrictions
-                ['like', 'roles', implode(',', $userRoles)] // Contains user's roles
-            ])
             ->orderBy(['position' => SORT_ASC])
             ->all();
+        
+        $result = [];
+        foreach ($wallpapers as $wallpaper) {
+            if (empty($wallpaper->roles)) {
+                $result[] = $wallpaper;
+                continue;
+            }
+            foreach ($userRoles as $role) {
+                if ($wallpaper->isAvailableForRole($role)) {
+                    $result[] = $wallpaper;
+                    continue;
+                }
+            }
+        }
+        
+        return $result;
     }
 
     /**

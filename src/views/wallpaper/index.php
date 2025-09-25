@@ -1,5 +1,6 @@
 <?php
 use yii\helpers\Html;
+use yii\helpers\Url;
 use ZakharovAndrew\user\Module;
 
 use ZakharovAndrew\user\assets\UserAssets;
@@ -47,19 +48,27 @@ $this->title = Module::t('Wallpapers');
                 <div class="wallpaper-item">
                     <div alt="Без обоев" class="no-wallpaper"></div>
                 </div>
-                <a href="<?= \yii\helpers\Url::to(['select', 'wallpaperId' => 0]) ?>" class="btn btn-primary">Без обоев</a>
+                <a href="<?= Url::to(['select', 'wallpaperId' => 0]) ?>" class="btn btn-primary">Без обоев</a>
             </div>
         </div>
 
 
         <?php if (!empty($wallpapers)): ?>
-            <?php foreach ($wallpapers as $wallpaperId => $wallpaper): ?>
+            <?php foreach ($wallpapers as $wallpaper): ?>
             <div class="col-md-4">
-                <div class="white-block <?= $currentWallpaperId == $wallpaperId ? 'active' : '' ?>">
+                <div class="white-block <?= $currentWallpaperId == $wallpaper->id ? 'active' : '' ?>">
                     <div class="wallpaper-item">
-                        <img src="<?= Html::encode($wallpaper) ?>" alt="Wallpaper" class="wallpaper-image">
+                        <img src="<?= Html::encode($wallpaper->image_url) ?>" alt="Wallpaper" class="wallpaper-image">
                     </div>
-                    <a href="<?= \yii\helpers\Url::to(['select', 'wallpaperId' => $wallpaperId]) ?>" class="btn btn-primary"><?= Module::t('Select') ?></a>
+                    <div style="display:flex">
+                        <div>
+                            <?= $wallpaper->name ?>
+                        </div>
+                        <div style="margin-left: auto;">
+                            <a href="<?= Url::to(['select', 'wallpaperId' => $wallpaper->id]) ?>" class="btn btn-primary"><?= Module::t('Select') ?></a>
+                        </div>
+                    </div>
+                    
                 </div>
             </div>
             <?php endforeach; ?>
