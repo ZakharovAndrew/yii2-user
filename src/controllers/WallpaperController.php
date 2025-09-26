@@ -41,28 +41,30 @@ class WallpaperController extends ParentController
     {
         $userId = Yii::$app->user->id;
         
-        // Verify wallpaper exists and is available for user
-        $wallpaper = Wallpaper::findOne([
-            'id' => $wallpaperId,
-            'status' => Wallpaper::STATUS_ACTIVE
-        ]);
-        
-        if (!$wallpaper) {
-            throw new NotFoundHttpException('Wallpaper not found.');
-        }
-        
-        // Check if wallpaper is available for user roles
-        $userRoles = ArrayHelper::getColumn(Roles::getRolesByUserId($userId), 'code');
-        $isAvailable = false;
-        foreach ($userRoles as $role) {
-            if ($wallpaper->isAvailableForRole($role)) {
-                $isAvailable = true;
-                break;
+        if ($wallpaperId != 0) {
+            // Verify wallpaper exists and is available for user
+            $wallpaper = Wallpaper::findOne([
+                'id' => $wallpaperId,
+                'status' => Wallpaper::STATUS_ACTIVE
+            ]);
+
+            if (!$wallpaper) {
+                throw new NotFoundHttpException('Wallpaper not found.');
             }
-        }
-        
-        if (!$isAvailable) {
-            throw new NotFoundHttpException('Wallpaper not available for your role.');
+
+            // Check if wallpaper is available for user roles
+            $userRoles = ArrayHelper::getColumn(Roles::getRolesByUserId($userId), 'code');
+            $isAvailable = false;
+            foreach ($userRoles as $role) {
+                if ($wallpaper->isAvailableForRole($role)) {
+                    $isAvailable = true;
+                    break;
+                }
+            }
+
+            if (!$isAvailable) {
+                throw new NotFoundHttpException('Wallpaper not available for your role.');
+            }
         }
 
         // Getting the setting ID by the code 'user_wallpaper_id'.
