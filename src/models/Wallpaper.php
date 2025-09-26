@@ -148,29 +148,31 @@ class Wallpaper extends ActiveRecord
      */
     public static function getAvailableWallpapersForUser($user)
     {
-        // Get all roles assigned to the user
-        $userRoles = ArrayHelper::getColumn(Roles::getRolesByUserId($user->id), 'code');
+        return Yii::$app->cache->getOrSet('wallpaper_list'.$user->id, function () use ($user) {
+            // Get all roles assigned to the user
+            $userRoles = ArrayHelper::getColumn(Roles::getRolesByUserId($user->id), 'code');
 
-        $wallpapers = static::find()
-            ->where(['status' => self::STATUS_ACTIVE])
-            ->orderBy(['position' => SORT_ASC])
-            ->all();
-        
-        $result = [];
-        foreach ($wallpapers as $wallpaper) {
-            if (empty($wallpaper->roles)) {
-                $result[] = $wallpaper;
-                continue;
-            }
-            foreach ($userRoles as $role) {
-                if ($wallpaper->isAvailableForRole($role)) {
+            $wallpapers = static::find()
+                ->where(['status' => self::STATUS_ACTIVE])
+                ->orderBy(['position' => SORT_ASC])
+                ->all();
+
+            $result = [];
+            foreach ($wallpapers as $wallpaper) {
+                if (empty($wallpaper->roles)) {
                     $result[] = $wallpaper;
                     continue;
                 }
+                foreach ($userRoles as $role) {
+                    if ($wallpaper->isAvailableForRole($role)) {
+                        $result[] = $wallpaper;
+                        continue;
+                    }
+                }
             }
-        }
-        
-        return $result;
+
+            return $result;
+        }, 600);
     }
 
     /**

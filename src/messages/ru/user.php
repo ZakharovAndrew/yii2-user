@@ -137,7 +137,8 @@ return [
     'Move up' => 'Поднять',
     'Move down' => 'Опустить',
     'Position updated successfully' => 'Позиция успешно обновлена',
-    'Current Image:' => 'Текущее изображение:',
+    'Cannot move wallpaper up' => 'Не удалось поднять обои',
+    'Cannot move wallpaper down' => 'Не удалось опустить обои',
 
     // Wallpaper Admin Translations
     'Wallpapers Management' => 'Управление обоями',

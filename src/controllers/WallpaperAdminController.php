@@ -150,6 +150,24 @@ class WallpaperAdminController extends ParentController
         }
         return $this->redirect(['index']);
     }
+    
+    /**
+     * Move wallpaper position down
+     */
+    public function actionMoveDown($id)
+    {
+        $model = $this->findModel($id);
+        if ($model->moveDown()) {
+            Yii::$app->session->setFlash('success', Module::t('Position updated successfully'));
+        } else {
+            Yii::$app->session->setFlash('error', Module::t('Cannot move wallpaper down'));
+        }
+        
+        if (Yii::$app->request->isAjax) {
+            return $this->redirect(['index']);
+        }
+        return $this->redirect(['index']);
+    }
 
     /**
      * Find wallpaper model
