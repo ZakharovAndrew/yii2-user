@@ -9,7 +9,7 @@ use ZakharovAndrew\user\Module;
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Module::t('Wallpapers');
+$this->title = Module::t('Wallpapers Management');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 

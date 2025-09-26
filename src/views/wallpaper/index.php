@@ -41,6 +41,10 @@ $this->title = Module::t('Wallpapers');
     
 <?php if (Yii::$app->getModule('user')->showTitle) {?><h1><?= Html::encode($this->title) ?></h1><?php } ?>
 
+<?php if (Yii::$app->user->identity->isAdmin()) { ?>
+    <p><a href="<?= Url::to(['/user/wallpaper-admin/index']) ?>" class="btn btn-primary"><?= Module::t('Wallpapers Management') ?></a></p>
+<?php } ?>
+
 <div class="wallpapers-list">    
     <div class="row">
         <div class="col-md-4">
