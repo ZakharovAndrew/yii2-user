@@ -41,7 +41,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 </div>
                 <div class="col-md-6">
                     <?= $form->field($model, 'roles')->dropDownList($allRoles, [
-                            'options' => ['multiple' => true, 'placeholder' => Module::t('Select roles...')],
+                            'multiple' => true,
                             'class' => 'form-control form-select select2'
                         ])
                         ->hint(Module::t('Leave empty to make wallpaper available for all roles')) ?>
@@ -73,7 +73,8 @@ $this->registerJsFile('https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/
 $this->registerJs(<<<JS
     $('.select2').select2({
         allowClear: true,
-        
+        placeholder: 'Select roles...',
+        width: '100%'
     });
 JS
 );

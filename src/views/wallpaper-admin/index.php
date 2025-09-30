@@ -66,7 +66,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     ],
                                 [
                         'class' => 'yii\grid\ActionColumn',
-                        'template' => '{up} {down} {toggle-status} {update} {delete}',
+                        'template' => '{up} {down} {update} {delete}',
                         'buttons' => [
                             'up' => function($url, $model, $key) {
                                 if ($model->position > 1) {
@@ -102,21 +102,6 @@ $this->params['breadcrumbs'][] = $this->title;
                                     );
                                 }
                                 return '';
-                            },
-                            'toggle-status' => function($url, $model, $key) {
-                                $icon = $model->status == Wallpaper::STATUS_ACTIVE ? 'fa-ban' : 'fa-check';
-                                $title = $model->status == Wallpaper::STATUS_ACTIVE ? 
-                                    Module::t('Deactivate') : Module::t('Activate');
-                                return Html::a('<i class="fas ' . $icon . '"></i>', 
-                                    ['toggle-status', 'id' => $model->id], 
-                                    [
-                                        'title' => $title,
-                                        'data' => [
-                                            'method' => 'post',
-                                            'confirm' => Module::t('Are you sure you want to change status?')
-                                        ]
-                                    ]
-                                );
                             }
                         ],
 
