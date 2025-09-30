@@ -74,7 +74,7 @@ class WallpaperAdminController extends ParentController
             }
             
             if ($model->save()) {
-                Yii::$app->session->setFlash('success', 'Wallpaper updated successfully.');
+                Yii::$app->session->setFlash('success', Module::t('Wallpaper updated successfully.'));
                 return $this->redirect(['index']);
             }
         }

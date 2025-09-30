@@ -48,8 +48,10 @@ class Wallpaper extends ActiveRecord
             // Required fields
             [['name', 'image_url'], 'required'],
             
-            [['css_settings', 'mobile_css_settings', 'roles'], 'string'],
+            [['css_settings', 'mobile_css_settings'], 'string'],
             [['position', 'status'], 'integer'],
+
+            [['roles'], 'safe'],
             
             // Date fields
             [['created_at', 'updated_at'], 'safe'],
