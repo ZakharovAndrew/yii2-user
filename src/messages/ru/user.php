@@ -174,7 +174,6 @@ return [
     'Cannot delete wallpaper. It is used by {count} users.' => 'Нельзя удалить обои. Их используют {count} пользователей.',
     'Image URL' => 'URL изображения',
     'Create' => 'Создать',
-    'Wallpaper updated successfully.' => 'Обои успешно обновлены.',
     
     //
     'Hello' => 'Здравствуйте',

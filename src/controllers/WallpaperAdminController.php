@@ -48,7 +48,7 @@ class WallpaperAdminController extends ParentController
             }
             
             if ($model->save()) {
-                Yii::$app->session->setFlash('success', 'Wallpaper created successfully.');
+                Yii::$app->session->setFlash('success', Module::t('Wallpaper created successfully.'));
                 return $this->redirect(['index']);
             }
         }
@@ -106,7 +106,7 @@ class WallpaperAdminController extends ParentController
         }
         
         if ($model->delete()) {
-            Yii::$app->session->setFlash('success', 'Wallpaper deleted successfully.');
+            Yii::$app->session->setFlash('success', Module::t('Wallpaper deleted successfully.'));
         } else {
             Yii::$app->session->setFlash('error', 'Error deleting wallpaper.');
         }
