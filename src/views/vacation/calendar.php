@@ -9,6 +9,7 @@ use ZakharovAndrew\user\models\Vacation;
 /* @var $vacations array */
 
 $this->title = Module::t('Vacation Calendar');
+$this->params['breadcrumbs'][] = ['label' => Module::t('Vacations'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 
 // Формируем события для календаря
