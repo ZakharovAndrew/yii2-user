@@ -34,6 +34,12 @@ class ParentController extends Controller
     public $action_allowed_roles = [];
     
     /**
+     * User statuses that are blocked from accessing controller actions
+     * @var array 
+     */
+    public $blocked_user_statuses = [];
+    
+    /**
      * {@inheritdoc}
      */
     public function behaviors()
@@ -46,6 +52,11 @@ class ParentController extends Controller
                        'allow' => true,
                         'roles' => ['?', '@'],
                         'matchCallback' => function ($rule, $action) {
+                            // Check if user has blocked status
+                            if (!Yii::$app->user->isGuest && $this->isUserStatusBlocked()) {
+                                return false;
+                            }
+                            
                             // if this action is always available
                             if (in_array($action->id, $this->full_access_actions)) {
                                 return true;
@@ -71,6 +82,16 @@ class ParentController extends Controller
                 ],
             ],
         ];
+    }
+    
+    /**
+     * Check if current user has blocked status
+     * @return bool
+     */
+    protected function isUserStatusBlocked()
+    {
+        $user = Yii::$app->user->identity;
+        return in_array($user->status, $this->blocked_user_statuses);
     }
     
     /**

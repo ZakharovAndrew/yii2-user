@@ -33,10 +33,15 @@ class Menu extends \yii\base\Model
         
         foreach ($controllersAccessList as $controller_id => $params) {
             if (is_string($controller_id)) {
+                // checking for the status required to display the menu item
+                if (isset($params['statuses']) && !static::checkStatus($params['statuses'])) {
+                    continue;
+                }
+                
                 $submenu = [];
                 // find submenu
                 foreach ($params as $item_id => $item) {
-                    if (isset(static::$accessList[$item_id])) {
+                    if ($item_id != 'statuses' && isset(static::$accessList[$item_id])) {
                         //$submenu[$item_id] = $item;
                         $submenu = array_merge($submenu, static::getMenuItem($item_id, $item));
                         //$items = array_merge($items, static::getMenuItem($item_id, $item));
