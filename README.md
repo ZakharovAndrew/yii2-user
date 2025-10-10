@@ -246,6 +246,59 @@ Customize the display for non-authenticated users:
 ]) ?>
 ```
 
+## 👥 User Deputies Management
+The module now supports user deputies functionality, allowing users to have multiple deputies with date tracking and assignment history.
+
+### Basic Usage
+
+```php
+// Get current user
+$user = User::findOne(1);
+
+// Add a deputy with validity period
+$user->addDeputy(2, '2024-01-01', '2024-12-31');
+
+// Get all active deputies for a user
+$deputies = $user->getCurrentDeputies();
+
+// Check if user has specific deputy
+$hasDeputy = $user->hasDeputy(2);
+
+// Check if user is deputy for another user
+$isDeputy = $user->isDeputyFor(1);
+
+// Remove deputy
+$user->removeDeputy(2);
+
+// Get users for whom current user is a deputy
+$deputyForUsers = $user->getCurrentDeputyForUsers();
+```
+
+### Advanced Usage
+
+```php
+// Add deputy with custom created by user
+$user->addDeputy(2, '2024-01-01', null, Yii::$app->user->id);
+
+// Get deputies list for dropdown
+$deputiesList = $user->getDeputiesList();
+
+// Get available users for deputy assignment
+$availableUsers = User::getAvailableUsersForDeputy($currentUserId);
+
+// Check if deputy relation is currently active
+$deputy = UserDeputy::findOne(1);
+$isActive = $deputy->isCurrentlyActive();
+```
+
+### Features
+- ✅ Multiple deputies - Users can have multiple deputies
+- ✅ Date tracking - Track assignment dates and validity periods
+- ✅ Assignment history - Record who assigned each deputy
+- ✅ Active/inactive status - Manage deputy status without deletion
+- ✅ Date validation - Automatic validation of validity periods
+- ✅ Relationship management - Easy methods for managing deputies
+
 ## 👥 Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
