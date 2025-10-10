@@ -710,4 +710,154 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     {
         return $this->hasRole('Admin');
     }
+    
+    public function getIsShopOwber()
+    {
+        return $this->hasRole('shop_owner');
+    }
+    
+    /**
+     * Gets query for [[Deputies]].
+     */
+    public function getDeputies()
+    {
+        return $this->hasMany(UserDeputy::class, ['user_id' => 'id']);
+    }
+
+    /**
+     * Gets query for [[ActiveDeputies]].
+     */
+    public function getActiveDeputies()
+    {
+        return $this->hasMany(UserDeputy::class, ['user_id' => 'id'])
+            ->andWhere(['is_active' => UserDeputy::STATUS_ACTIVE])
+            ->andWhere(['<=', 'valid_from', date('Y-m-d')])
+            ->andWhere(['or', ['>=', 'valid_to', date('Y-m-d')], ['valid_to' => null]]);
+    }
+
+    /**
+     * Gets query for [[DeputyFor]].
+     */
+    public function getDeputyFor()
+    {
+        return $this->hasMany(UserDeputy::class, ['deputy_user_id' => 'id']);
+    }
+
+    /**
+     * Gets query for [[ActiveDeputyFor]].
+     */
+    public function getActiveDeputyFor()
+    {
+        return $this->hasMany(UserDeputy::class, ['deputy_user_id' => 'id'])
+            ->andWhere(['is_active' => UserDeputy::STATUS_ACTIVE])
+            ->andWhere(['<=', 'valid_from', date('Y-m-d')])
+            ->andWhere(['or', ['>=', 'valid_to', date('Y-m-d')], ['valid_to' => null]]);
+    }
+
+    /**
+     * Get current active deputies
+     */
+    public function getCurrentDeputies()
+    {
+        return $this->getActiveDeputies()->all();
+    }
+
+    /**
+     * Get users for whom this user is a deputy
+     */
+    public function getCurrentDeputyForUsers()
+    {
+        $deputyRelations = $this->getActiveDeputyFor()->all();
+        $users = [];
+        foreach ($deputyRelations as $relation) {
+            $users[] = $relation->user;
+        }
+        return $users;
+    }
+
+    /**
+     * Add deputy to user
+     */
+    public function addDeputy($deputyUserId, $validFrom, $validTo = null, $createdBy = null)
+    {
+        if ($createdBy === null) {
+            $createdBy = Yii::$app->user->id;
+        }
+
+        $deputy = new UserDeputy();
+        $deputy->user_id = $this->id;
+        $deputy->deputy_user_id = $deputyUserId;
+        $deputy->valid_from = $validFrom;
+        $deputy->valid_to = $validTo;
+        $deputy->created_by = $createdBy;
+
+        return $deputy->save();
+    }
+
+    /**
+     * Remove deputy from user
+     */
+    public function removeDeputy($deputyUserId)
+    {
+        $deputy = UserDeputy::find()
+            ->where(['user_id' => $this->id, 'deputy_user_id' => $deputyUserId])
+            ->andWhere(['is_active' => UserDeputy::STATUS_ACTIVE])
+            ->one();
+
+        if ($deputy) {
+            $deputy->is_active = UserDeputy::STATUS_INACTIVE;
+            return $deputy->save();
+        }
+
+        return false;
+    }
+
+    /**
+     * Check if user has specific deputy
+     */
+    public function hasDeputy($deputyUserId)
+    {
+        return UserDeputy::find()
+            ->where(['user_id' => $this->id, 'deputy_user_id' => $deputyUserId])
+            ->andWhere(['is_active' => UserDeputy::STATUS_ACTIVE])
+            ->andWhere(['<=', 'valid_from', date('Y-m-d')])
+            ->andWhere(['or', ['>=', 'valid_to', date('Y-m-d')], ['valid_to' => null]])
+            ->exists();
+    }
+
+    /**
+     * Check if user is deputy for specific user
+     */
+    public function isDeputyFor($userId)
+    {
+        return UserDeputy::find()
+            ->where(['deputy_user_id' => $this->id, 'user_id' => $userId])
+            ->andWhere(['is_active' => UserDeputy::STATUS_ACTIVE])
+            ->andWhere(['<=', 'valid_from', date('Y-m-d')])
+            ->andWhere(['or', ['>=', 'valid_to', date('Y-m-d')], ['valid_to' => null]])
+            ->exists();
+    }
+
+    /**
+     * Get all users for whom this user can act as deputy
+     */
+    public static function getAvailableUsersForDeputy($deputyUserId)
+    {
+        return self::find()
+            ->where(['!=', 'id', $deputyUserId])
+            ->andWhere(['!=', 'status', self::STATUS_DELETED])
+            ->orderBy(['name' => SORT_ASC])
+            ->all();
+    }
+
+    /**
+     * Get deputies list for dropdown
+     */
+    public function getDeputiesList()
+    {
+        $deputies = $this->getCurrentDeputies();
+        return \yii\helpers\ArrayHelper::map($deputies, 'deputy_user_id', function($model) {
+            return $model->deputyUser->name . ' (' . $model->deputyUser->email . ')';
+        });
+    }
 }
