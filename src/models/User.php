@@ -40,7 +40,6 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     
     const GROUP_ALLOW_ADM = [self::STATUS_ROOT, self::STATUS_SENIOR_ADMIN, self::STATUS_ADMIN, self::STATUS_SENIOR_MANAGER]; //открыты функции администрирования
     
-    
     /**
      * {@inheritdoc}
      */
