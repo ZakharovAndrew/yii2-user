@@ -31,7 +31,10 @@ $this->params['breadcrumbs'][] = Module::t('Add');
                             \yii\helpers\ArrayHelper::map($availableUsers, 'id', function($user) {
                                 return $user->name . ' (' . $user->email . ')';
                             }),
-                            ['prompt' => Module::t('Select deputy...')]
+                            [
+                                'prompt' => Module::t('Select deputy...'),
+                                'class' => 'form-control form-select select2'
+                            ]
                         ) ?>
                     </div>
                     <div class="col-md-3">
@@ -53,3 +56,22 @@ $this->params['breadcrumbs'][] = Module::t('Add');
     </div>
 
 </div>
+
+<?php
+
+// CSS/JS Select2
+$this->registerCssFile('https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css');
+$this->registerJsFile('https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js', ['depends' => [\yii\web\JqueryAsset::class]]);
+
+$placeholder = Module::t('Select deputy...');
+
+// init Select2
+$this->registerJs(<<<JS
+    $('.select2').select2({
+        allowClear: true,
+        placeholder: '$placeholder',
+        width: '100%',
+        theme: 'bootstrap'
+    });
+JS
+);
