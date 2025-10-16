@@ -19,6 +19,8 @@ $this->params['breadcrumbs'][] = Module::t('Add');
 <div class="user-deputy-create">
 
     <?php if (Yii::$app->getModule('user')->showTitle) {?><h1><?= Html::encode($this->title) ?></h1><?php } ?>
+    
+    <?php if (!empty(Yii::$app->getModule('user')->addDeputyHint)) {?><div class="alert alert-info"><?= Html::encode(Yii::$app->getModule('user')->addDeputyHint) ?></div><?php } ?>
 
     <div class="user-deputy-form">
         <?php $form = ActiveForm::begin(); ?>

@@ -27,6 +27,8 @@ $this->params['breadcrumbs'][] = Module::t('Deputies');
                     <h5 class="card-title mb-0"><?= Module::t('Add Deputy') ?></h5>
                 </div>
                 <div class="card-body">
+                    <?php if (!empty(Yii::$app->getModule('user')->addDeputyHint)) {?><div class="alert alert-info"><?= Html::encode(Yii::$app->getModule('user')->addDeputyHint) ?></div><?php } ?>
+
                     <?= Html::a(Module::t('Add Deputy'), ['create', 'user_id' => $user->id], ['class' => 'btn btn-success']) ?>
                     <?php if (\Yii::$app->user->identity->isAdmin()) {?>
                     <?= Html::a(Module::t('Users with Deputies'), ['list'], ['class' => 'btn btn-danger']) ?>

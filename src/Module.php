@@ -29,6 +29,13 @@ class Module extends \yii\base\Module
     public $alias = "@user";
     
     /**
+     * Hint text for adding a deputy
+     * 
+     * @var string
+     */
+    public $addDeputyHint = '';
+    
+    /**
      * @var string version Bootstrap
      */
     public $bootstrapVersion = '';
