@@ -99,7 +99,9 @@ class Roles extends \yii\db\ActiveRecord
                 $submenu = [];
                 // find submenu
                 foreach ($params as $item_id => $item) {
-                    $submenu = array_merge($submenu, static::getSubItem($item_id, $item));
+                    if ($item_id != 'statuses') {
+                        $submenu = array_merge($submenu, static::getSubItem($item_id, $item));
+                    }
                 }
                 // don't create submenu
                 if (count($submenu) == 1) {
@@ -209,6 +211,5 @@ class Roles extends \yii\db\ActiveRecord
     {
         parent::afterSave($insert, $changedAttributes);
         Yii::$app->cache->delete('get_roles_list');
-        Yii::$app->cache->delete('get_roles_by_user_'.$this->user_id);
     }
 }
