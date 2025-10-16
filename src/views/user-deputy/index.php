@@ -43,7 +43,11 @@ $this->params['breadcrumbs'][] = Module::t('Deputies');
                 </div>
                 <div class="card-body">
                     <p><?= Module::t('Total deputies: {count}', ['count' => count($deputies)]) ?></p>
-                    <p><?= Module::t('User is deputy for: {count} users', ['count' => count($user->getCurrentDeputyForUsers())]) ?></p>
+                    <p><?= Module::t('User is deputy for: {count} users', ['count' => count($user->getCurrentDeputyForUsers())]) ?> <?php
+                    foreach ($user->getCurrentDeputyForUsers() as $deputyUser) {
+                        echo Html::a($deputyUser->name, ['/user/user/profile', 'id' => $deputyUser->id], ['class' => 'btn btn-sm btn-success', 'style'=>'margin-right:5px;']);
+                    }
+                    ?></p>
                 </div>
             </div>
         </div>
@@ -155,4 +159,3 @@ $js = <<<JS
 JS;
 
 $this->registerJs($js);
-?>
