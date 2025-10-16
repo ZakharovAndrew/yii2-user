@@ -10,6 +10,8 @@ use yii\web\Response;
 
 class NotificationAdminController extends ParentController
 {
+    public $controller_id = 1009;
+    
     public function actionIndex()
     {
         $groups = NotificationGroup::find()->all(); // Fetch all notification groups

@@ -11,38 +11,14 @@ use ZakharovAndrew\user\models\User;
 use ZakharovAndrew\user\models\UserSearch;
 use ZakharovAndrew\user\models\UserDeputy;
 use ZakharovAndrew\user\Module;
-use yii\data\ActiveDataProvider;
 
 /**
  * UserDeputyController implements the CRUD actions for UserDeputy model.
  */
-class UserDeputyController extends Controller
+class UserDeputyController extends ParentController
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function behaviors()
-    {
-        return [
-            'access' => [
-                'class' => AccessControl::class,
-                'rules' => [
-                    [
-                        'allow' => true,
-                        'roles' => ['@'],
-                    ],
-                ],
-            ],
-            'verbs' => [
-                'class' => VerbFilter::class,
-                'actions' => [
-                    'delete' => ['POST'],
-                    'remove' => ['POST'],
-                ],
-            ],
-        ];
-    }
-
+    public $controller_id = 1008;
+            
     /**
      * Lists all deputies for a user.
      * 
