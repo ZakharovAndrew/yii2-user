@@ -2,7 +2,6 @@
 
 /** @var $user \ZakharovAndrew\user\models\User */
 /** @var $wallpaper array|false */
-var_dump($wallpaper);
 ?>
 
 <?php if ($wallpaper): ?>
