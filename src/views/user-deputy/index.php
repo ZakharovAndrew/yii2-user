@@ -54,7 +54,12 @@ $this->params['breadcrumbs'][] = Module::t('Deputies');
             </div>
         </div>
     </div>
-
+    
+    <?php if ($mode == 'all') { ?>
+    <p><?= Html::a(Module::t('Active Deputies'), ['index', 'user_id' => $user->id, 'mode' => 'active'], ['class' => 'btn btn-primary']) ?></p>
+    <?php } else { ?>
+    <p><?= Html::a(Module::t('Show All Deputies'), ['index', 'user_id' => $user->id, 'mode' => 'all'], ['class' => 'btn btn-primary']) ?></p>
+    <?php } ?>
     <?php if (empty($deputies)): ?>
         <div class="alert alert-info">
             <?= Module::t('No deputies found for this user.') ?>

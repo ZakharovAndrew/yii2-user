@@ -25,7 +25,7 @@ class UserDeputyController extends ParentController
      * @param int $user_id
      * @return string
      */
-    public function actionIndex($user_id = null)
+    public function actionIndex($user_id = null, $mode = 'active')
     {
         // Если user_id не указан, используем текущего пользователя
         if ($user_id === null) {
@@ -40,13 +40,19 @@ class UserDeputyController extends ParentController
             return $this->redirect(['/user/user/profile']);
         }
 
-        $deputies = $user->getActiveDeputies()->with('deputyUser')->all();
+        if ($mode == 'all') {
+            $deputies = $user->getDeputies()->orderBy('valid_from DESC')->with('deputyUser')->all();
+        } else {
+            $deputies = $user->getActiveDeputies()->with('deputyUser')->all();
+        }
+        
         $availableUsers = User::getAvailableUsersForDeputy($user_id);
 
         return $this->render('index', [
             'user' => $user,
             'deputies' => $deputies,
             'availableUsers' => $availableUsers,
+            'mode' => $mode
         ]);
     }
     
