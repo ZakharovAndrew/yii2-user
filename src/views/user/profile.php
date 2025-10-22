@@ -121,7 +121,9 @@ $this->title = Module::t('Profile');
                         $field_value = explode(',', $value);
                         $arr = [];
                         foreach ($field_value as $item_value) {
-                            $arr[] = $setting->getValues()[$item_value];
+                            if (isset($setting->getValues()[$item_value])) {
+                                $arr[] = $setting->getValues()[$item_value];
+                            }
                         }
                         
                         echo implode(', ', $arr);
