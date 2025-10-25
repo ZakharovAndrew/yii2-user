@@ -134,6 +134,46 @@ Add this to your main configuration's urlManager array
 ],
 ```
 
+## 📊 Controller Action Logging
+
+The module provides comprehensive controller action logging for auditing and debugging purposes. When enabled, it automatically logs all controller actions with detailed information.
+
+**Features:**
+
+- ✅ User tracking - Logs user ID for authenticated users
+- ✅ Action details - Records controller, action, and HTTP method
+- ✅ Request data - Captures request parameters (sensitive data filtered)
+- ✅ Performance metrics - Measures execution time
+- ✅ Security information - Logs IP address and user agent
+- ✅ Response codes - Records HTTP response status codes
+
+### Configuration
+
+Enable logging in module configuration:
+
+```php
+'modules' => [
+    'user' => [
+        'class' => 'ZakharovAndrew\user\Module',
+        'enableControllerLogging' => true, // Enable logging
+        // ... other configurations
+    ],
+],
+```
+
+### What Gets Logged
+
+<table><thead><tr><th><span>Field</span></th><th><span>Description</span></th></tr></thead><tbody><tr><td><code>user_id</code></td><td><span>User ID (if authenticated)</span></td></tr><tr><td><code>controller</code></td><td><span>Controller name</span></td></tr><tr><td><code>action</code></td><td><span>Action name</span></td></tr><tr><td><code>method</code></td><td><span>HTTP method (GET, POST, etc.)</span></td></tr><tr><td><code>url</code></td><td><span>Request URL</span></td></tr><tr><td><code>request_params</code></td><td><span>Request parameters (passwords/tokens filtered)</span></td></tr><tr><td><code>response_code</code></td><td><span>HTTP response status code</span></td></tr><tr><td><code>execution_time</code></td><td><span>Action execution time in seconds</span></td></tr><tr><td><code>ip_address</code></td><td><span>Client IP address</span></td></tr><tr><td><code>user_agent</code></td><td><span>Client browser/user agent</span></td></tr></tbody></table>
+
+### Sensitive Data Protection
+
+The logging system automatically filters sensitive information:
+
+- Passwords (password, password_hash, etc.)
+- Authentication tokens (auth_key, access_token, etc.)
+- Security codes (cvv, security_code, etc.)
+- Sensitive fields are replaced with ***HIDDEN*** in the logs.
+
 ## 🎉 Happy Birthday widget
 
 You can use the birthday greeting widget by customizing both the header and the message indicating that there are no birthdays today:

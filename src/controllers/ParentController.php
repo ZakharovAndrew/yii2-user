@@ -6,6 +6,7 @@ use Yii;
 use yii\web\Controller;
 use yii\filters\AccessControl;
 use ZakharovAndrew\user\models\UserActivity;
+use ZakharovAndrew\user\models\UserControllerLog;
 
 /**
  * Parental controller for access control.
@@ -38,6 +39,11 @@ class ParentController extends Controller
      * @var array 
      */
     public $blocked_user_statuses = [];
+    
+    /**
+     * @var float Action execution start time
+     */
+    private $startTime;
     
     /**
      * {@inheritdoc}
@@ -99,10 +105,58 @@ class ParentController extends Controller
      */
     public function beforeAction($action)
     {
+        // Record start time for execution measurement
+        $this->startTime = microtime(true);
+        
         // Логирования начала и конца активности
         UserActivity::setActivity();
         
         return parent::beforeAction($action);
     }
 
+    /**
+     * @inheritdoc
+     */
+    public function afterAction($action, $result)
+    {
+        $result = parent::afterAction($action, $result);
+        
+        // Log controller call only if logging is enabled
+        if ($this->isControllerLoggingEnabled()) {
+            $this->logControllerCall($action);
+        }
+        
+        return $result;
+    }
+    
+    /**
+     * Check if controller logging is enabled
+     * @return bool
+     */
+    protected function isControllerLoggingEnabled()
+    {
+        $module = Yii::$app->getModule('user');
+        return $module && $module->enableControllerLogging;
+    }
+    
+    /**
+     * Log controller call
+     */
+    protected function logControllerCall($action)
+    {
+        try {
+            $controllerName = $this->id;
+            $actionName = $action->id;
+            
+            UserControllerLog::logRequest(
+                $controllerName,
+                $actionName,
+                $this->startTime,
+                Yii::$app->response
+            );
+            
+        } catch (\Exception $e) {
+            Yii::error('Failed to log controller call: ' . $e->getMessage(), 'controller-log');
+        }
+    }
 }

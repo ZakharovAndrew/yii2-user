@@ -92,6 +92,13 @@ class Module extends \yii\base\Module
      * @var string Path where avatars are stored
      */
     public $avatarPath = '/avatars/';
+    
+    /**
+     * @var bool Enable controller action logging
+     * Logs user actions with controller, action, parameters and execution time
+     * Default: false
+     */
+    public $enableControllerLogging = false;
 
     /**
      * {@inheritdoc}
