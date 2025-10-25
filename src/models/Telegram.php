@@ -9,7 +9,7 @@ use ZakharovAndrew\user\models\User;
  * Telegram Bot API wrapper for sending messages and media to Telegram groups
  * 
  * @link https://github.com/ZakharovAndrew/yii2-user/
- * @copyright Copyright (c) 2023-2024 Zakharov Andrew
+ * @copyright Copyright (c) 2023-2025 Zakharov Andrew
  */
 class Telegram extends \yii\base\Model
 {
@@ -144,6 +144,91 @@ class Telegram extends \yii\base\Model
         ];
         
         return $this->sendRequest($url, $data, $files);
+    }
+    
+    /**
+     * Get chat ID by group invite link or username
+     * 
+     * @param string $groupLink Group invite link or username (with @)
+     * @return array
+     */
+    public function getChatIdByLink($groupLink)
+    {
+        // Extract username from link if full URL is provided
+        $username = $this->extractUsernameFromLink($groupLink);
+        
+        if (empty($username)) {
+            return [
+                'success' => false,
+                'error' => 'Invalid group link or username'
+            ];
+        }
+        
+        $url = self::BASE_API_URL . $this->token . "/getChat";
+        
+        $data = [
+            'chat_id' => $username
+        ];
+        
+        $result = $this->sendRequest($url, $data);
+        
+        if ($result['success'] && isset($result['data']['id'])) {
+            $result['chat_id'] = $result['data']['id'];
+            $result['title'] = $result['data']['title'] ?? '';
+            $result['type'] = $result['data']['type'] ?? '';
+        }
+        
+        return $result;
+    }
+    
+    /**
+     * Extract username from Telegram group link
+     * 
+     * @param string $link Group invite link or username
+     * @return string|null
+     */
+    private function extractUsernameFromLink($link)
+    {
+        // If it's already a username with @
+        if (strpos($link, '@') === 0) {
+            return $link;
+        }
+        
+        // Remove https://t.me/ prefix and extract username
+        $patterns = [
+            '/https?:\/\/t\.me\/([a-zA-Z0-9_]+)/i',
+            '/t\.me\/([a-zA-Z0-9_]+)/i',
+            '/^([a-zA-Z0-9_]+)$/',
+        ];
+        
+        foreach ($patterns as $pattern) {
+            if (preg_match($pattern, $link, $matches)) {
+                return '@' . $matches[1];
+            }
+        }
+        
+        if (preg_match('/https?:\/\/web\.telegram\.org\/a\/\#([\-0-9]+)/i', $link, $matches)) {
+            return $matches[1];
+        }
+        
+        return null;
+    }
+    
+    /**
+     * Get chat information by ID or username
+     * 
+     * @param string|int $chatId Chat ID or username
+     * @return array
+     */
+    public function getChat($chatId)
+    {
+        $url = self::BASE_API_URL . $this->token . "/getChat";
+        
+        $data = [
+            'chat_id' => $chatId
+        ];
+        
+        return $this->sendRequest($url, $data);
     }
     
     /**
