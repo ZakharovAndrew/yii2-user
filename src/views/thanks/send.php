@@ -22,7 +22,11 @@ $this->registerJs("new EmojiPicker();");
 
         <?php $form = ActiveForm::begin(); ?>
 
+        <?php if (!empty($id)) { $model->user_id = $id;?>
+        <?= $form->field($model, 'user_id')->hiddenInput()->label(false) ?>
+        <?php } else { ?>
         <?= $form->field($model, 'user_id')->dropDownList(ArrayHelper::map(User::find()->all(), 'id', 'username'), ['prompt' => 'Выберите пользователя']) ?>
+        <?php } ?>
 
         <?= $form->field($model, 'text')->textarea(['rows' => 6, 'data-emoji-picker'=>"true"]) ?>
 

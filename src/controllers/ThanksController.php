@@ -48,7 +48,7 @@ class ThanksController extends Controller
         ]);
     }
 
-    public function actionSend()
+    public function actionSend($id = null)
     {
         $model = new Thanks();
 
@@ -61,7 +61,7 @@ class ThanksController extends Controller
             }
         }
 
-        return $this->render('send', ['model' => $model]);
+        return $this->render('send', ['model' => $model, 'id' => $id]);
     }
 
     public function actionView($id = null)
@@ -77,6 +77,7 @@ class ThanksController extends Controller
         return $this->render('view', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'id' => $id,
         ]);
     }
 

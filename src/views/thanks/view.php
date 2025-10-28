@@ -48,7 +48,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php if (Yii::$app->getModule('user')->showTitle) {?><h1><?= Html::encode($this->title) ?></h1><?php } ?>
 
     <p>
-        <?= Html::a(Module::t('Send thanks'), ['send'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a(Module::t('Send thanks'), ['send', 'id' => $id], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
