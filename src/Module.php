@@ -6,7 +6,7 @@
  * Yii2 user authentication module for management users and their rights.
  *  
  * @link https://github.com/ZakharovAndrew/yii2-user/
- * @copyright Copyright (c) 2023 Zakharov Andrew
+ * @copyright Copyright (c) 2023-2025 Zakharov Andrew
  */
  
 namespace ZakharovAndrew\user;
@@ -21,7 +21,7 @@ class Module extends \yii\base\Module
     /**
      * @var string Module version
      */
-    protected $version = "0.6.8";
+    protected $version = "0.7.0";
 
     /**
      * @var string Alias for module
@@ -99,6 +99,8 @@ class Module extends \yii\base\Module
      * Default: false
      */
     public $enableControllerLogging = false;
+
+    public $maxLoginAttempt = 3;
 
     /**
      * {@inheritdoc}
