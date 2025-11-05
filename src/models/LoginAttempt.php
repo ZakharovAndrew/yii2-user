@@ -19,9 +19,7 @@ use ZakharovAndrew\user\Module;
  * @since 0.5.7
  */
 class LoginAttempt extends ActiveRecord
-{
-    const MAX_ATTEMPT = 3;
-    
+{   
     public static function tableName()
     {
         return 'login_attempts';
@@ -63,12 +61,14 @@ class LoginAttempt extends ActiveRecord
      */
     public static function isBlockedByIp($ipAddress)
     {
+        $maxLoginAttempt = Yii::$app->getModule('user')->maxLoginAttempt;
+        
         $count = static::find()
             ->where(['ip_address' => $ipAddress, 'successful' => false])
             ->andWhere(['>', 'attempt_time', new \yii\db\Expression('NOW() - INTERVAL 1 HOUR')])
             ->count();
 
-        return $count >= static::MAX_ATTEMPT; // Block after 3 unsuccessful attempts
+        return $count >= $maxLoginAttempt; // Block after 3 (default) unsuccessful attempts
     }
     
     /**
