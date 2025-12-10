@@ -17,7 +17,7 @@ class Api
     static function login($login, $password)
     {
         // Find user by login excluding deleted accounts
-        $user = User::findOne(["login" => $login, ['!=', 'status', User::STATUS_DELETED]]);
+        $user = User::find()->where(["name" => $login])->andWhere(['!=', 'status', User::STATUS_DELETED])->one();
         
         // Authentication failed: user not found or invalid password
         if (!$user || !$user->validatePassword($password)) {
