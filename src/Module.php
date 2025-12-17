@@ -111,7 +111,7 @@ class Module extends \yii\base\Module
     
     public $jwtSecretKey = 'CHANGE JWT SECRET KEY';
     
-    public $apiUserClass = '';
+    public $apiUserClass = 'ZakharovAndrew\user\models\User';
     
     /**
      * {@inheritdoc}

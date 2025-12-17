@@ -3,7 +3,6 @@
 namespace ZakharovAndrew\user\models;
 
 use ZakharovAndrew\user\models\AuthJwt;
-use ZakharovAndrew\user\models\User;
 
 class Api
 {
@@ -16,8 +15,10 @@ class Api
      */
     static function login($login, $password)
     {
+        $userClass = Yii::$app->getModule('user')->apiUserClass;
+        
         // Find user by login excluding deleted accounts
-        $user = User::find()->where(["name" => $login])->andWhere(['!=', 'status', User::STATUS_DELETED])->one();
+        $user = $userClass::find()->where(["name" => $login])->andWhere(['!=', 'status', $userClass::STATUS_DELETED])->one();
         
         // Authentication failed: user not found or invalid password
         if (!$user || !$user->validatePassword($password)) {
