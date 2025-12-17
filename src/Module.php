@@ -103,6 +103,17 @@ class Module extends \yii\base\Module
     public $maxLoginAttempt = 3;
 
     /**
+     * Token Expires Time
+     * 
+     * @var string 
+     */
+    public $jwtExpiresTime = 3600;
+    
+    public $jwtSecretKey = 'CHANGE JWT SECRET KEY';
+    
+    public $apiUserClass = '';
+    
+    /**
      * {@inheritdoc}
      * @throws \yii\base\InvalidConfigException
      */
