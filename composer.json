@@ -1,25 +1,26 @@
 {
-  "name": "zakharov-andrew/yii2-user",
-  "description": "Yii2 User",
-  "type": "yii2-extension",
-  "keywords": ["yii2", "extension", "module", "access", "permissions", "rights", "roles", "users", "admin", "yii 2"],
-  "license": "MIT",
-  "authors": [
-    {
-      "name": "Andrew Zakharov",
-      "homepage": "https://github.com/ZakharovAndrew",
-      "role": "Developer"
+    "name": "zakharov-andrew/yii2-user",
+    "description": "Yii2 User",
+    "type": "yii2-extension",
+    "keywords": ["yii2", "extension", "module", "access", "permissions", "rights", "roles", "users", "admin", "yii 2", "profile"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Andrew Zakharov",
+            "homepage": "https://github.com/ZakharovAndrew",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=7.2",
+        "firebase/php-jwt" : "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "ZakharovAndrew\\user\\": "src"
+        }
+    },
+    "fxp-asset": {
+        "enabled": false
     }
-  ],
-  "require": {
-    "php": ">=7.2"
-  },
-  "autoload": {
-    "psr-4": {
-      "ZakharovAndrew\\user\\": "src"
-    }
-  },
-  "fxp-asset": {
-    "enabled": false
-  }
 }
