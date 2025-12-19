@@ -29,6 +29,13 @@ class Api
         return AuthJwt::generateToken($user['id']);
     }
     
+    /**
+     * Get user profile by ID with selected fields
+     * 
+     * @param int $id User ID
+     * @param array $fields Fields to select (default: id, username, name)
+     * @return mixed User object or null if not found
+     */
     static function profile($id, $fields = ['id','username', 'name'])
     {
         $userClass = Yii::$app->getModule('user')->apiUserClass;
@@ -41,6 +48,14 @@ class Api
         return $user;
     }
     
+    /**
+     * Register a new user account
+     * 
+     * @param string $login User login/username
+     * @param string $email User email address
+     * @param string $password User password
+     * @return array|false Returns user data with token on success, false on failure
+     */
     static function signup($login, $email, $password)
     {
         $userClass = Yii::$app->getModule('user')->apiUserClass;
@@ -63,6 +78,7 @@ class Api
             return false;
         }
         
+        // Send email verification if email sending is configured
         return $model->sendEmailVerification();
     }
     
