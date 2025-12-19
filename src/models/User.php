@@ -28,6 +28,7 @@ use yii\helpers\ArrayHelper;
 class User extends \yii\db\ActiveRecord implements IdentityInterface
 {
     const STATUS_DELETED = 0;
+    const STATUS_INACTIVE = 1;
     const STATUS_CLIENT = 4;
     const STATUS_USER = 5;
     const STATUS_PARTNER = 6;
