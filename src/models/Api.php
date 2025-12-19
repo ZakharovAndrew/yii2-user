@@ -29,6 +29,43 @@ class Api
         return AuthJwt::generateToken($user['id']);
     }
     
+    static function profile($id, $fields = ['id','username', 'name'])
+    {
+        $userClass = Yii::$app->getModule('user')->apiUserClass;
+        
+        $user = $userClass::find()
+                ->select($fields)
+                ->where(['id' => $id])
+                ->one();
+        
+        return $user;
+    }
+    
+    static function signup($login, $email, $password)
+    {
+        $userClass = Yii::$app->getModule('user')->apiUserClass;
+        
+        // Create new user model instance
+        $model = new $userClass([
+            'username' => $login,
+            'email' => $email,
+            'status' => $userClass::STATUS_INACTIVE, // Set initial status as inactive
+        ]);
+        
+        // Set password and generate auth key for email verification
+        $model->setPassword($password);
+        $model->generateAuthKey();
+        $model->generateEmailVerificationToken();
+        
+        // Save the user model
+        if (!$model->save()) {
+            Yii::error('User registration failed: ' . print_r($model->errors, true));
+            return false;
+        }
+        
+        return $model->sendEmailVerification();
+    }
+    
     /**
      * Get client's IP address from various HTTP headers
      * 
