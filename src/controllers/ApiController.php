@@ -60,6 +60,8 @@ class ApiController extends Controller
             header('HTTP/1.1 405 Method Not Allowed');
             die('{"error":"Wrong method!"}');
         }
+        
+        Yii::$app->response->format = Response::FORMAT_JSON;
                
         return parent::beforeAction($action);
     }
@@ -70,9 +72,7 @@ class ApiController extends Controller
     }
     
     public function actionLogin()
-    {
-        Yii::$app->response->format = Response::FORMAT_JSON;
-        
+    {   
         $data = $this->getRawData();
         
         if (empty($data->login) || empty($data->password)) {
@@ -92,12 +92,7 @@ class ApiController extends Controller
     
     public function actionProfile()
     {
-        Yii::$app->response->format = Response::FORMAT_JSON;
-        
-        $user = User::find()
-                ->select(['id','username', 'name'])
-                ->where(['id' => $this->user_id])
-                ->one();
+        $user = Api::profile($this->user_id);
                 
         if (!$user) {
             header("HTTP/1.0 420 Invalid arguments");
@@ -105,6 +100,24 @@ class ApiController extends Controller
         }
         
         return $user;
+    }
+    
+    public function actionSignup()
+    {
+        $data = $this->getRawData();
+        
+        if (empty($data->login) || empty($data->email) || empty($data->password)) {
+            header("HTTP/1.0 420 Invalid arguments");
+             return ["error" => "Missing required fields: login, email or password"];
+        }
+        
+        $result = Api::signup($data->login, $data->email, $data->password);
+        if ($result) {
+            return ["success" => true, "message" => "User registered successfully"];
+        } else {
+            header("HTTP/1.0 422 Unprocessable Entity");
+            return ["error" => "Registration failed"];
+        }
     }
     
     /**
