@@ -106,12 +106,12 @@ class ApiController extends Controller
     {
         $data = $this->getRawData();
         
-        if (empty($data->login) || empty($data->email) || empty($data->password)) {
+        if (empty($data->username) || empty($data->name) ||empty($data->email) || empty($data->password)) {
             header("HTTP/1.0 420 Invalid arguments");
-             return ["error" => "Missing required fields: login, email or password"];
+             return ["error" => "Missing required fields: username, name, email or password"];
         }
         
-        $result = Api::signup($data->login, $data->email, $data->password);
+        $result = Api::signup($data->username, $data->name, $data->email, $data->password);
         if ($result['success']) {
             return ["success" => true, "message" => "User registered successfully"];
         } else {

@@ -52,19 +52,20 @@ class Api
     /**
      * Register a new user account
      * 
-     * @param string $login User login/username
+     * @param string $username User login/username
+     * @param string $name User name
      * @param string $email User email address
      * @param string $password User password
      * @return array|false Returns user data with token on success, false on failure
      */
-    static function signup($login, $email, $password)
+    static function signup($username, $name, $email, $password)
     {
         $userClass = Yii::$app->getModule('user')->apiUserClass;
         
         // Create new user model instance
         $model = new $userClass([
-            'username' => $login,
-            'name' => $login,
+            'username' => $username,
+            'name' => $name,
             'email' => $email,
             'status' => $userClass::STATUS_INACTIVE, // Set initial status as inactive
         ]);
@@ -82,9 +83,16 @@ class Api
         }
         
         // Send email verification if email sending is configured
-        $message = $model->sendEmailVerification();
+        if ($model->sendEmailVerification()) {
+            return [
+                'success' => true,
+                'access_token' => AuthJwt::generateToken($model->id),
+                'expires_in' => Yii::$app->getModule('user')->jwtExpiresTime
+            ];
+            
+        }
         
-        return ['success' => $message, 'message' => !$message ? 'Mail sending error' : ''];
+        return ['success' => false, 'message' => 'Mail sending error'];
     }
     
     /**
