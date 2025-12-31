@@ -68,6 +68,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
             [['auth_key'], 'string', 'max' => 32],
             [['city'], 'string', 'max' => 150],
             [['phone'], 'string', 'max' => 20],
+            [['email_verification_code'], 'string', 'max' => 10],
             [
             'avatar',
             'file',
@@ -90,6 +91,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
             'auth_key' => 'Auth Key',
             'password' => Module::t('Password'),
             'password_reset_token' => 'Password Reset Token',
+            'email_verification_code' => 'Email Verification Code',
             'email' => 'Email',
             'name' => Module::t('Name'),
             'avatar' => Module::t('Avatar'),
@@ -859,5 +861,19 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
         return \yii\helpers\ArrayHelper::map($deputies, 'deputy_user_id', function($model) {
             return $model->deputyUser->name . ' (' . $model->deputyUser->email . ')';
         });
+    }
+    
+    public function generateEmailVerificationCode()
+    {
+        $chars = array_merge(['W', 'Z', 'Y', 'R', 'Q', 'S'], range(0, 9));
+        $code = '';
+
+        // Loop to generate each character of the password
+        for ($i = 0; $i < 6; $i++) {
+            $code .= $chars[random_int(0, count($chars) - 1)];
+        }
+        
+        $this->email_verification_code = $code;
+        $this->save();
     }
 }
