@@ -29,7 +29,7 @@ class ApiController extends Controller
                         'roles' => ['@', '?'],
                         'matchCallback' => function ($rule, $action) {
             
-                            if ($action->id == 'login') {
+                            if ($action->id == 'login' || $action->id == 'signup') {
                                 return true;
                             }
                             
@@ -68,7 +68,7 @@ class ApiController extends Controller
     
     public function allowedActions()
     {
-        return ['login', 'profile', 'tabs'];
+        return ['login', 'signup', 'profile', 'tabs'];
     }
     
     public function actionLogin()
@@ -112,11 +112,11 @@ class ApiController extends Controller
         }
         
         $result = Api::signup($data->login, $data->email, $data->password);
-        if ($result) {
+        if ($result['success']) {
             return ["success" => true, "message" => "User registered successfully"];
         } else {
             header("HTTP/1.0 422 Unprocessable Entity");
-            return ["error" => "Registration failed"];
+            return ["error" => "Registration failed", 'message' => $result['message'] ?? 'Unknown error: '.var_export($result, true)];
         }
     }
     

@@ -876,4 +876,23 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
         $this->email_verification_code = $code;
         $this->save();
     }
+    
+    /**
+     * Send an email with a verification code
+     * 
+     * @return bool whether the email was send
+     */
+    public function sendEmailVerification()
+    {
+        return Yii::$app
+            ->mailer
+            ->compose(
+                ['html' => '@vendor/zakharov-andrew/yii2-user/src/mail/email-verification-html'],
+                ['user' => $this]
+            )
+            ->setFrom([Yii::$app->params['supportEmail'] => Yii::$app->name])
+            ->setTo($this->email)
+            ->setSubject('Email Verification '.Yii::$app->name)
+            ->send();
+    }
 }

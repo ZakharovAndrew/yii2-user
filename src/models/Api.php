@@ -2,6 +2,7 @@
 
 namespace ZakharovAndrew\user\models;
 
+use Yii;
 use ZakharovAndrew\user\models\AuthJwt;
 
 class Api
@@ -63,23 +64,27 @@ class Api
         // Create new user model instance
         $model = new $userClass([
             'username' => $login,
+            'name' => $login,
             'email' => $email,
             'status' => $userClass::STATUS_INACTIVE, // Set initial status as inactive
         ]);
         
         // Set password and generate auth key for email verification
         $model->setPassword($password);
-        $model->generateAuthKey();
-        $model->generateEmailVerificationToken();
+        $model->generateEmailVerificationCode();
         
         // Save the user model
         if (!$model->save()) {
             Yii::error('User registration failed: ' . print_r($model->errors, true));
-            return false;
+            $errors = $model->errors;
+            
+            return ['success' => false, 'message' => array_shift($errors)[0] ?? 'Unknown error' ];
         }
         
         // Send email verification if email sending is configured
-        return $model->sendEmailVerification();
+        $message = $model->sendEmailVerification();
+        
+        return ['success' => $message, 'message' => !$message ? 'Mail sending error' : ''];
     }
     
     /**
