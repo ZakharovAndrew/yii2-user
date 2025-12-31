@@ -87,7 +87,8 @@ class Api
             return [
                 'success' => true,
                 'access_token' => AuthJwt::generateToken($model->id),
-                'expires_in' => Yii::$app->getModule('user')->jwtExpiresTime
+                'expires_in' => Yii::$app->getModule('user')->jwtExpiresTime,
+                'message' => 'User registered successfully'
             ];
             
         }

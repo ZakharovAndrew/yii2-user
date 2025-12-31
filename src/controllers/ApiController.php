@@ -113,7 +113,7 @@ class ApiController extends Controller
         
         $result = Api::signup($data->username, $data->name, $data->email, $data->password);
         if ($result['success']) {
-            return ["success" => true, "message" => "User registered successfully"];
+            return $result;
         } else {
             header("HTTP/1.0 422 Unprocessable Entity");
             return ["error" => "Registration failed", 'message' => $result['message'] ?? 'Unknown error: '.var_export($result, true)];
