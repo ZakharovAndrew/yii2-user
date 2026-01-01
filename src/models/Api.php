@@ -19,7 +19,7 @@ class Api
         $userClass = Yii::$app->getModule('user')->apiUserClass;
         
         // Find user by login excluding deleted accounts
-        $user = $userClass::find()->where(["name" => $login])->andWhere(['!=', 'status', $userClass::STATUS_DELETED])->one();
+        $user = $userClass::find()->where(["username" => $login])->andWhere(['!=', 'status', $userClass::STATUS_DELETED])->one();
         
         // Authentication failed: user not found or invalid password
         if (!$user || !$user->validatePassword($password)) {
@@ -37,7 +37,7 @@ class Api
      * @param array $fields Fields to select (default: id, username, name)
      * @return mixed User object or null if not found
      */
-    static function profile($id, $fields = ['id','username', 'name'])
+    static function profile($id, $fields = ['id', 'username', 'name', 'sex'])
     {
         $userClass = Yii::$app->getModule('user')->apiUserClass;
         
@@ -56,9 +56,10 @@ class Api
      * @param string $name User name
      * @param string $email User email address
      * @param string $password User password
+     * @param int $sex
      * @return array|false Returns user data with token on success, false on failure
      */
-    static function signup($username, $name, $email, $password)
+    static function signup($username, $name, $email, $password, $sex = null)
     {
         $userClass = Yii::$app->getModule('user')->apiUserClass;
         
@@ -67,6 +68,7 @@ class Api
             'username' => $username,
             'name' => $name,
             'email' => $email,
+            'sex' => $sex,
             'status' => $userClass::STATUS_INACTIVE, // Set initial status as inactive
         ]);
         

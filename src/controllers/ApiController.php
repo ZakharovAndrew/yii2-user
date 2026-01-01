@@ -75,16 +75,16 @@ class ApiController extends Controller
     {   
         $data = $this->getRawData();
         
-        if (empty($data->login) || empty($data->password)) {
+        if (empty($data->username) || empty($data->password)) {
             header("HTTP/1.0 401 Unauthorized");
-            return ["error" => "Wrong login or password!"];
+            return ["error" => "Wrong username or password!"];
         }
         
-        $access_token = Api::login($data->login, $data->password);
+        $access_token = Api::login($data->username, $data->password);
         //связка не найдена
         if ($access_token === false) {
             header("HTTP/1.0 401 Unauthorized");
-            return ["error" => "Wrong login or password!"];
+            return ["error" => "Wrong username or password!"];
         }
         
         return ["access_token" => $access_token, "expires_in" => Yii::$app->getModule('user')->jwtExpiresTime];
