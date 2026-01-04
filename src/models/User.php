@@ -895,4 +895,35 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
             ->setSubject('Email Verification '.Yii::$app->name)
             ->send();
     }
+    
+    /**
+     * Resend verification email
+     * 
+     * @return array Result array with success status and message
+     */
+    public function resendVerification()
+    {
+        if ($this->status !== self::STATUS_INACTIVE) {
+            return [
+                'success' => false,
+                'message' => 'User already verified'
+            ];
+        }
+
+        // Generate new verification code
+        $this->generateEmailVerificationCode();
+
+        // Resend verification email
+        if ($this->sendEmailVerification()) {
+            return [
+                'success' => true,
+                'message' => 'Verification email sent successfully'
+            ];
+        }
+
+        return [
+            'success' => false,
+            'message' => 'Failed to send verification email'
+        ];
+    }
 }

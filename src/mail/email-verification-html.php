@@ -9,5 +9,5 @@ use ZakharovAndrew\user\Module;
     <p><?= Module::t('Hello')?>, <?= Html::encode($user->getName()) ?></p>
     <p>Your registration code:</p>
 
-    <p><font size="large" style="letter-spacing: 8px;"><?= $user->email_verification_code?></font></p>
+    <p><font style="letter-spacing: 8px;font-size: x-large;"><?= $user->email_verification_code?></font></p>
 </div>

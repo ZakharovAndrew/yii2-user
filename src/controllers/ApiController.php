@@ -68,7 +68,7 @@ class ApiController extends Controller
     
     public function allowedActions()
     {
-        return ['login', 'signup', 'profile', 'tabs'];
+        return ['login', 'signup', 'profile', 'tabs', 'resend-verification'];
     }
     
     public function actionLogin()
@@ -117,6 +117,21 @@ class ApiController extends Controller
         } else {
             header("HTTP/1.0 422 Unprocessable Entity");
             return ["error" => "Registration failed", 'message' => $result['message'] ?? 'Unknown error: '.var_export($result, true)];
+        }
+    }
+    
+    /**
+     * Resend verification email
+     */
+    public function actionResendVerification()
+    {
+        $result = Api::resendVerification($this->user_id);
+
+        if ($result['success']) {
+            return $result;
+        } else {
+            header("HTTP/1.0 422 Unprocessable Entity");
+            return ["error" => "Failed to resend verification", 'message' => $result['message']];
         }
     }
     

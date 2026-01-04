@@ -34,10 +34,10 @@ class Api
      * Get user profile by ID with selected fields
      * 
      * @param int $id User ID
-     * @param array $fields Fields to select (default: id, username, name)
+     * @param array $fields Fields to select (default: id, username, name, email, sex)
      * @return mixed User object or null if not found
      */
-    static function profile($id, $fields = ['id', 'username', 'name', 'sex'])
+    static function profile($id, $fields = ['id', 'username', 'name', 'email', 'sex'])
     {
         $userClass = Yii::$app->getModule('user')->apiUserClass;
         
@@ -62,6 +62,21 @@ class Api
     static function signup($username, $name, $email, $password, $sex = null)
     {
         $userClass = Yii::$app->getModule('user')->apiUserClass;
+        
+        // Проверяем, существует ли уже пользователь с таким email
+        $existingUser = $userClass::find()
+            ->where(['email' => $email])
+            ->orWhere(['username' => $username])
+            ->one();
+
+        if ($existingUser) {
+            if ($existingUser->email === $email) {
+                return ['success' => false, 'message' => 'Email already registered'];
+            }
+            if ($existingUser->username === $username) {
+                return ['success' => false, 'message' => 'Username already taken'];
+            }
+        }
         
         // Create new user model instance
         $model = new $userClass([
@@ -96,6 +111,46 @@ class Api
         }
         
         return ['success' => false, 'message' => 'Mail sending error'];
+    }
+    
+    /**
+     * Resend verification email
+     * 
+     * @param int $user_id User ID
+     * @return array Result array with success status and message
+     */
+    static function resendVerification($user_id)
+    {
+        $userClass = Yii::$app->getModule('user')->apiUserClass;
+
+        // Find user by ID
+        $user = $userClass::find()
+                ->where(['id' => $user_id])
+                ->andWhere(['status' => $userClass::STATUS_INACTIVE])
+                ->one();
+
+        if (!$user) {
+            return [
+                'success' => false,
+                'message' => 'User not found or already verified'
+            ];
+        }
+
+        // Generate new verification code
+        $user->generateEmailVerificationCode();
+
+        // Resend verification email
+        if ($user->sendEmailVerification()) {
+            return [
+                'success' => true,
+                'message' => 'Verification email sent successfully'
+            ];
+        }
+
+        return [
+            'success' => false,
+            'message' => 'Failed to send verification email'
+        ];
     }
     
     /**
