@@ -111,7 +111,7 @@ class ApiController extends Controller
              return ["error" => "Missing required fields: username, name, email or password"];
         }
         
-        $result = Api::signup($data->username, $data->name, $data->email, $data->password);
+        $result = Api::signup($data->username, $data->name, $data->email, $data->password, $data->sex ?? null);
         if ($result['success']) {
             return $result;
         } else {
