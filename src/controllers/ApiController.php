@@ -68,7 +68,7 @@ class ApiController extends Controller
     
     public function allowedActions()
     {
-        return ['login', 'signup', 'profile', 'tabs', 'resend-verification'];
+        return ['login', 'signup', 'profile', 'tabs', 'verify-email', 'resend-verification'];
     }
     
     public function actionLogin()
@@ -117,6 +117,27 @@ class ApiController extends Controller
         } else {
             header("HTTP/1.0 422 Unprocessable Entity");
             return ["error" => "Registration failed", 'message' => $result['message'] ?? 'Unknown error: '.var_export($result, true)];
+        }
+    }
+    
+    /**
+     * Verify email with code
+     */
+    public function actionVerifyEmail()
+    {
+        $data = $this->getRawData();
+
+        if (empty($data->email) || empty($data->code)) {
+            return $this->error(420, 'Missing required fields: email and code');
+        }
+
+        $result = Api::verifyEmail($data->email, $data->code);
+
+        if ($result['success']) {
+            return $result;
+        } else {
+            header("HTTP/1.0 422 Unprocessable Entity");
+            return ["error" => "Verification failed", 'message' => $result['message']];
         }
     }
     

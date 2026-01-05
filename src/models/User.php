@@ -926,4 +926,45 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
             'message' => 'Failed to send verification email'
         ];
     }
+    
+    /**
+     * Verify email with verification code
+     * 
+     * @param string $email User email
+     * @param string $code Verification code
+     * @return array Result array with success status and message
+     */
+    static function verifyEmail($email, $code)
+    {
+        // Find user by email with verification code
+        $user = static::find()
+            ->where(['email' => $email])
+            ->andWhere(['email_verification_code' => $code])
+            ->andWhere(['status' => static::STATUS_INACTIVE])
+            ->one();
+
+        if (!$user) {
+            return [
+                'success' => false,
+                'message' => 'Invalid verification code or email'
+            ];
+        }
+
+        // Update user status to active
+        $user->status = static::STATUS_USER;
+        $user->email_verification_code = null; // Clear verification code
+
+        if (!$user->save()) {
+            Yii::error('Email verification failed: ' . print_r($user->errors, true));
+            return [
+                'success' => false,
+                'message' => 'Verification failed. Please try again.'
+            ];
+        }
+
+        return [
+            'success' => true,
+            'message' => 'Email successfully verified',
+        ];
+    }
 }

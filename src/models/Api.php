@@ -34,10 +34,10 @@ class Api
      * Get user profile by ID with selected fields
      * 
      * @param int $id User ID
-     * @param array $fields Fields to select (default: id, username, name, email, sex)
+     * @param array $fields Fields to select (default: id, username, name, email, sex, status)
      * @return mixed User object or null if not found
      */
-    static function profile($id, $fields = ['id', 'username', 'name', 'email', 'sex'])
+    static function profile($id, $fields = ['id', 'username', 'name', 'email', 'sex', 'status'])
     {
         $userClass = Yii::$app->getModule('user')->apiUserClass;
         
@@ -151,6 +151,20 @@ class Api
             'success' => false,
             'message' => 'Failed to send verification email'
         ];
+    }
+    
+    /**
+     * Verify email with verification code
+     * 
+     * @param string $email User email
+     * @param string $code Verification code
+     * @return array Result array with success status and message
+     */
+    static function verifyEmail($email, $code)
+    {
+        $userClass = Yii::$app->getModule('user')->apiUserClass;
+        
+        return $userClass::verifyEmail($email, $code);
     }
     
     /**
