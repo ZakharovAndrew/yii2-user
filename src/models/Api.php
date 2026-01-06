@@ -4,6 +4,7 @@ namespace ZakharovAndrew\user\models;
 
 use Yii;
 use ZakharovAndrew\user\models\AuthJwt;
+use ZakharovAndrew\user\models\VerificationLog;
 
 class Api
 {
@@ -130,17 +131,31 @@ class Api
                 ->one();
 
         if (!$user) {
+            VerificationLog::log(
+                $user_id, // user_id может быть null
+                '',
+                VerificationLog::ACTION_SEND_CODE,
+                VerificationLog::STATUS_FAILED,
+                'User not found or already verified'
+            );
+        
             return [
                 'success' => false,
                 'message' => 'User not found or already verified'
             ];
         }
 
-        // Generate new verification code
-        $user->generateEmailVerificationCode();
-
         // Resend verification email
-        if ($user->sendEmailVerification()) {
+        $status = $user->resendVerification();
+        if ($status['success']) {
+            VerificationLog::log(
+                $user->id, // user_id может быть null
+                $user->email,
+                VerificationLog::ACTION_SEND_CODE,
+                VerificationLog::STATUS_SUCCESS,
+                'Verification email sent successfully'
+            );
+            
             return [
                 'success' => true,
                 'message' => 'Verification email sent successfully'
@@ -149,7 +164,7 @@ class Api
 
         return [
             'success' => false,
-            'message' => 'Failed to send verification email'
+            'message' => $status['message']
         ];
     }
     
@@ -168,24 +183,11 @@ class Api
     }
     
     /**
-     * Get client's IP address from various HTTP headers
-     * 
-     * @return string|false IP address if found, false otherwise
+     * Get client IP address
      */
     public static function getUserIP()
     {
-        // Check different proxy headers in order of priority
-        if (!empty($_SERVER['HTTP_X_REAL_IP'])) {
-            return  $_SERVER['HTTP_X_REAL_IP'];
-        } elseif (!empty($_SERVER['HTTP_X_CLIENT_IP'])) {
-            return  $_SERVER['HTTP_X_CLIENT_IP'];
-        } elseif (!empty($_SERVER['HTTP_CLIENT_IP'])) {
-            return $_SERVER['HTTP_CLIENT_IP'];
-        } elseif (!empty($_SERVER['REMOTE_ADDR'])) {
-            return $_SERVER['REMOTE_ADDR'];
-        }
-
-        return false;
+        return Yii::$app->request->userIP ?: 'unknown';
     }
     
     /**

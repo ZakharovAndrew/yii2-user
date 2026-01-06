@@ -6,6 +6,7 @@ use Yii;
 use yii\web\IdentityInterface;
 use ZakharovAndrew\user\Module;
 use yii\helpers\ArrayHelper;
+use ZakharovAndrew\user\models\VerificationLog;
 
 /**
  * This is the model class for table "crm_users".
@@ -904,9 +905,38 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     public function resendVerification()
     {
         if ($this->status !== self::STATUS_INACTIVE) {
+            
+            // Логируем неудачную попытку
+            VerificationLog::log(
+                $this->id,
+                $this->email,
+                VerificationLog::ACTION_SEND_CODE,
+                VerificationLog::STATUS_FAILED,
+                'User already verified'
+            );
+            
             return [
                 'success' => false,
                 'message' => 'User already verified'
+            ];
+        }
+        
+        // Проверяем rate limiting через лог
+        $rateLimitCheck = VerificationLog::checkSendRateLimit($this->email, 60);
+
+        if (!$rateLimitCheck['allowed']) {
+            VerificationLog::log(
+                $this->id,
+                $this->email,
+                VerificationLog::ACTION_SEND_CODE,
+                VerificationLog::STATUS_FAILED,
+                'Rate limit exceeded. Please wait ' . $rateLimitCheck['remaining'] . ' seconds'
+            );
+
+            return [
+                'success' => false,
+                'message' => 'Please wait ' . $rateLimitCheck['remaining'] . ' seconds before requesting a new code',
+                'cooldown_remaining' => $rateLimitCheck['remaining']
             ];
         }
 
@@ -915,12 +945,30 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
 
         // Resend verification email
         if ($this->sendEmailVerification()) {
+            
+            // Логируем результат
+            VerificationLog::log(
+                $this->id,
+                $this->email,
+                VerificationLog::ACTION_SEND_CODE,
+                VerificationLog::STATUS_SUCCESS,
+                'Verification email sent successfully'
+            );
+        
             return [
                 'success' => true,
                 'message' => 'Verification email sent successfully'
             ];
         }
 
+        VerificationLog::log(
+            $user->id,
+            $email,
+            VerificationLog::ACTION_SEND_CODE,
+            VerificationLog::STATUS_FAILED,
+            'Failed to send verification email'
+        );
+            
         return [
             'success' => false,
             'message' => 'Failed to send verification email'
@@ -936,6 +984,24 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
      */
     static function verifyEmail($email, $code)
     {
+        // Проверяем слишком много неудачных попыток
+        if (VerificationLog::hasTooManyFailedAttempts($email, 5, 3600)) {
+            VerificationLog::log(
+                null,
+                $email,
+                VerificationLog::ACTION_VERIFY_CODE,
+                VerificationLog::STATUS_FAILED,
+                'Too many failed attempts. Account temporarily locked.'
+            );
+
+            return [
+                'success' => false,
+                'message' => 'Too many failed verification attempts. Please try again later.',
+                'account_locked' => true,
+                'lock_duration' => '1 hour'
+            ];
+        }
+    
         // Find user by email with verification code
         $user = static::find()
             ->where(['email' => $email])
@@ -944,6 +1010,15 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
             ->one();
 
         if (!$user) {
+            // Логируем неудачную попытку верификации
+            VerificationLog::log(
+                null,
+                $email,
+                VerificationLog::ACTION_VERIFY_CODE,
+                VerificationLog::STATUS_FAILED,
+                'Invalid verification code or email'
+            );
+        
             return [
                 'success' => false,
                 'message' => 'Invalid verification code or email'
@@ -956,11 +1031,29 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
 
         if (!$user->save()) {
             Yii::error('Email verification failed: ' . print_r($user->errors, true));
+            
+            VerificationLog::log(
+                $user->id,
+                $email,
+                VerificationLog::ACTION_VERIFY_CODE,
+                VerificationLog::STATUS_FAILED,
+                'Database save error: ' . print_r($user->errors, true)
+            );
+            
             return [
                 'success' => false,
                 'message' => 'Verification failed. Please try again.'
             ];
         }
+        
+        // Логируем успешную верификацию
+        VerificationLog::log(
+            $user->id,
+            $email,
+            VerificationLog::ACTION_VERIFY_CODE,
+            VerificationLog::STATUS_SUCCESS,
+            null
+        );
 
         return [
             'success' => true,

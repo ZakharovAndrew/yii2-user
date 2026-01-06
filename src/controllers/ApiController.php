@@ -148,7 +148,7 @@ class ApiController extends Controller
     {
         $result = Api::resendVerification($this->user_id);
 
-        if ($result['success']) {
+        if ($result['success'] === true) {
             return $result;
         } else {
             header("HTTP/1.0 422 Unprocessable Entity");
