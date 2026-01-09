@@ -68,7 +68,7 @@ class ApiController extends Controller
     
     public function allowedActions()
     {
-        return ['login', 'signup', 'profile', 'tabs', 'verify-email', 'reset-password', 'resend-verification'];
+        return ['login', 'signup', 'profile', 'update-profile', 'tabs', 'verify-email', 'reset-password', 'resend-verification'];
     }
     
     public function actionLogin()
@@ -96,10 +96,31 @@ class ApiController extends Controller
                 
         if (!$user) {
             header("HTTP/1.0 420 Invalid arguments");
-            die('{"error": "User not found"}');
+            return ["error" => "User not found"];
         }
         
         return $user;
+    }
+    
+    public function actionUpdateProfile()
+    {
+        $data = $this->getRawData();
+
+        if (empty((array)$data)) {
+            return $this->error(420, 'No data provided for update');
+        }
+
+        $result = Api::updateProfile(
+            $this->user_id,
+            (array)$data
+        );
+
+        if ($result['success']) {
+            return $result;
+        } else {
+            header("HTTP/1.0 422 Unprocessable Entity");
+            return ["succes" => false, 'message' => $result['message']];
+        }
     }
     
     public function actionSignup()

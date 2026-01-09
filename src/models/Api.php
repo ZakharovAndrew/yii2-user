@@ -213,6 +213,156 @@ class Api
     }
     
     /**
+     * Update user username
+     * 
+     * @param int $userId User ID
+     * @param string $newUsername New username
+     * @return array Result array with success status and message
+     */
+    static function updateUsername($userId, $newUsername)
+    {
+        $userClass = Yii::$app->getModule('user')->apiUserClass;
+
+        // Find user by ID
+        $user = $userClass::find()
+            ->where(['id' => $userId])
+            ->andWhere(['!=', 'status', $userClass::STATUS_DELETED])
+            ->one();
+
+        if (!$user) {
+            return [
+                'success' => false,
+                'message' => 'User not found'
+            ];
+        }
+
+        // Проверяем, не занят ли новый username другим пользователем
+        if ($user->username !== $newUsername) {
+            $existingUser = $userClass::find()
+                ->where(['username' => $newUsername])
+                ->andWhere(['!=', 'id', $userId])
+                ->one();
+
+            if ($existingUser) {
+                return [
+                    'success' => false,
+                    'message' => 'This username is already taken'
+                ];
+            }
+        }
+
+        // Проверяем минимальную длину username
+        if (strlen($newUsername) < 3) {
+            return [
+                'success' => false,
+                'message' => 'Username must be at least 3 characters long'
+            ];
+        }
+
+        // Проверяем допустимые символы (только буквы, цифры, подчеркивания)
+        if (!preg_match('/^[a-zA-Z0-9_]+$/', $newUsername)) {
+            return [
+                'success' => false,
+                'message' => 'Username can only contain letters, numbers and underscores'
+            ];
+        }
+
+        // Проверяем максимальную длину
+        if (strlen($newUsername) > 50) {
+            return [
+                'success' => false,
+                'message' => 'Username cannot exceed 50 characters'
+            ];
+        }
+
+        // Сохраняем старый username для логов
+        $oldUsername = $user->username;
+
+        // Обновляем username
+        $user->username = $newUsername;
+
+        if (!$user->save()) {
+            Yii::error('Username update failed: ' . print_r($user->errors, true));
+            $errors = $user->errors;
+
+            return [
+                'success' => false,
+                'message' => array_shift($errors)[0] ?? 'Failed to update username'
+            ];
+        }
+
+        // Логируем изменение username (если у вас есть система логов)
+        Yii::info("User {$userId} changed username from '{$oldUsername}' to '{$newUsername}'");
+
+        return [
+            'success' => true,
+            'message' => 'Username successfully updated',
+            'new_username' => $newUsername
+        ];
+    }
+    
+    /**
+     * Update user profile
+     * 
+     * @param int $userId User ID
+     * @param array $data Profile data to update
+     * @return array Result array with success status and message
+     */
+    static function updateProfile($userId, $data)
+    {
+        $userClass = Yii::$app->getModule('user')->apiUserClass;
+
+        // Find user by ID
+        $user = $userClass::find()
+            ->where(['id' => $userId])
+            ->andWhere(['!=', 'status', $userClass::STATUS_DELETED])
+            ->one();
+
+        if (!$user) {
+            return [
+                'success' => false,
+                'message' => 'User not found'
+            ];
+        }
+
+        // Разрешенные поля для обновления
+        $allowedFields = ['name', 'sex', 'avatar'];
+
+        foreach ($data as $field => $value) {
+            // Пропускаем поля, которые не разрешены для обновления
+            if (!in_array($field, $allowedFields) || !$user->hasAttribute($field)) {
+                continue;
+            }
+            
+            // если пол не находится в списке доступных
+            if ($field === 'sex' && !isset($userClass::getSexList()[$value])) {
+                return [
+                    'success' => false,
+                    'message' => 'Failed to update profile'
+                ];
+            }
+            
+            $user->$field = $value;
+        }
+
+        if (!$user->save()) {
+            Yii::error('Profile update failed: ' . print_r($user->errors, true));
+            $errors = $user->errors;
+
+            return [
+                'success' => false,
+                'message' => array_shift($errors)[0] ?? 'Failed to update profile'
+            ];
+        }
+
+        return [
+            'success' => true,
+            'message' => 'Profile successfully updated',
+        ];
+    }
+
+    
+    /**
      * Validate date format and optional minimum date constraint
      * 
      * @param string $date Date string to validate
