@@ -75,17 +75,8 @@ class PasswordResetRequestForm extends Model
                 return false;
             }
         }
- 
-        return Yii::$app
-            ->mailer
-            ->compose(
-                ['html' => '@vendor/zakharov-andrew/yii2-user/src/mail/passwordResetToken-html'],
-                ['user' => $user]
-            )
-            ->setFrom([Yii::$app->params['supportEmail'] => Yii::$app->name])
-            ->setTo($this->email)
-            ->setSubject(Module::t('Reset password for') . ' ' . Yii::$app->name)
-            ->send();
+        
+        return $user->sendEmailResetPassword();
     }
  
 }

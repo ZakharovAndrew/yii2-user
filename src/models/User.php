@@ -42,6 +42,8 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     
     const GROUP_ALLOW_ADM = [self::STATUS_ROOT, self::STATUS_SENIOR_ADMIN, self::STATUS_ADMIN, self::STATUS_SENIOR_MANAGER]; //открыты функции администрирования
     
+    const URL_PASSWORD_RESET = '/user/user/reset-password';
+    
     /**
      * {@inheritdoc}
      */
@@ -894,6 +896,32 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
             ->setFrom([Yii::$app->params['supportEmail'] => Yii::$app->name])
             ->setTo($this->email)
             ->setSubject('Email Verification '.Yii::$app->name)
+            ->send();
+    }
+    
+    /**
+     * Sends an email with a link, for resetting the password.
+     * 
+     * @return bool whether the email was send
+     */
+    public function sendEmailResetPassword()
+    {
+        if (!self::isPasswordResetTokenValid($this->password_reset_token)) {
+            $this->generatePasswordResetToken();
+            if (!$this->save()) {
+                return false;
+            }
+        }
+        
+        return Yii::$app
+            ->mailer
+            ->compose(
+                ['html' => '@vendor/zakharov-andrew/yii2-user/src/mail/passwordResetToken-html'],
+                ['user' => $this, 'password_reset_link' => static::URL_PASSWORD_RESET]
+            )
+            ->setFrom([Yii::$app->params['supportEmail'] => Yii::$app->name])
+            ->setTo($this->email)
+            ->setSubject(Module::t('Reset password for') . ' ' . Yii::$app->name)
             ->send();
     }
     

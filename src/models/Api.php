@@ -115,6 +115,28 @@ class Api
     }
     
     /**
+     * Resets password.
+     */
+    static function resetPassword($username, $email)
+    {
+        $userClass = Yii::$app->getModule('user')->apiUserClass;
+        
+        // Проверяем, существует ли уже пользователь с таким email
+        $existingUser = $userClass::find()
+            ->where(['email' => $email])
+            ->andWhere(['username' => $username])
+            ->one();
+        
+        if (!$existingUser) {    
+            return ['success' => false, 'message' => 'A user with the specified login and email was not found.'];
+        }
+        
+        $result = $existingUser->sendEmailResetPassword();
+        
+        return ['success' => $result];
+    }
+    
+    /**
      * Resend verification email
      * 
      * @param int $user_id User ID

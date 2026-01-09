@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="white-box center">
         <div class="form-box">
             <h2><?= Module::t('Please enter a new password') ?></h2> 
-            <?php $form = $classActiveForm::begin(['id' => 'reset-password-form', 'action' => Url::to(['/user/user/reset-password', 'token' => $token]), 'method' => 'POST']); ?>
+            <?php $form = $classActiveForm::begin(['id' => 'reset-password-form', 'action' => Url::to([$reset_password_link ?? '/user/user/reset-password', 'token' => $token]), 'method' => 'POST']); ?>
                 <?= $form->field($model, 'password')->passwordInput(['autofocus' => true])->label('Пароль') ?>
                 <div class="form-group">
                     <?= $classHtml::submitButton(Module::t('Save'), ['class' => 'btn btn-primary']) ?>

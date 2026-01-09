@@ -1,10 +1,11 @@
 <?php
  
+use Yii;
 use yii\helpers\Html;
 use ZakharovAndrew\user\Module;
 
 
-$reset_link = \Yii::$app->urlManager->createAbsoluteUrl(['/user/user/reset-password', 'token' => $user->password_reset_token]);
+$reset_link = Yii::$app->urlManager->createAbsoluteUrl([$password_reset_link, 'token' => $user->password_reset_token]);
 
 ?>
  
@@ -13,3 +14,5 @@ $reset_link = \Yii::$app->urlManager->createAbsoluteUrl(['/user/user/reset-passw
     <p><?= Module::t('To reset your password, follow the link') ?>:</p>
     <p><?= Html::a(Html::encode($reset_link), $reset_link) ?></p>
 </div>
+
+<div><?= date('Y')?> &COPY; <?= Yii::$app->name ?></div>

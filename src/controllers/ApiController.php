@@ -29,7 +29,7 @@ class ApiController extends Controller
                         'roles' => ['@', '?'],
                         'matchCallback' => function ($rule, $action) {
             
-                            if ($action->id == 'login' || $action->id == 'signup') {
+                            if (in_array($action->id, ['login', 'signup', 'reset-password'])) {
                                 return true;
                             }
                             
@@ -68,7 +68,7 @@ class ApiController extends Controller
     
     public function allowedActions()
     {
-        return ['login', 'signup', 'profile', 'tabs', 'verify-email', 'resend-verification'];
+        return ['login', 'signup', 'profile', 'tabs', 'verify-email', 'reset-password', 'resend-verification'];
     }
     
     public function actionLogin()
@@ -154,6 +154,19 @@ class ApiController extends Controller
             header("HTTP/1.0 422 Unprocessable Entity");
             return ["error" => "Failed to resend verification", 'message' => $result['message']];
         }
+    }
+    
+    public function actionResetPassword()
+    {
+        $data = $this->getRawData();
+
+        if (empty($data->username) || empty($data->email)) {
+            return $this->error(420, 'Missing required fields: username and email');
+        }
+        
+        $result = Api::resetPassword($data->username, $data->email);
+        
+        return $result;
     }
     
     /**
