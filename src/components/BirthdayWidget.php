@@ -17,6 +17,7 @@ class BirthdayWidget extends Widget
         $today = date('m-d'); // Current date in month-day format
         $usersToday = User::find()
             ->where(['DATE_FORMAT(birthday, "%m-%d")' => $today])
+            ->andWhere(['<>', 'status', User::STATUS_DELETED])
             ->all();
         
         // Check if today is Monday
@@ -32,6 +33,7 @@ class BirthdayWidget extends Widget
             // If today is Monday, check for birthdays over the weekend (Saturday and Sunday)
             $usersWeekend = User::find()
                 ->where(['DATE_FORMAT(birthday, "%m-%d")' => [$saturday, $sunday]]) // Replace with correct weekend dates
+                ->andWhere(['<>', 'status', User::STATUS_DELETED])
                 ->all();
         }
 
