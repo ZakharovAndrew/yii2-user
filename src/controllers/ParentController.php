@@ -78,8 +78,8 @@ class ParentController extends Controller
                             }
                             
                             // Does the user have a role that is required to access this action?
-                            if (isset($this->action_allowed_roles[$action->id]) && !Yii::$app->user->identity->hasRole($this->action_allowed_roles[$action->id])) {
-                                return false;
+                            if (isset($this->action_allowed_roles[$action->id])) {
+                                return Yii::$app->user->identity->hasRole($this->action_allowed_roles[$action->id]);
                             }
                             
                             return \ZakharovAndrew\user\models\User::isActionAllowed(Yii::$app->user->id, $this->controller_id, $action->id);
