@@ -13,7 +13,7 @@ use yii\web\Response;
 
 class ApiController extends Controller
 {
-    private $user_id = null;
+    public $user_id = null;
   
     /**
      * {@inheritdoc}
@@ -29,7 +29,7 @@ class ApiController extends Controller
                         'roles' => ['@', '?'],
                         'matchCallback' => function ($rule, $action) {
             
-                            if (in_array($action->id, ['login', 'signup', 'reset-password'])) {
+                            if (in_array($action->id, $this->getUnauthorizedActions())) {
                                 return true;
                             }
                             
@@ -64,6 +64,11 @@ class ApiController extends Controller
         Yii::$app->response->format = Response::FORMAT_JSON;
                
         return parent::beforeAction($action);
+    }
+    
+    protected function getUnauthorizedActions()
+    {
+        return ['login', 'signup', 'reset-password'];
     }
     
     public function allowedActions()
