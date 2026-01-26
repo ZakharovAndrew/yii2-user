@@ -65,7 +65,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
             ['email', 'unique', 'targetClass' => self::className(), 'message' => Module::t('This email is already taken!')],
             
             [['birthday', 'auth_key', 'created_at', 'updated_at'], 'safe'],
-            [['status', 'sex', 'created_by'], 'integer'],
+            [['status', 'sex', 'created_by', 'coins'], 'integer'],
             [['password', 'name', 'telegram_code'], 'string', 'max' => 255],
             [['username', 'password_reset_token', 'email'], 'string', 'max' => 190],
             [['auth_key'], 'string', 'max' => 32],
@@ -1087,5 +1087,66 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
             'success' => true,
             'message' => 'Email successfully verified',
         ];
+    }
+    
+    /**
+     * Add a role to the user
+     * 
+     * @param int|string $role Role ID or role code
+     * @param int|null $subject_id Related entity ID (optional)
+     * @param string|null $note Additional notes (optional)
+     * @return bool Whether the role was successfully added
+     * @throws \InvalidArgumentException When user is not saved or role not found
+     * @throws \Exception On database errors
+     */
+    public function addRole($role, $subject_id = null, $note = null): bool
+    {
+        if ($this->isNewRecord) {
+            throw new \InvalidArgumentException('Cannot add role to unsaved user');
+        }
+
+        // Find role by ID or code
+        if (is_int($role)) {
+            $roleModel = Roles::findOne($role);
+            if (!$roleModel) {
+                throw new \InvalidArgumentException("Role with ID {$role} not found");
+            }
+            $role_id = $role;
+        } else {
+            $roleModel = Roles::findOne(['code' => $role]);
+            if (!$roleModel) {
+                throw new \InvalidArgumentException("Role with code '{$role}' not found");
+            }
+            $role_id = $roleModel->id;
+        }
+
+        // Check for duplicate role assignment
+        $exists = UserRoles::find()
+            ->where([
+                'user_id' => $this->id,
+                'role_id' => $role_id,
+                'subject_id' => $subject_id
+            ])
+            ->exists();
+
+        if ($exists) {
+            Yii::debug("User {$this->id} already has role {$role_id}", __METHOD__);
+            return true;
+        }
+
+        
+        $model = new UserRoles([
+            'user_id' => $this->id,
+            'role_id' => $role_id,
+            'subject_id' => $subject_id,
+            'note' => $note
+        ]);
+
+        if (!$model->save()) {
+            Yii::error('Failed to save user role: ' . json_encode($model->errors), __METHOD__);
+            return false;
+        }
+        
+        return true;
     }
 }
