@@ -279,3 +279,17 @@
         min-height: auto;
     }
 }
+
+.role-delete {
+    display: inline-block;
+    background: #ff7a7a;
+    border-radius: 6px;
+    color: white;
+    margin-right: 9px;
+    padding: 0 6px;
+    font-size: 14px;
+    text-decoration: none;
+}
+.role-delete:hover {
+    background: #dd5757;
+}
