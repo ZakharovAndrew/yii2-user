@@ -164,22 +164,7 @@ $this->registerJs($script, yii\web\View::POS_READY);
 echo $this->render('../user-roles/_js');
 ?>
 
-<style>
-.role-delete {
-    display: inline-block;
-    background: #ff7a7a;
-    border-radius: 6px;
-    color: white;
-    margin-right: 9px;
-    padding: 0 6px;
-    font-size: 14px;
-    text-decoration: none;
-}
-.role-delete:hover {
-    background: #dd5757;
-}
-    
-    
+<style>    
 /* Setting Right Modal */
 .settings-modal .btn-modal-close {
     padding: 6px 8px 7px;
@@ -435,21 +420,7 @@ echo $this->render('../user-roles/_js');
                 'format' => 'raw',
                 'filter' => Roles::getRolesList(),
                 'value' => function ($model) {
-                    $result = '';
-                    
-                    // Get all user roles
-                    $roles = UserRoles::getUserRoles($model->id);
-                    
-                    foreach ($roles as $role) {
-                        $item = Roles::findOne($role['role_id']);
-                        $result .= $role['title'] . (isset($role['subject_id']) ? '('.$item->roleSubject($role['subject_id']).')' : '' );
-                        $result .= ' <a href="'.Url::toRoute(['/user/user-roles/delete', 'id' => $role['id']]).'" title="'.Module::t('Delete role').'" aria-label="'.Module::t('Delete role').'" class="role-delete">X</a>';
-                    }
-                    
-                    $result .= '<a href="'.Url::toRoute(['/user/user-roles/create', 'user_id' => $model->id, 'form'=>'_form_good_product']).'" title="'.Module::t('Add Role').'" aria-label="'.Module::t('Add Role').'" class="btn btn-sm btn-success">+</a>';
-                    
-                    return $result;
-                
+                    return $this->render('_userRoles', ['model' => $model]);
                 }
             ],
             [

@@ -1149,4 +1149,10 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
         
         return true;
     }
+    
+    public function getUserSetting($id)
+    {
+        $settings = UserSettings::find()->where(['user_id' => $this->id])->andWhere(['setting_config_id' => $id])->one();
+        return $settings ? $settings->values : '';   
+    }
 }

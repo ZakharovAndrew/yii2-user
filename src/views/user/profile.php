@@ -149,4 +149,13 @@ $this->title = Module::t('Profile');
         <?php } ?>
     </div>
     <?php } ?>
+    
+    <?php if (Yii::$app->user->identity->hasRole('admin')) { ?>
+    <div class="white-block">
+        <label>Роли пользователя:</label>
+        <div>
+            <?= $this->render('_userRoles', ['model' => $model]); ?>
+        </div>
+    </div>
+    <?php } ?>
 </div>

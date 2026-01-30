@@ -35,10 +35,10 @@ class Api
      * Get user profile by ID with selected fields
      * 
      * @param int $id User ID
-     * @param array $fields Fields to select (default: id, username, name, email, sex, status)
+     * @param array $fields Fields to select (default: id, username, name, email, avatar, coins, sex, status)
      * @return mixed User object or null if not found
      */
-    static function profile($id, $fields = ['id', 'username', 'name', 'email', 'avatar',  'sex', 'status'])
+    static function profile($id, $fields = ['id', 'username', 'name', 'email', 'avatar', 'coins', 'sex', 'status'])
     {
         $userClass = Yii::$app->getModule('user')->apiUserClass;
         

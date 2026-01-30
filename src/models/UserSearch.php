@@ -38,11 +38,11 @@ class UserSearch extends User
      * Creates data provider instance with search query applied
      *
      * @param array $params
-     * @param array $roles_name - list of roles
+     * @param array|null $roles_name - list of roles
      *
      * @return ActiveDataProvider
      */
-    public function search($params, $roles_name = null)
+    public function search($params, $roles_name = null, $only_active = false)
     {
         $query = User::find();
         
@@ -59,6 +59,10 @@ class UserSearch extends User
             }
             $query->innerJoin('user_roles', 'user_roles.user_id = users.id AND user_roles.role_id IN (SELECT id FROM roles WHERE code IN('.implode(',', $sql_roles).') )');
             $query->groupBy('users.id');
+        }
+        
+        if ($only_active) {
+            $query->andWhere(['NOT IN', 'users.status', [User::STATUS_DELETED, User::STATUS_INACTIVE]]);
         }
         
         // add conditions that should always apply here
