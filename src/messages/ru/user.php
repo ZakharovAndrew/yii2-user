@@ -573,6 +573,29 @@ return [
     'Add' => 'Добавить',
     'Show All Deputies' => 'Показать всех заместителей',
     'Active Deputies' => 'Активные заместители',
+    
+    //Purchase 
+    'User' => 'Пользователь',
+    'Item Type' => 'Тип товара',
+    'Item ID' => 'ID товара',
+    'Price' => 'Цена',
+    'Purchase Date' => 'Дата покупки',
+    // Другие переводы из модели
+    'You already own this item' => 'Вы уже владеете этим предметом',
+    'User not found' => 'Пользователь не найден',
+    'Not enough coins' => 'Недостаточно монет',
+    'Item not available for purchase' => 'Товар недоступен для покупки',
+    'Failed to update user balance: {errors}' => 'Не удалось обновить баланс пользователя: {errors}',
+    'Failed to save purchase: {errors}' => 'Не удалось сохранить покупку: {errors}',
+    'Failed to add achievement to user: {errors}' => 'Не удалось добавить достижение пользователю: {errors}',
+    'Price must be greater than or equal to 0' => 'Цена должна быть больше или равна 0',
+    'Unknown' => 'Неизвестно',
+    'Achievement' => 'Достижение',
+    'Avatar' => 'Аватарка',
+    'Wallpaper' => 'Обои',
+    'Not enough coins. You need {needed} more coins' => 'Недостаточно монет. Вам нужно ещё {needed} монет',
+    'Item is not available for purchase' => 'Товар недоступен для покупки',
+    'You can purchase this item' => 'Вы можете купить этот товар',
 ];
 
 
