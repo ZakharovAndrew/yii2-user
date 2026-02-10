@@ -596,6 +596,44 @@ return [
     'Not enough coins. You need {needed} more coins' => 'Недостаточно монет. Вам нужно ещё {needed} монет',
     'Item is not available for purchase' => 'Товар недоступен для покупки',
     'You can purchase this item' => 'Вы можете купить этот товар',
+    
+    // Friends
+    'Friends' => 'Друзья',
+    'Friend' => 'Друг',
+    'Friends Count' => 'Количество друзей',
+    'Pending' => 'Ожидание',
+    'Accepted' => 'Принято',
+    'Rejected' => 'Отклонено',
+    'Blocked' => 'Заблокировано',
+    'Unknown' => 'Неизвестно',
+    'You cannot add yourself as a friend' => 'Вы не можете добавить себя в друзья',
+    'Friendship request already exists' => 'Запрос на дружбу уже существует',
+    'Failed to send friend request' => 'Не удалось отправить запрос в друзья',
+    'Requested At' => 'Время запроса',
+    'Responded At' => 'Время ответа',
+    
+    // Email subjects
+    'New friend request from {name}' => 'Новый запрос в друзья от {name}',
+    'Your friend request has been accepted' => 'Ваш запрос в друзья принят',
+    
+    // Email content
+    'New Friend Request' => 'Новый запрос в друзья',
+    'Hello!' => 'Здравствуйте!',
+    'User {name} has sent you a friend request.' => 'Пользователь {name} отправил вам запрос в друзья.',
+    'View Friend Request' => 'Просмотреть запрос в друзья',
+    'You can accept or reject this request in your friends section.' => 'Вы можете принять или отклонить этот запрос в разделе друзей.',
+    
+    'Friend Request Accepted' => 'Запрос в друзья принят',
+    'Great news!' => 'Отличные новости!',
+    '{name} has accepted your friend request.' => '{name} принял(а) ваш запрос в друзья.',
+    'View Friends List' => 'Посмотреть список друзей',
+    'You can now see each other\'s updates and interact in the system.' => 'Теперь вы можете видеть обновления друг друга и взаимодействовать в системе.',
+    
+    // Email footer
+    'This email was sent automatically. Please do not reply to this email.' => 'Это письмо отправлено автоматически. Пожалуйста, не отвечайте на него.',
+    'If you did not expect this email, you can safely ignore it.' => 'Если вы не ожидали это письмо, вы можете его проигнорировать.',
+    'To manage your email notifications, visit your account settings.' => 'Чтобы управлять email-уведомлениями, посетите настройки аккаунта.',
+    'All rights reserved.' => 'Все права защищены.',
 ];
 
 
