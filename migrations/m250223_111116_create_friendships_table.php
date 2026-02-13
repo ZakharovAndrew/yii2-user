@@ -1,11 +1,9 @@
 <?php
 
-namespace ZakharovAndrew\user\migrations;
-
 use yii\db\Migration;
 
 /**
- * Migration for friendships table
+ * Class m250223_111116_create_friendships_table
  */
 class m250223_111116_create_friendships_table extends Migration
 {
