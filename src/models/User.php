@@ -7,6 +7,7 @@ use yii\web\IdentityInterface;
 use ZakharovAndrew\user\Module;
 use yii\helpers\ArrayHelper;
 use ZakharovAndrew\user\models\VerificationLog;
+use ZakharovAndrew\user\models\Friendship;
 
 /**
  * This is the model class for table "crm_users".
@@ -1155,4 +1156,263 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
         $settings = UserSettings::find()->where(['user_id' => $this->id])->andWhere(['setting_config_id' => $id])->one();
         return $settings ? $settings->values : '';   
     }
+    
+    /**
+     * Get friendship status with another user
+     * 
+     * @param int $friendId
+     * @return array|null Returns friendship status and who sent request
+     */
+    public function getFriendshipStatus($friendId)
+    {
+        $friendship = Friendship::getFriendship($this->id, $friendId);
+
+        if (!$friendship) {
+            return null;
+        }
+
+        return [
+            'status' => $friendship->status,
+            'status_name' => $friendship->getStatusName(),
+            'is_sent_by_me' => $friendship->user_id == $this->id,
+            'friendship' => $friendship,
+        ];
+    }
+    
+    /**
+     * Gets query for [[FriendshipsSent]].
+     */
+    public function getFriendshipsSent()
+    {
+        return $this->hasMany(Friendship::class, ['user_id' => 'id']);
+    }
+
+    /**
+     * Gets query for [[FriendshipsReceived]].
+     */
+    public function getFriendshipsReceived()
+    {
+        return $this->hasMany(Friendship::class, ['friend_id' => 'id']);
+    }
+
+    /**
+     * Get all friends (accepted friendships)
+     * 
+     * @return ActiveQuery
+     */
+    public function getFriends()
+    {
+        return User::find()
+            ->alias('u')
+            ->innerJoin(['f' => Friendship::tableName()], '(
+                (f.user_id = :userId AND f.friend_id = u.id) OR 
+                (f.friend_id = :userId AND f.user_id = u.id)
+            )', [':userId' => $this->id])
+            ->andWhere(['f.status' => Friendship::STATUS_ACCEPTED])
+            ->andWhere(['!=', 'u.status', self::STATUS_DELETED]);
+    }
+
+    /**
+     * Get pending friend requests sent by this user
+     * 
+     * @return ActiveQuery
+     */
+    public function getPendingSentRequests()
+    {
+        return $this->getFriendshipsSent()
+            ->where(['status' => Friendship::STATUS_PENDING]);
+    }
+
+    /**
+     * Get pending friend requests received by this user
+     * 
+     * @return ActiveQuery
+     */
+    public function getPendingReceivedRequests()
+    {
+        return $this->getFriendshipsReceived()
+            ->where(['status' => Friendship::STATUS_PENDING]);
+    }
+
+    /**
+     * Check if user is friend with another user
+     * 
+     * @param int $friendId
+     * @return bool
+     */
+    public function isFriendWith($friendId)
+    {
+        return Friendship::find()
+            ->where(['status' => Friendship::STATUS_ACCEPTED])
+            ->andWhere([
+                'or',
+                ['user_id' => $this->id, 'friend_id' => $friendId],
+                ['user_id' => $friendId, 'friend_id' => $this->id]
+            ])
+            ->exists();
+    }
+
+    /**
+     * Check if there is a pending friend request from this user to another
+     * 
+     * @param int $friendId
+     * @return bool
+     */
+    public function hasPendingRequestTo($friendId)
+    {
+        return Friendship::find()
+            ->where(['status' => Friendship::STATUS_PENDING])
+            ->andWhere(['user_id' => $this->id, 'friend_id' => $friendId])
+            ->exists();
+    }
+
+    /**
+     * Check if there is a pending friend request from another user to this user
+     * 
+     * @param int $friendId
+     * @return bool
+     */
+    public function hasPendingRequestFrom($friendId)
+    {
+        return Friendship::find()
+            ->where(['status' => Friendship::STATUS_PENDING])
+            ->andWhere(['user_id' => $friendId, 'friend_id' => $this->id])
+            ->exists();
+    }
+
+    /**
+     * Send friend request to another user
+     * 
+     * @param int $friendId
+     * @return array|Friendship
+     */
+    public function sendFriendRequest($friendId)
+    {
+        return Friendship::createRequest($this->id, $friendId);
+    }
+
+    /**
+     * Accept friend request from another user
+     * 
+     * @param int $friendId
+     * @return bool
+     */
+    public function acceptFriendRequest($friendId)
+    {
+        $friendship = Friendship::find()
+            ->where(['user_id' => $friendId, 'friend_id' => $this->id, 'status' => Friendship::STATUS_PENDING])
+            ->one();
+
+        if ($friendship) {
+            return $friendship->accept();
+        }
+
+        return false;
+    }
+
+    /**
+     * Reject friend request from another user
+     * 
+     * @param int $friendId
+     * @return bool
+     */
+    public function rejectFriendRequest($friendId)
+    {
+        $friendship = Friendship::find()
+            ->where(['user_id' => $friendId, 'friend_id' => $this->id, 'status' => Friendship::STATUS_PENDING])
+            ->one();
+
+        if ($friendship) {
+            return $friendship->reject();
+        }
+
+        return false;
+    }
+
+    /**
+     * Remove friend (delete friendship)
+     * 
+     * @param int $friendId
+     * @return bool
+     */
+    public function removeFriend($friendId)
+    {
+        $friendship = Friendship::getFriendship($this->id, $friendId);
+
+        if ($friendship && $friendship->isAccepted()) {
+            return $friendship->delete();
+        }
+
+        return false;
+    }
+
+    
+
+    /**
+     * Get friends count
+     * 
+     * @return int
+     */
+    public function getFriendsCount()
+    {
+        return $this->friends_count;
+    }
+
+    /**
+     * Get suggested friends (users who are not yet friends)
+     * 
+     * @param int $limit
+     * @return User[]
+     */
+    public function getSuggestedFriends($limit = 10)
+    {
+        // Get friend IDs
+        $friendIds = $this->getFriends()->select('id')->column();
+        $friendIds[] = $this->id;
+
+        // Basic implementation - users who are not yet friends
+        return User::find()
+            ->where(['not in', 'id', $friendIds])
+            ->andWhere(['!=', 'status', self::STATUS_DELETED])
+            ->limit($limit)
+            ->all();
+    }
+
+    /**
+     * Block user
+     * 
+     * @param int $friendId
+     * @return bool
+     */
+    public function blockUser($friendId)
+    {
+        $friendship = Friendship::getFriendship($this->id, $friendId);
+
+        if (!$friendship) {
+            // Create new friendship with blocked status
+            $friendship = new Friendship();
+            $friendship->user_id = $this->id;
+            $friendship->friend_id = $friendId;
+        }
+
+        return $friendship->block();
+    }
+
+    /**
+     * Unblock user
+     * 
+     * @param int $friendId
+     * @return bool
+     */
+    public function unblockUser($friendId)
+    {
+        $friendship = Friendship::getFriendship($this->id, $friendId);
+
+        if ($friendship && $friendship->isBlocked()) {
+            return $friendship->delete();
+        }
+
+        return false;
+    }
+
 }

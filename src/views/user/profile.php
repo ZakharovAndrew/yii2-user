@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use ZakharovAndrew\user\Module;
 use ZakharovAndrew\user\models\User;
 use ZakharovAndrew\user\models\UserSettingsConfig;
+use ZakharovAndrew\user\models\Friendship;
 use ZakharovAndrew\user\assets\UserAssets;
 use yii\helpers\Url;
 
@@ -94,6 +95,130 @@ $this->title = Module::t('Profile');
                 <?php if (!empty($model->phone)) {
                     echo '<p>'. Module::t('Phone'). ' : ' . $model->phone .'</p>';
                 } ?>
+                
+                <!-- Friendship button -->
+                <?php if ($model->id != Yii::$app->user->id): ?>
+                    <?php
+                    $currentUser = Yii::$app->user->identity;
+                    $friendshipStatus = $currentUser->getFriendshipStatus($model->id);
+                    ?>
+                    
+                    <?php if (!$friendshipStatus): ?>
+                        <!-- No friendship - show Add Friend button -->
+                        <a href="<?= Url::to(['/user/friend/send-request', 'id' => $model->id]) ?>" 
+                           class="btn btn-primary btn-friendship" 
+                           data-method="post"
+                           title="<?= Module::t('Add to Friends') ?>">
+                            <i class="glyphicon glyphicon-plus"></i> <?= Module::t('Add Friend') ?>
+                        </a>
+                        
+                    <?php elseif ($friendshipStatus['status'] == Friendship::STATUS_PENDING): ?>
+                        <!-- Pending request -->
+                        <?php if ($friendshipStatus['is_sent_by_me']): ?>
+                            <!-- Sent by current user -->
+                            <button class="btn btn-info btn-friendship" disabled title="<?= Module::t('Request Sent') ?>">
+                                <i class="glyphicon glyphicon-time"></i> <?= Module::t('Request Sent') ?>
+                            </button>
+                            <a href="<?= Url::to(['/user/friend/cancel', 'id' => $model->id]) ?>" 
+                               class="btn btn-warning btn-xs" 
+                               data-method="post"
+                               data-confirm="<?= Module::t('Are you sure you want to cancel this friend request?') ?>"
+                               title="<?= Module::t('Cancel Request') ?>">
+                                <i class="glyphicon glyphicon-remove"></i>
+                            </a>
+                        <?php else: ?>
+                            <!-- Received from this user -->
+                            <button class="btn btn-warning btn-friendship" disabled title="<?= Module::t('Request Received') ?>">
+                                <i class="glyphicon glyphicon-time"></i> <?= Module::t('Request Received') ?>
+                            </button>
+                            <div style="margin-top: 5px;">
+                                <a href="<?= Url::to(['/user/friend/accept', 'id' => $model->id]) ?>" 
+                                   class="btn btn-success btn-xs" 
+                                   data-method="post"
+                                   title="<?= Module::t('Accept') ?>">
+                                    <i class="glyphicon glyphicon-ok"></i> <?= Module::t('Accept') ?>
+                                </a>
+                                <a href="<?= Url::to(['/user/friend/reject', 'id' => $model->id]) ?>" 
+                                   class="btn btn-danger btn-xs" 
+                                   data-method="post"
+                                   data-confirm="<?= Module::t('Are you sure you want to reject this friend request?') ?>"
+                                   title="<?= Module::t('Reject') ?>">
+                                    <i class="glyphicon glyphicon-remove"></i> <?= Module::t('Reject') ?>
+                                </a>
+                            </div>
+                        <?php endif; ?>
+                        
+                    <?php elseif ($friendshipStatus['status'] == Friendship::STATUS_ACCEPTED): ?>
+                        <!-- Already friends -->
+                        <button class="btn btn-success btn-friendship" disabled title="<?= Module::t('Friends') ?>">
+                            <i class="glyphicon glyphicon-ok"></i> <?= Module::t('Friends') ?>
+                        </button>
+                        <div style="margin-top: 5px;">
+                            <a href="<?= Url::to(['/user/friend/remove', 'id' => $model->id]) ?>" 
+                               class="btn btn-danger btn-xs" 
+                               data-method="post"
+                               data-confirm="<?= Module::t('Are you sure you want to remove this friend?') ?>"
+                               title="<?= Module::t('Remove Friend') ?>">
+                                <i class="glyphicon glyphicon-remove"></i> <?= Module::t('Remove') ?>
+                            </a>
+                        </div>
+                        
+                    <?php elseif ($friendshipStatus['status'] == Friendship::STATUS_REJECTED): ?>
+                        <!-- Rejected request -->
+                        <button class="btn btn-danger btn-friendship" disabled title="<?= Module::t('Request Rejected') ?>">
+                            <i class="glyphicon glyphicon-remove"></i> <?= Module::t('Rejected') ?>
+                        </button>
+                        <?php if ($friendshipStatus['is_sent_by_me']): ?>
+                            <!-- Current user sent the rejected request -->
+                            <div style="margin-top: 5px;">
+                                <a href="<?= Url::to(['/user/friend/send-request', 'id' => $model->id]) ?>" 
+                                   class="btn btn-primary btn-xs" 
+                                   data-method="post"
+                                   title="<?= Module::t('Send Again') ?>">
+                                    <i class="glyphicon glyphicon-refresh"></i> <?= Module::t('Send Again') ?>
+                                </a>
+                            </div>
+                        <?php endif; ?>
+                        
+                    <?php elseif ($friendshipStatus['status'] == Friendship::STATUS_BLOCKED): ?>
+                        <!-- Blocked user -->
+                        <button class="btn btn-warning btn-friendship" disabled title="<?= Module::t('User Blocked') ?>">
+                            <i class="glyphicon glyphicon-ban-circle"></i> <?= Module::t('Blocked') ?>
+                        </button>
+                        <div style="margin-top: 5px;">
+                            <a href="<?= Url::to(['/user/friend/unblock', 'id' => $model->id]) ?>" 
+                               class="btn btn-primary btn-xs" 
+                               data-method="post"
+                               data-confirm="<?= Module::t('Are you sure you want to unblock this user?') ?>"
+                               title="<?= Module::t('Unblock User') ?>">
+                                <i class="glyphicon glyphicon-ok-circle"></i> <?= Module::t('Unblock') ?>
+                            </a>
+                        </div>
+                    <?php endif; ?>
+                    
+                    <!-- Link to friend management -->
+                    <?php if ($friendshipStatus && $friendshipStatus['status'] != Friendship::STATUS_BLOCKED): ?>
+                        <div style="margin-top: 10px;">
+                            <a href="<?= Url::to(['/user/friend/index']) ?>" 
+                               class="btn btn-link btn-xs">
+                                <i class="glyphicon glyphicon-user"></i> <?= Module::t('Manage Friends') ?>
+                            </a>
+                        </div>
+                    <?php endif; ?>
+                    
+                <?php else: ?>
+                    <!-- For own profile - link to friends page -->
+                    <div style="margin-top: 10px;">
+                        <a href="<?= Url::to(['/user/friend/index']) ?>" 
+                           class="btn btn-primary">
+                            <i class="glyphicon glyphicon-user"></i> 
+                            <?= Module::t('My Friends') ?> 
+                            <?php if ($model->friends_count > 0): ?>
+                                <span class="badge"><?= $model->friends_count ?></span>
+                            <?php endif; ?>
+                        </a>
+                    </div>
+                <?php endif; ?>
                  
             </div>
         </div>
