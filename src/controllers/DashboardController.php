@@ -32,9 +32,7 @@ class DashboardController extends ParentController
 
         $setting_name = (!$setting || !isset($settings[$setting])) ? [array_key_first($settings)] : $setting;
         $setting2_name = (!$setting2 || !isset($settings[$setting2])) ? null : $setting2;
-        
-        
-        
+                
         if (!$setting2_name) {
             $data = User::find()->alias('u')
                     ->select(['cnt' => 'count(*)', new \yii\db\Expression("

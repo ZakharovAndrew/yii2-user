@@ -39,7 +39,6 @@ JS
         background: #f5f8fa;
         border: none;
     }
-
 </style>
 
 <div class="user-dashboard">
@@ -65,7 +64,7 @@ JS
                     </tr>
                 </thead>
                 <?php foreach ($data as $row) {?>
-                <tr><td><?= $row['setting_value'] == 'Value not set' ? Module::t('Value not set') :  $row['setting_value'] ?></td><td><?= $row['cnt'] ?></td></tr>
+                <tr><td><?= $row['setting_value'] == 'Value not set' ? Module::t('Value not set') : $row['setting_value'] ?></td><td><?= $row['cnt'] ?></td></tr>
                 <?php } ?>
             </table>
             <?php } else { ?>
@@ -80,7 +79,7 @@ JS
                 </thead>
                 <?php foreach ($setting_column as $column) {?>
                     <tr>
-                        <td><?= $column ?></td>
+                        <td><?= $column == 'Value not set'  ? Module::t('Value not set') : $column ?></td>
                         <?php foreach ($setting2_column as $column2) {?>
                         <td><?= $data[$column][$column2] ?? '' ?></td>
                         <?php } ?>
