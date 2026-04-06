@@ -177,6 +177,19 @@ class Wallpaper extends ActiveRecord
         }, 600);
     }
 
+    public function afterFind()
+    {
+        parent::afterFind();
+
+        if ($this->roles && !is_array($this->roles)) {
+            $this->roles = explode(',', $this->roles);
+        }
+        
+        if (empty($this->roles)) {
+            $this->roles = [];
+        }
+    }
+
     /**
      * Before save event handler
      * @param bool $insert whether this is a new record
@@ -191,6 +204,11 @@ class Wallpaper extends ActiveRecord
             }
             
             $this->updated_at = date('Y-m-d H:i:s');
+            
+            if (is_array($this->roles)) {
+                $this->roles = empty($this->roles) ? null : implode(',', $this->roles);
+            }
+            
             return true;
         }
         return false;
@@ -236,7 +254,7 @@ class Wallpaper extends ActiveRecord
             return [];
         }
         
-        return array_map('trim', explode(',', $this->roles));
+        return array_map('trim', $this->roles);
     }
 
     /**
