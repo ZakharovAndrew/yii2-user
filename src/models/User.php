@@ -1367,7 +1367,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     public function getSuggestedFriends($limit = 10)
     {
         // Get friend IDs
-        $friendIds = $this->getFriends()->select('id')->column();
+        $friendIds = $this->getFriends()->select('u.id')->column();
         $friendIds[] = $this->id;
 
         // Basic implementation - users who are not yet friends
