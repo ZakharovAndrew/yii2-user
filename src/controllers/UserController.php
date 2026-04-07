@@ -82,6 +82,9 @@ class UserController extends ParentController
                 // save user settings
                 foreach ($settings as $setting) {
                     $value = Yii::$app->request->post($setting->code) ?? null;
+                    if (is_array($value)) {
+                        $value = implode(',', $value);
+                    }
                     UserSettings::saveValue($model->id, $setting->id, $value);
                 }
 
