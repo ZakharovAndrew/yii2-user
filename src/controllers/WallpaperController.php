@@ -15,6 +15,8 @@ use ZakharovAndrew\user\controllers\ParentController;
 
 class WallpaperController extends ParentController
 {
+    public $auth_access_actions = ['index', 'select'];
+    
     /**
      * Display available wallpapers for user selection
      */
