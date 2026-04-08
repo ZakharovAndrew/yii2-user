@@ -345,7 +345,7 @@ class Friendship extends ActiveRecord
             Yii::$app->mailer
                 ->compose([
                     'html' => '@vendor/zakharov-andrew/yii2-user/src/mail/friend-request-accepted',
-                    'text' => '@vendor/zakharov-andrew/yii2-user/src/mail/friend-request-accepted-text'
+                    //'text' => '@vendor/zakharov-andrew/yii2-user/src/mail/friend-request-accepted-text'
                 ], [
                     'name' => $this->friend->name,
                     'user' => $this->user

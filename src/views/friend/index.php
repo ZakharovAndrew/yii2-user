@@ -76,6 +76,9 @@ $this->params['breadcrumbs'][] = $this->title;
         padding-bottom: 10px;
         border-bottom: 1px solid #dee2e6;
     }
+    .friend-index .media-body {
+        overflow: visible;
+    }
 </style>
 
 <div class="friend-index">
@@ -136,7 +139,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                     <?php endif; ?>
                                     
                                     <div class="friend-actions btn-group btn-group-sm">
-                                        <a href="<?= Url::to(['/user/profile/view', 'id' => $friend->id]) ?>" 
+                                        <a href="<?= Url::to(['/user/user/profile', 'id' => $friend->id]) ?>" 
                                            class="btn btn-default" 
                                            title="<?= Module::t('View Profile') ?>"
                                            data-toggle="tooltip">
