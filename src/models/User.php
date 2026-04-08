@@ -1351,11 +1351,42 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     /**
      * Get friends count
      * 
+     * @param bool $useCache Whether to use cache
      * @return int
      */
-    public function getFriendsCount()
+    public function getFriendsCount($useCache = true)
     {
-        return $this->friends_count;
+        if (!$useCache) {
+            return Friendship::find()
+                ->where(['status' => Friendship::STATUS_ACCEPTED])
+                ->andWhere([
+                    'or',
+                    ['user_id' => $this->id],
+                    ['friend_id' => $this->id]
+                ])
+                ->count();
+        }
+
+        // Use cached value from database field if available
+        //if (isset($this->friends_count)) {
+        //    return $this->friends_count;
+        //}
+
+        // Cache the result for 1 hour
+        return Yii::$app->cache->getOrSet(
+            'user_friends_count_' . $this->id,
+            function () {
+                return Friendship::find()
+                    ->where(['status' => Friendship::STATUS_ACCEPTED])
+                    ->andWhere([
+                        'or',
+                        ['user_id' => $this->id],
+                        ['friend_id' => $this->id]
+                    ])
+                    ->count();
+            },
+            3600
+        );
     }
 
     /**
