@@ -13,6 +13,7 @@ use ZakharovAndrew\user\models\Roles;
 use ZakharovAndrew\user\models\UserSettings;
 use ZakharovAndrew\user\models\UserSettingsConfig;
 use ZakharovAndrew\user\controllers\ParentController;
+use yii\helpers\Url;
 
 class WallpaperAdminController extends ParentController
 {
@@ -27,6 +28,8 @@ class WallpaperAdminController extends ParentController
                 'pageSize' => 20,
             ],
         ]);
+        
+        Url::remember('', 'wallpaper_admin_index');
 
         return $this->render('index', [
             'dataProvider' => $dataProvider,
@@ -49,7 +52,7 @@ class WallpaperAdminController extends ParentController
             
             if ($model->save()) {
                 Yii::$app->session->setFlash('success', Module::t('Wallpaper created successfully.'));
-                return $this->redirect(['index']);
+                return $this->redirect(Url::previous('wallpaper_admin_index') ?? ['index']);
             }
         }
 
@@ -75,7 +78,7 @@ class WallpaperAdminController extends ParentController
             
             if ($model->save()) {
                 Yii::$app->session->setFlash('success', Module::t('Wallpaper updated successfully.'));
-                return $this->redirect(['index']);
+                return $this->redirect(Url::previous('wallpaper_admin_index') ?? ['index']);
             }
         }
 
@@ -101,7 +104,7 @@ class WallpaperAdminController extends ParentController
                 
             if ($usersWithThisWallpaper > 0) {
                 Yii::$app->session->setFlash('error', 'Cannot delete wallpaper. It is used by ' . $usersWithThisWallpaper . ' users.');
-                return $this->redirect(['index']);
+                return $this->redirect(Url::previous('wallpaper_admin_index') ?? ['index']);
             }
         }
         
@@ -130,7 +133,7 @@ class WallpaperAdminController extends ParentController
             Yii::$app->session->setFlash('error', 'Error updating wallpaper status.');
         }
 
-        return $this->redirect(['index']);
+        return $this->redirect(Url::previous('wallpaper_admin_index') ?? ['index']);
     }
 
     /**
@@ -145,10 +148,7 @@ class WallpaperAdminController extends ParentController
             Yii::$app->session->setFlash('error', Module::t('Cannot move wallpaper up'));
         }
         
-        if (Yii::$app->request->isAjax) {
-            return $this->redirect(['index']);
-        }
-        return $this->redirect(['index']);
+        return $this->redirect(Url::previous('wallpaper_admin_index') ?? ['index']);
     }
     
     /**
@@ -163,10 +163,7 @@ class WallpaperAdminController extends ParentController
             Yii::$app->session->setFlash('error', Module::t('Cannot move wallpaper down'));
         }
         
-        if (Yii::$app->request->isAjax) {
-            return $this->redirect(['index']);
-        }
-        return $this->redirect(['index']);
+        return $this->redirect(Url::previous('wallpaper_admin_index') ?? ['index']);
     }
 
     /**
