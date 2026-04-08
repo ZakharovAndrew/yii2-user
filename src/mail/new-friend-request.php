@@ -24,7 +24,7 @@ use ZakharovAndrew\user\Module;
         </p>
         
         <div style="text-align: center; margin: 30px 0;">
-            <a href="<?= Url::to(['/user/friends/requests'], true) ?>" 
+            <a href="<?= Url::to(['/user/friend/requests'], true) ?>" 
                style="display: inline-block; background-color: #4CAF50; color: white; 
                       padding: 12px 30px; text-decoration: none; border-radius: 4px; 
                       font-weight: bold; font-size: 16px;">
