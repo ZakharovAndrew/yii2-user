@@ -732,6 +732,19 @@ return [
     'Invite via email' => 'Пригласить по email',
     'Copied!' => 'Скопировано!',
     'Loading...' => 'Загрузка...',
+    'Friends Statistics' => 'Статистика друзей',
+    
+    // Статусы активности
+    'Online' => 'В сети',
+    'Offline' => 'Не в сети',
+    'Last seen {time}' => 'Был(а) в сети {time}',
+    'Active now' => 'Активен сейчас',
+    'Away' => 'Отошёл',
+    'Busy' => 'Занят',
+    'Total Friends' => 'Всего друзей',
+    'Friends from your city' => 'Друзей в вашем городе',
+    'Friends Online' => 'Друзей онлайн',
+    'Suggestions' => 'Рекомендации',
 ];
 
 
