@@ -2,8 +2,8 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use kartik\select2\Select2;
 use ZakharovAndrew\user\Module;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $model ZakharovAndrew\user\models\Wallpaper */
@@ -66,7 +66,7 @@ $this->params['breadcrumbs'][] = Module::t('Update');
 
             <div class="form-group">
                 <?= Html::submitButton(Module::t('Update'), ['class' => 'btn btn-primary']) ?>
-                <?= Html::a(Module::t('Cancel'), ['view', 'id' => $model->id], ['class' => 'btn btn-default']) ?>
+                <?= Html::a(Module::t('Cancel'), Url::previous('wallpaper_admin_index') ?? ['index'], ['class' => 'btn btn-default']) ?>
             </div>
 
             <?php ActiveForm::end(); ?>
