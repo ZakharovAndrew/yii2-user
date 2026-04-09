@@ -16,7 +16,7 @@ use ZakharovAndrew\user\Module;
 class ChangePasswordForm extends Model
 {
     /**
-     * @var string Current password
+     * @var string Current password (for verification)
      */
     public $old_password;
     
@@ -40,8 +40,10 @@ class ChangePasswordForm extends Model
             [['new_password', 'new_password_repeat'], 'string', 'min' => 6],
             [
                 'new_password_repeat', 'compare', 'compareAttribute' => 'new_password',
-                'message' => "Подтверждение пароля должно совпадать.", 'skipOnEmpty' => true
+                'message' => Module::t('Password confirmation does not match.'), 'skipOnEmpty' => true
             ],
+            
+            // Old password validation
             ['old_password', 'validateOldPassword']
         ];
     }

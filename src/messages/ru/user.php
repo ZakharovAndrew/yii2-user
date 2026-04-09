@@ -84,6 +84,7 @@ return [
     'Users deleted' => 'Пользователи удалены',
     'Roles Copied' => 'Роли скопированы',
     'Registration is disabled' => 'Регистрация отключена',
+    'Password confirmation does not match.' => 'Подтверждение пароля должно совпадать.',
     // actions
     'Create User' => 'Создать пользователя',
     'Save' => 'Сохранить',
