@@ -85,6 +85,7 @@ return [
     'Roles Copied' => 'Роли скопированы',
     'Registration is disabled' => 'Регистрация отключена',
     'Password confirmation does not match.' => 'Подтверждение пароля должно совпадать.',
+    'New password must be different from the current password' => 'Новый пароль должен отличаться от текущего',
     // actions
     'Create User' => 'Создать пользователя',
     'Save' => 'Сохранить',

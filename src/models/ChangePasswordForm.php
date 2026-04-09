@@ -26,10 +26,30 @@ class ChangePasswordForm extends Model
     public $new_password;
     
     /**
-     * @var string Repeat password
+     * @var string New password confirmation
      */
     public $new_password_repeat;
+    
+    /**
+     * @var IdentityInterface|null User identity
+     */
+    private $_user;
 
+    /**
+     * Constructor with dependency injection
+     * 
+     * @param IdentityInterface|null $user User identity (null = current user)
+     * @param array $config
+     */
+    public function __construct($user = null, $config = [])
+    {
+        if ($user === null) {
+            $user = Yii::$app->user->identity;
+        }
+        $this->_user = $user;
+        parent::__construct($config);
+    }
+    
     /**
      * @inheritdoc
      */
@@ -44,7 +64,10 @@ class ChangePasswordForm extends Model
             ],
             
             // Old password validation
-            ['old_password', 'validateOldPassword']
+            ['old_password', 'validateOldPassword'],
+            
+            // Prevent setting the same password
+            ['new_password', 'validateNotSameAsOld'],
         ];
     }
     
@@ -61,8 +84,10 @@ class ChangePasswordForm extends Model
     }
     
     /**
-     * Validates the password.
-     * This method serves as the inline validation for password.
+     * Validates the current password
+     * 
+     * @param string $attribute
+     * @param array $params
      */
     public function validateOldPassword($attribute, $params)
     {
@@ -70,6 +95,22 @@ class ChangePasswordForm extends Model
         
         if (!$user->validatePassword($this->$attribute)) {
             $this->addError($attribute, Module::t('Invalid current password'));
+        }
+    }
+    
+    /**
+     * Validates that new password is different from old password
+     * 
+     * @param string $attribute
+     * @param array $params
+     */
+    public function validateNotSameAsOld($attribute, $params)
+    {
+        if (!$this->hasErrors() && $this->_user && $this->new_password) {
+            // Check if new password matches old password
+            if ($this->_user->validatePassword($this->new_password)) {
+                $this->addError($attribute, Module::t('New password must be different from the current password'));
+            }
         }
     }
 }
