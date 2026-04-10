@@ -10,35 +10,21 @@ use ZakharovAndrew\user\models\BirthdayGreeting;
 use ZakharovAndrew\user\models\BirthdayGreetingSearch;
 use ZakharovAndrew\user\models\User;
 use ZakharovAndrew\user\Module;
+use ZakharovAndrew\user\controllers\ParentController;
 
-class BirthdayGreetingController extends Controller
+class BirthdayGreetingController extends ParentController
 {
-    public function behaviors()
-    {
-        return [
-            'access' => [
-                'class' => AccessControl::className(),
-                'rules' => [
-                    [
-                        'allow' => true,
-                        'roles' => ['@'],
-                    ],
-                ],
-            ],
-        ];
-    }
-
+    public $auth_access_actions = ['index', 'send', 'view'];
+    
+    public $action_allowed_roles = ['index' => ['admin']];
+    
     /**
      * Lists all Thanks models.
      *
      * @return string
      */
     public function actionIndex()
-    {
-        if (!Yii::$app->user->identity->hasRole('admin')) {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
-        
+    {        
         $searchModel = new BirthdayGreetingSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
@@ -47,18 +33,14 @@ class BirthdayGreetingController extends Controller
             'dataProvider' => $dataProvider,
         ]);
     }
-
-    public function actionSend($id)
-    {
-        $model = new BirthdayGreeting();
-
-        $user = $this->findUser($id);
-        
+    
+    private function canSendGreeting($user)
+    {        
         // User can't congratulate yourself
         if ($user->id == Yii::$app->user->id) {
             Yii::$app->session->setFlash('error', Module::t("You can't congratulate yourself"));
             
-            return $this->redirect(['/user/user/profile', 'id' => $user->id]);
+            return false;
         }
         
         // Check if today is Monday
@@ -71,13 +53,25 @@ class BirthdayGreetingController extends Controller
         if (!$user->isBirthdayToday() && !$isMonday && !in_array(date('m-d', strtotime($user->birthday)), [$saturday, $sunday])) {
             Yii::$app->session->setFlash('error', Module::t("The user's birthday is not today"));
             
-            return $this->redirect(['/user/user/profile', 'id' => $user->id]);
+            return false;
         }
         
+        return true;
+    }
+
+    public function actionSend($id)
+    {
+        $user = $this->findUser($id);
+        
+        if (!$this->canSendGreeting($user)) {
+            return $this->redirect(['/user/user/profile', 'id' => $id]);
+        }
+        
+        $model = new BirthdayGreeting();        
         
         if ($model->load(Yii::$app->request->post())) {
             $model->author_id = Yii::$app->user->id;
-            $model->user_id = $id;
+            $model->user_id = $user->id;
             
             if ($model->save()) {
                 $model->sendEmail();
@@ -87,7 +81,7 @@ class BirthdayGreetingController extends Controller
                 Yii::$app->session->setFlash('error', Module::t('Error saving greetings'));
             }
         }
-
+        
         return $this->render('send', [
             'model' => $model,
             'user' => $user
@@ -96,7 +90,6 @@ class BirthdayGreetingController extends Controller
 
     public function actionView($id = null)
     {
-        
         if (is_null($id)) {
             $id = Yii::$app->user->id;
         }
@@ -131,7 +124,7 @@ class BirthdayGreetingController extends Controller
 
     protected function findModel($id)
     {
-        if (($model = Thanks::findOne($id)) !== null) {
+        if (($model = BirthdayGreeting::findOne($id)) !== null) {
             return $model;
         }
 

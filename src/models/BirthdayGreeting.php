@@ -19,7 +19,8 @@ class BirthdayGreeting extends ActiveRecord
             [['user_id', 'author_id'], 'required'],
             [['user_id', 'author_id'], 'integer'],
             [['created_at'], 'safe'],
-            [['message'], 'string'],
+            ['message', 'string', 'min' => 5, 'max' => 1000],
+            ['message', 'filter', 'filter' => 'strip_tags'],
             [['is_read'], 'boolean'],
         ];
     }
@@ -49,7 +50,7 @@ class BirthdayGreeting extends ActiveRecord
     {
         $date = date('d.m.Y', strtotime($this->created_at));
         $time = date('H:i:s', strtotime($this->created_at));
-        $now = date('d.m.Y', strtotime('now'));
+        $now = date('d.m.Y');
         $yesterday = date('d.m.Y', strtotime('yesterday'));
         
         if ($date == $now) {
