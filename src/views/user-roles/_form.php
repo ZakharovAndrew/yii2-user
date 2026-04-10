@@ -19,7 +19,9 @@ $this->registerJsFile('https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/
 $this->registerJs(<<<JS
     $('.select2').select2({
         placeholder: "Выберите...",
-        allowClear: true
+        allowClear: true,
+        width: '100%',
+        theme: 'bootstrap'
     });
 JS
 );
@@ -28,7 +30,8 @@ echo $this->render('_js');
 ?>
 <style>
     .user-roles-form .select2-container--default .select2-selection--single,
-    .user-roles-form .select2-container .select2-selection--multiple
+    .user-roles-form .select2-container .select2-selection--multiple,
+    .user-roles-form .select2-container .select2-selection--single
     {
         background: #f5f8fa;
         border: none;
@@ -48,7 +51,7 @@ echo $this->render('_js');
     
     <div id="role_subject_group" class="form-group" style="display: none">
         <label class="control-label" for="role_subject"><?= Module::t('Subject of the role') ?></label>
-        <select id="role_subject" class="form-control form-select"></select>
+        <select id="role_subject" class="form-control form-select select2"></select>
     </div>
 
     <?= $form->field($model, 'note')->textInput(['maxlength' => true]) ?>
