@@ -3,9 +3,7 @@
 namespace ZakharovAndrew\user\controllers;
 
 use Yii;
-use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\AccessControl;
 use ZakharovAndrew\user\models\BirthdayGreeting;
 use ZakharovAndrew\user\models\BirthdayGreetingSearch;
 use ZakharovAndrew\user\models\User;
@@ -34,29 +32,38 @@ class BirthdayGreetingController extends ParentController
         ]);
     }
     
+    /**
+     * Check if user can send birthday greeting
+     * 
+     * @param User $user The user to congratulate
+     * @return bool Whether greeting can be sent
+     */
     private function canSendGreeting($user)
     {        
         // User can't congratulate yourself
         if ($user->id == Yii::$app->user->id) {
             Yii::$app->session->setFlash('error', Module::t("You can't congratulate yourself"));
-            
             return false;
         }
         
-        // Check if today is Monday
-        $isMonday = (date('N') == 1); // 1 means Monday
-        
-        // Calculate the dates for the previous Saturday and Sunday
-        $saturday = date('m-d', strtotime('last Saturday')); // Get last Saturday's date
-        $sunday = date('m-d', strtotime('last Sunday')); // Get last Sunday's date
-        
-        if (!$user->isBirthdayToday() && !$isMonday && !in_array(date('m-d', strtotime($user->birthday)), [$saturday, $sunday])) {
-            Yii::$app->session->setFlash('error', Module::t("The user's birthday is not today"));
-            
-            return false;
+        // Check if user has birthday today
+        if ($user->isBirthdayToday()) {
+            return true;
         }
         
-        return true;
+        // Allow sending on Monday for birthdays that occurred on weekend
+        $isMonday = (date('N') == 1);
+        if ($isMonday) {
+            $saturday = date('m-d', strtotime('last Saturday')); // Get last Saturday's date
+            $sunday = date('m-d', strtotime('last Sunday')); // Get last Sunday's date
+            
+            if (in_array(date('m-d', strtotime($user->birthday)), [$saturday, $sunday])) {
+                return true;
+            }
+        }
+        
+        Yii::$app->session->setFlash('error', Module::t("The user's birthday is not today"));
+        return false;
     }
 
     public function actionSend($id)
