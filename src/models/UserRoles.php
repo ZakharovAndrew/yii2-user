@@ -102,20 +102,22 @@ class UserRoles extends \yii\db\ActiveRecord
      */
     public static function getUsersListByRoleSubject($role, $subject_id = null)
     {
-        $model = static::find()
-                ->select('user_roles.user_id')
-                ->leftJoin('roles', 'user_roles.role_id = roles.id')
-                ->andWhere(['roles.code' => $role]);
-        
-        // if a subject is specified, we take it into account
-        if ($subject_id) {
-            $model->andWhere(["or", ["user_roles.subject_id" => $subject_id], ["subject_id" => null]]);
-        }
-   
-        return ArrayHelper::getColumn(
-                $model->asArray()->all(),
-                'user_id'
-                );
+        //return Yii::$app->cache->getOrSet('get_users_list_by_role_subject_'.$role.'_', function () use ($role, $subject_id) {
+            $model = static::find()
+                    ->select('user_roles.user_id')
+                    ->leftJoin('roles', 'user_roles.role_id = roles.id')
+                    ->andWhere(['roles.code' => $role]);
+
+            // if a subject is specified, we take it into account
+            if ($subject_id) {
+                $model->andWhere(["or", ["user_roles.subject_id" => $subject_id], ["subject_id" => null]]);
+            }
+
+            return ArrayHelper::getColumn(
+                    $model->asArray()->all(),
+                    'user_id'
+                    );
+        //}, 120);
     }
     
     /**
@@ -128,17 +130,22 @@ class UserRoles extends \yii\db\ActiveRecord
      */
     public static function hasRole($user, $role, $subject_id = null)
     {
-        $model = static::find()
-                ->leftJoin('roles', 'user_roles.role_id = roles.id')
-                ->where(['user_roles.user_id' => $user->id])
-                ->andWhere(['roles.code' => $role]);
+        $roleKey = is_array($role) ? implode('_', $role) : $role;
+        $subjectKey = is_array($subject_id) ? md5(implode('_', $subject_id)) : $subject_id;
         
-        // if a subject is specified, we take it into account
-        if ($subject_id) {
-            $model->andWhere(["or", ["user_roles.subject_id" => $subject_id], ["subject_id" => null]]);
-        }
-        
-        return $model->count() > 0;
+        return Yii::$app->cache->getOrSet('has_role'.$user->id.'_'.$roleKey.'_'.$subjectKey, function () use ($user, $role, $subject_id) {
+            $model = static::find()
+                    ->leftJoin('roles', 'user_roles.role_id = roles.id')
+                    ->where(['user_roles.user_id' => $user->id])
+                    ->andWhere(['roles.code' => $role]);
+
+            // if a subject is specified, we take it into account
+            if ($subject_id) {
+                $model->andWhere(["or", ["user_roles.subject_id" => $subject_id], ["subject_id" => null]]);
+            }
+
+            return $model->count() > 0;
+        }, 120);
     }
     
     /**
