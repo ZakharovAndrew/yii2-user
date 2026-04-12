@@ -109,8 +109,8 @@ class Wallpaper extends ActiveRecord
             return true;
         }
 
-        // Convert comma-separated string to array and check if role exists
-        $allowedRoles = array_map('trim', explode(',', $this->roles));
+        // check if role exists
+        $allowedRoles = array_map('trim', $this->roles);
         return in_array($roleCode, $allowedRoles);
     }
 
