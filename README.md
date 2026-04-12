@@ -101,6 +101,20 @@ Add this to your main configuration's modules array
         ],
         // ...
     ],
+
+    // ...
+    'components' => [
+        'telegram' => [
+            'class' => \ZakharovAndrew\user\components\Telegram::class,
+            'token' => env('TELEGRAM_BOT_TOKEN'), // Use environment variable
+            'apiUrl' => 'https://api.telegram.org/bot', // Can be changed
+            'timeout' => 30,
+            'maxRetries' => 3,
+            'debug' => YII_DEBUG,
+            'cache' => 'cache', // Optional: cache component ID
+        ],
+        // ...
+    ],
 ```
 
 Add this to your ```config\params.php```
@@ -339,6 +353,20 @@ $isActive = $deputy->isCurrentlyActive();
 - ✅ Active/inactive status - Manage deputy status without deletion
 - ✅ Date validation - Automatic validation of validity periods
 - ✅ Relationship management - Easy methods for managing deputies
+
+
+### Telegram Usage
+
+```php
+// In controller, widget, or any class
+Yii::$app->telegram->sendMessage($chatId, 'Hello!');
+
+// Change token dynamically if needed
+Yii::$app->telegram->setToken('new_token');
+
+// Change API URL (e.g., for local testing)
+Yii::$app->telegram->setApiUrl('https://test.telegram.org/bot');
+```
 
 ## 👥 Contributing
 
