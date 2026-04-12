@@ -113,6 +113,11 @@ Add this to your main configuration's modules array
             'debug' => YII_DEBUG,
             'cache' => 'cache', // Optional: cache component ID
         ],
+
+        'birthdayNotifier' => [
+            'class' => 'ZakharovAndrew\user\components\BirthdayNotifier',
+        ],
+
         // ...
     ],
 ```
