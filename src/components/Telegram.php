@@ -66,7 +66,7 @@ class Telegram extends Component
     /**
      * @var LoggerInterface|null Logger component
      */
-    public ?LoggerInterface $logger = null;
+    public $logger = null;
     
     /**
      * @var Client HTTP client instance
@@ -106,7 +106,10 @@ class Telegram extends Component
             'baseUrl' => $this->apiUrl . $this->token,
             'requestConfig' => [
                 'format' => Client::FORMAT_JSON,
-                'timeout' => $this->timeout,
+                'options' => [
+                    'timeout' => $this->timeout, // 30 seconds timeout
+                    'connectionTimeout' => $this->connectTimeout, // 10 seconds connection timeout
+                ],
             ],
             'responseConfig' => [
                 'format' => Client::FORMAT_JSON,
