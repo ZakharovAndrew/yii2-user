@@ -111,11 +111,15 @@ Add this to your main configuration's modules array
             'timeout' => 30,
             'maxRetries' => 3,
             'debug' => YII_DEBUG,
-            'cache' => 'cache', // Optional: cache component ID
+            'cache' => Yii::$app->cache
         ],
 
         'birthdayNotifier' => [
             'class' => 'ZakharovAndrew\user\components\BirthdayNotifier',
+            'showAge' => true,
+            'showButtons' => true,
+            'ageTemplate' => "🎂 Age: {age} {years}\n",
+            'ageUnits' => 'years',
         ],
 
         // ...

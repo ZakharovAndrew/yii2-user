@@ -12,7 +12,37 @@ use ZakharovAndrew\user\models\User;
  * @package ZakharovAndrew\user\components
  */
 class BirthdayNotifier extends Component
-{   
+{
+    /**
+     * @var bool Show age in birthday notifications
+     */
+    public $showAge = true;
+    
+    /**
+     * @var string Age text template (use {age} placeholder)
+     */
+    public $ageTemplate = "🎂 Возраст: <b>{age}</b> {years}\n";
+    
+    /**
+     * @var string Message template for birthday notification
+     */
+    public $messageTemplate = "🎂 <b>День рождения!</b> 🎉\n\nУ вашего друга <b>{friend_name}</b> сегодня день рождения!\n\n{age_text}📅 Дата: <b>{birthday_date}</b>\n\n💝 Не забудьте поздравить друга с праздником!\n\n🎁 Пожелайте ему всего самого лучшего!";
+    
+    /**
+     * @var bool Show buttons in message
+     */
+    public $showButtons = true;
+    
+    /**
+     * @var string Units for age (years, y.o., etc.)
+     */
+    public $ageUnits = 'лет';
+    
+    /**
+     * @var array Custom age endings for Russian language
+     */
+    public $ageEndings = ['год', 'года', 'лет'];
+    
     /**
      * Send birthday notifications to friends
      * 
@@ -24,7 +54,6 @@ class BirthdayNotifier extends Component
         $birthdayUsers = User::find()
             ->where('birthday IS NOT NULL')
             ->andWhere('birthday != "0000-00-00"')
-            ->andWhere('telegram_id IS NOT NULL')
             ->andWhere(['DATE_FORMAT(birthday, "%m-%d")' => date('m-d')])
             ->all();
         
@@ -124,12 +153,19 @@ class BirthdayNotifier extends Component
         $age = $this->calculateAge($birthdayUser->birthday);
         $birthdayDate = date('d.m', strtotime($birthdayUser->birthday));
         
-        $message = "? <b>День рождения!</b> 🎉\n\n";
+        $message = "🎂 <b>День рождения!</b> 🎉\n\n";
         $message .= "У вашего друга <b>" . htmlspecialchars($birthdayUser->getName()) . "</b> сегодня день рождения!\n\n";
         
-        if ($age > 0) {
-            $message .= "🎂 Возраст: <b>{$age}</b> лет\n";
+        // Prepare age text based on settings
+        $ageText = '';
+        if ($this->showAge && $age > 0) {
+            $ageText = str_replace(
+                ['{age}', '{years}'],
+                [$age, $this->getAgeEnding($age)],
+                $this->ageTemplate
+            );
         }
+        $message .= $ageText;
         
         $message .= "📅 Дата: <b>{$birthdayDate}</b>\n\n";
         $message .= "💝 Не забудьте поздравить друга с праздником!\n\n";
@@ -153,6 +189,28 @@ class BirthdayNotifier extends Component
         $birthDate = new \DateTime($birthday);
         $today = new \DateTime();
         return $today->diff($birthDate)->y;
+    }
+    
+    /**
+     * Get proper age ending for Russian language
+     * 
+     * @param int $age
+     * @return string
+     */
+    private function getAgeEnding($age)
+    {
+        $age = abs($age) % 100;
+        if ($age > 10 && $age < 20) {
+            return $this->ageEndings[2];
+        }
+        $age %= 10;
+        if ($age == 1) {
+            return $this->ageEndings[0];
+        }
+        if ($age >= 2 && $age <= 4) {
+            return $this->ageEndings[1];
+        }
+        return $this->ageEndings[2];
     }
     
     /**
