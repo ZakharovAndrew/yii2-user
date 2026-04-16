@@ -144,9 +144,15 @@ class ParentController extends Controller
      */
     protected function logControllerCall($action)
     {
+        
         try {
             $controllerName = $this->id;
             $actionName = $action->id;
+            
+            // yii2-time-tracker fix
+            if ($controllerName == 'time-tracking' && $actionName == 'get-last-activity') {
+                return;
+            }
             
             UserControllerLog::logRequest(
                 $controllerName,
