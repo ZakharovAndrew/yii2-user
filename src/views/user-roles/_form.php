@@ -27,6 +27,8 @@ JS
 );
 
 echo $this->render('_js');
+
+$hiddenField = $hiddenField ?? 'user_id';
 ?>
 <style>
     .user-roles-form .select2-container--default .select2-selection--single,
@@ -43,7 +45,7 @@ echo $this->render('_js');
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'user_id')->hiddenInput()->label(false) ?>
+    <?= $form->field($model, $hiddenField )->hiddenInput()->label(false) ?>
     
     <?= $form->field($model, 'role_id')->dropDownList(Roles::getRolesList(), ['id' => 'role_id', 'prompt' => '', 'class' => 'form-control form-select select2']) ?>
     
