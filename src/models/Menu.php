@@ -7,28 +7,58 @@ use ZakharovAndrew\user\models\User;
 use ZakharovAndrew\user\models\UserRoles;
 
 /**
- * Menu for navbar
- * ***************
+ * Dynamic menu builder for navbar based on user permissions and roles
  *  
+ * @author Zakharov Andrew
  * @link https://github.com/ZakharovAndrew/yii2-user/
- * @copyright Copyright (c) 2023-2025 Zakharov Andrew
+ * @copyright Copyright (c) 2023-2026 Zakharov Andrew
  */
 class Menu extends \yii\base\Model
 {
-    // 
+    /**
+     * @var array|null Cached user access list
+     */
     public static $accessList = null;
     
     /**
-     * Get menu for NavBar
-     * @return array
+     * Get menu items for NavBar based on user permissions
+     * 
+     * @return array Array of menu items compatible with NavBar widget
+     * @throws InvalidConfigException If user module is not configured properly
      */
     public static function getNavBar()
     {
-        $controllersAccessList = Yii::$app->getModule('user')->controllersAccessList;
+        $module = Yii::$app->getModule('user');
         
-        static::$accessList = User::getAccessList(Yii::$app->user->id);
-        //echo '<pre>';
-        // menu items
+        if (!$module || !isset($module->controllersAccessList)) {
+            throw new InvalidConfigException('User module is not configured correctly');
+        }
+        
+        $controllersAccessList = $module->controllersAccessList;
+        
+        static::initializeAccessList();
+
+        return static::buildMenuItems($controllersAccessList);
+    }
+    
+    /**
+     * Initialize user access list
+     */
+    private static function initializeAccessList()
+    {
+        if (static::$accessList === null) {
+            static::$accessList = User::getAccessList(Yii::$app->user->id) ?? [];
+        }
+    }
+    
+    /**
+     * Build menu items recursively
+     * 
+     * @param array $controllersAccessList Access configuration for controllers
+     * @return array Processed menu items
+     */
+    private static function buildMenuItems(array $controllersAccessList)
+    {
         $items = [];
         
         foreach ($controllersAccessList as $controller_id => $params) {
