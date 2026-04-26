@@ -47,11 +47,11 @@ class Thanks extends ActiveRecord
     
     public function getCreatedAt()
     {
-        $date = date('d.m.Y', strtotime($this->created_at));
-        $time = date('H:i:s', strtotime($this->created_at));
-        $now = date('d.m.Y', strtotime('now'));
+        $timestamp = strtotime($this->created_at);
+        $date = Yii::$app->formatter->asDate($timestamp, 'php:d.m.Y');
+        $time = Yii::$app->formatter->asTime($timestamp, 'php:H:i:s');
         
-        if ($date == $now) {
+        if ($date == Yii::$app->formatter->asDate(time(), 'php:d.m.Y')) {
             $date = Module::t('Today');
         }
         
