@@ -79,22 +79,23 @@ $this->title = Module::t('Profile');
                 }
                 ?></p>
                 <p><?= Module::t('Sex'). ' : ' . User::getSexList()[$model->sex] ?? Module::t('Not specified') ?></p> 
-                
+                <?php if (!empty($model->phone)) {
+                    echo '<p>'. Module::t('Phone'). ' : ' . $model->phone .'</p>';
+                } ?>
             </div>
             <div class="profile-action-block">
-                <?php if ($model->id == Yii::$app->user->id) {
-                    echo Html::a(Module::t('Edit Profile'), ['edit-profile'], ['class' => 'btn btn-primary']);
-                } else if  (Yii::$app->user->identity->hasRole('admin')) {
-                    echo Html::a(Module::t('Edit Profile'), ['edit-profile', 'id' => $model->id], ['class' => 'btn btn-primary']);
-                }
+                <?php 
+                echo Html::a(
+                        '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24"><path d="M4 20h4L18.5 9.5a1.5 1.5 0 0 0-4-4L4 16zm9.5-13.5 4 4"/></svg>',
+                        ($model->id == Yii::$app->user->id) ? ['edit-profile'] : ['edit-profile', 'id' => $model->id],
+                        ['class' => 'btn', 'title' => Module::t('Edit Profile')]
+                    );
                 if ($model->id == Yii::$app->user->id) {    
                     echo Html::a(Module::t('Appreciation'), ['thanks/view'], ['class' => 'btn btn-success']);
                 } else { 
                     echo Html::a(Module::t('Appreciation'), ['thanks/view', 'id' => $model->id], ['class' => 'btn btn-success']);
                 } ?>
-                <?php if (!empty($model->phone)) {
-                    echo '<p>'. Module::t('Phone'). ' : ' . $model->phone .'</p>';
-                } ?>
+                
                 
                 <!-- Friendship button -->
                 <?php if ($model->id != Yii::$app->user->id): ?>
