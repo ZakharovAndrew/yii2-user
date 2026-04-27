@@ -3,6 +3,9 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use ZakharovAndrew\user\Module;
+use ZakharovAndrew\user\assets\UserAssets;
+
+UserAssets::register($this);
 
 $this->title = Module::t('Send birthday congratulations');
 $this->params['breadcrumbs'][] = ['label' => $user->name, 'url' => ['/user/user/profile', 'id' => $user->id]];
@@ -12,7 +15,7 @@ $this->registerJsFile('https://cdn.jsdelivr.net/npm/vanilla-emoji-picker@0.2.4/d
 
 $this->registerJs("new EmojiPicker();");
 ?>
-<div class="birthday-greeting-send">
+<div class="birthday-greeting-send white-block">
 
     <?php if (Yii::$app->getModule('user')->showTitle) {?><h1><?= Html::encode($this->title) ?></h1><?php } ?>
 
