@@ -30,7 +30,6 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a(Module::t('Create Roles'), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
     <div class="white-block">
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
