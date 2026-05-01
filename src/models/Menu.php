@@ -92,6 +92,58 @@ class Menu extends \yii\base\Model
     }
     
     /**
+     * Process a menu category
+     * 
+     * @param string $categoryName Category name/label
+     * @param array $categoryConfig Category configuration
+     * @return array Processed menu items for this category
+     */
+    private static function processCategory(string $categoryName, array $categoryConfig)
+    {
+        // Check status requirement for the whole category
+        if (isset($categoryConfig['statuses']) && !self::checkStatus($categoryConfig['statuses'])) {
+            return [];
+        }
+        
+        $submenu = [];
+        
+        foreach ($categoryConfig as $itemId => $itemConfig) {
+            if ($itemId === 'statuses') {
+                continue;
+            }
+            
+            if (isset(self::$accessList[$itemId])) {
+                $menuItems = self::getMenuItem($itemId, $itemConfig);
+                $submenu = array_merge($submenu, $menuItems);
+            }
+        }
+        
+        return self::formatCategoryOutput($categoryName, $submenu);
+    }
+    
+    /**
+     * Format category output based on submenu count
+     * 
+     * @param string $categoryName
+     * @param array $submenu
+     * @return array
+     */
+    private static function formatCategoryOutput(string $categoryName, array $submenu)
+    {
+        $submenuCount = count($submenu);
+        
+        if ($submenuCount === 0) {
+            return [];
+        }
+        
+        if ($submenuCount === 1) {
+            return $submenu;
+        }
+        
+        return [['label' => $categoryName, 'items' => $submenu]];
+    }
+    
+    /**
      * Getting menu items
      * 
      * @param int $controller_id
