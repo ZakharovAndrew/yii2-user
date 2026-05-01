@@ -351,20 +351,20 @@ class Telegram extends Component
                     $result['error'] = $response->data['description'] ?? 'Unknown error';
                     
                     // Log error
-                    if ($this->logger) {
+                    /*if ($this->logger) {
                         $this->logger->error("Telegram API error: {$result['error']}", [
                             'method' => $method,
                             'data' => $data,
                             'response' => $response->data,
                         ]);
-                    }
+                    }*/
                 }
                 
                 if ($this->debug && $this->logger) {
-                    $this->logger->info("Telegram API request: {$method}", [
+                    /*$this->logger->info("Telegram API request: {$method}", [
                         'data' => $data,
                         'result' => $result,
-                    ]);
+                    ]);*/
                 }
                 
                 return $result;
@@ -383,7 +383,7 @@ class Telegram extends Component
         $error = "Telegram API request failed after {$this->maxRetries} attempts: {$lastError}";
         
         if ($this->logger) {
-            $this->logger->error($error, ['method' => $method, 'data' => $data]);
+            //$this->logger->error($error, ['method' => $method, 'data' => $data]);
         }
         
         return [
