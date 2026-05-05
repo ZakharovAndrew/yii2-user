@@ -6,6 +6,7 @@ use yii\grid\GridView;
 use yii\widgets\Pjax;
 use ZakharovAndrew\user\Module;
 use ZakharovAndrew\user\models\User;
+use ZakharovAndrew\user\models\UserDeputy;
 
 /** @var yii\web\View $this */
 /** @var yii\data\ActiveDataProvider $dataProvider */
@@ -34,7 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'value' => function($model) {
                             return Html::a(
                                 Html::encode($model->name),
-                                ['/user/user/view', 'id' => $model->id],
+                                ['/user/user/profile', 'id' => $model->id],
                                 ['data-pjax' => 0, 'target' => '_blank']
                             ) . '<br><small class="text-muted">' . Html::encode($model->username) . '</small>';
                         },
@@ -71,9 +72,11 @@ $this->params['breadcrumbs'][] = $this->title;
 
                             $deputiesHtml = [];
                             foreach ($deputies as $deputy) {
+                                $isStatusInactive = ($deputy->is_active == UserDeputy::STATUS_INACTIVE);
+                                
                                 $deputyInfo = Html::a(
                                     Html::encode($deputy->deputyUser->name),
-                                    ['/user/user/view', 'id' => $deputy->deputy_user_id],
+                                    ['/user/user/profile', 'id' => $deputy->deputy_user_id],
                                     ['class' => 'text-nowrap', 'data-pjax' => 0, 'target' => '_blank']
                                 );
 
@@ -100,12 +103,14 @@ $this->params['breadcrumbs'][] = $this->title;
                                 $isExpired = $validTo && $validTo < $now;
 
                                 $statusBadge = '';
-                                if ($isFuture) {
-                                    $statusBadge = ' <span class="badge bg-warning">' . Module::t('Future') . '</span>';
+                                if ($isStatusInactive) {
+                                    $statusBadge = ' <span class="badge bg-secondary">' . Module::t('Inactive') . '</span>';
+                                } elseif ($isFuture) {
+                                    $statusBadge = ' <span class="badge badge-yellow bg-warning">' . Module::t('Future') . '</span>';
                                 } elseif ($isExpired) {
-                                    $statusBadge = ' <span class="badge bg-danger">' . Module::t('Expired') . '</span>';
+                                    $statusBadge = ' <span class="badge badge-red bg-danger">' . Module::t('Expired') . '</span>';
                                 } else {
-                                    $statusBadge = ' <span class="badge bg-success">' . Module::t('Active') . '</span>';
+                                    $statusBadge = ' <span class="badge badge-green bg-success">' . Module::t('Active') . '</span>';
                                 }
 
                                 $deputiesHtml[] = '<div class="mb-2 p-2 border rounded">' . 
