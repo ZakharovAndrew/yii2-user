@@ -2,8 +2,8 @@
 
 use yii\helpers\Html;
 use yii\helpers\Url;
-use yii\grid\GridView;
 use ZakharovAndrew\user\Module;
+use ZakharovAndrew\user\models\UserDeputy;
 
 /** @var yii\web\View $this */
 /** @var User $user */
@@ -105,6 +105,11 @@ $this->params['breadcrumbs'][] = Module::t('Deputies');
                                     </td>
                                     <td><?= Yii::$app->formatter->asDatetime($deputy->created_at) ?></td>
                                     <td>
+                                        <?php
+                                        
+                                        if ($deputy->is_active == UserDeputy::STATUS_INACTIVE) { ?>
+                                        <span class="badge bg-secondary"><?= Module::t('Inactive') ?></span>
+                                        <?php } else { ?>
                                         <?= Html::a(
                                             Module::t('Edit'),
                                             ['update', 'id' => $deputy->id],
@@ -121,6 +126,7 @@ $this->params['breadcrumbs'][] = Module::t('Deputies');
                                                 ],
                                             ]
                                         ) ?>
+                                        <?php } ?>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
