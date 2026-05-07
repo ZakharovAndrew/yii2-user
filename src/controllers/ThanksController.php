@@ -10,23 +10,13 @@ use yii\web\NotFoundHttpException;
 use yii\filters\AccessControl;
 use ZakharovAndrew\user\Module;
 use ZakharovAndrew\user\models\UserActivity;
+use ZakharovAndrew\user\controllers\ParentController;
 
-class ThanksController extends Controller
+class ThanksController extends ParentController
 {
-    public function behaviors()
-    {
-        return [
-            'access' => [
-                'class' => AccessControl::className(),
-                'rules' => [
-                    [
-                        'allow' => true,
-                        'roles' => ['@'],
-                    ],
-                ],
-            ],
-        ];
-    }
+    public $auth_access_actions = ['index', 'send', 'view'];
+    
+    public $action_allowed_roles = ['index' => ['admin']];
 
     /**
      * Lists all Thanks models.
@@ -34,11 +24,7 @@ class ThanksController extends Controller
      * @return string
      */
     public function actionIndex()
-    {
-        if (!Yii::$app->user->identity->hasRole('admin')) {
-            throw new NotFoundHttpException(Module::t('The requested page does not exist.'));
-        }
-        
+    {        
         $searchModel = new ThanksSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
@@ -48,6 +34,12 @@ class ThanksController extends Controller
         ]);
     }
 
+    /**
+     * Send thanks to user
+     * 
+     * @param int|null $id User ID to send thanks to
+     * @return string|\yii\web\Response
+     */
     public function actionSend($id = null)
     {
         $model = new Thanks();
@@ -64,6 +56,12 @@ class ThanksController extends Controller
         return $this->render('send', ['model' => $model, 'id' => $id]);
     }
 
+    /**
+     * View thanks for a user
+     * 
+     * @param int|null $id User ID, defaults to current user
+     * @return string
+     */
     public function actionView($id = null)
     {
         

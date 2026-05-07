@@ -144,7 +144,6 @@ class ParentController extends Controller
      */
     protected function logControllerCall($action)
     {
-        
         try {
             $controllerName = $this->id;
             $actionName = $action->id;
