@@ -280,18 +280,31 @@
     }
 }
 
+
+#users tr:hover td {
+    background-color:#e0f7fa;
+}
+#users .user-role:hover {
+    background: #fff;
+}
+
 .role-delete {
     display: inline-block;
     background: #ff7a7a;
-    border-radius: 6px;
+    border-radius: 11px;
     color: white;
-    margin-right: 9px;
-    padding: 0 6px;
-    font-size: 14px;
+    margin-right: 0px;
+    margin-left: 5px;
+    padding: 0;
+    font-size: 12px;
     text-decoration: none;
+    height: 16px;
+    width: 16px;
+    text-align: center;
 }
 .role-delete:hover {
     background: #dd5757;
+    color: white;
 }
 
 /* Checkbox group */
@@ -332,4 +345,15 @@
     margin-top: 0;
     color: #333;
     font-size: 1.1em;
+}
+
+/* roles */
+
+.user-role {
+    background: #ededed;
+    display: inline-block;
+    padding: 2px 7px;
+    font-size: 12px;
+    border-radius: 7px;
+    margin: 0 0px 4px;
 }
