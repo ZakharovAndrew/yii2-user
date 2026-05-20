@@ -73,7 +73,8 @@ $this->registerJs(<<<JS
         allowClear: true,
         placeholder: '$placeholder',
         width: '100%',
-        theme: 'bootstrap'
+        theme: 'bootstrap',
+        'minimumInputLength': 3,
     });
 JS
 );
