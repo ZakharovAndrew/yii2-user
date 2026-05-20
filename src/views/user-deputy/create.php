@@ -74,7 +74,7 @@ $this->registerJs(<<<JS
         placeholder: '$placeholder',
         width: '100%',
         theme: 'bootstrap',
-        'minimumInputLength': 3,
+        minimumInputLength: 3,
     });
 JS
 );
