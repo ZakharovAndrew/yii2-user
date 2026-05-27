@@ -5,11 +5,8 @@ namespace ZakharovAndrew\user\controllers;
 use Yii;
 use ZakharovAndrew\user\models\Thanks;
 use ZakharovAndrew\user\models\ThanksSearch;
-use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\AccessControl;
 use ZakharovAndrew\user\Module;
-use ZakharovAndrew\user\models\UserActivity;
 use ZakharovAndrew\user\controllers\ParentController;
 
 class ThanksController extends ParentController
@@ -79,6 +76,13 @@ class ThanksController extends ParentController
         ]);
     }
 
+    /**
+     * Finds the Thanks model based on its primary key value.
+     * 
+     * @param int $id Thanks ID
+     * @return Thanks the loaded model
+     * @throws NotFoundHttpException if the model cannot be found
+     */
     protected function findModel($id)
     {
         if (($model = Thanks::findOne($id)) !== null) {
@@ -86,13 +90,5 @@ class ThanksController extends ParentController
         }
 
         throw new NotFoundHttpException(Module::t('The requested page does not exist.'));
-    }
-    
-    public function beforeAction($action)
-    {
-        // logging activity
-        UserActivity::setActivity();
-        
-        return parent::beforeAction($action);
     }
 }
