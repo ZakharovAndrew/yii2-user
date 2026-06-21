@@ -582,6 +582,29 @@ class Api
         ];
     }
 
+    /**
+     * Check if user has specific role
+     * 
+     * @param int $userId User ID
+     * @param string|array $role Role code or array of role codes
+     * @param int|null $subject_id Subject ID for role
+     * @return bool True if user has the role
+     */
+    static function userHasRole($userId, $role, $subject_id = null)
+    {
+        $userClass = Yii::$app->getModule('user')->apiUserClass;
+        
+        $user = $userClass::find()
+            ->where(['id' => $userId])
+            ->one();
+        
+        if (!$user) {
+            return false;
+        }
+        
+        return $user->hasRole($role, $subject_id);
+    }
+
     
     /**
      * Validate date format and optional minimum date constraint
