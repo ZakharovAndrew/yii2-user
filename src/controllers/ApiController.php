@@ -73,7 +73,7 @@ class ApiController extends Controller
     
     public function allowedActions()
     {
-        return ['login', 'signup', 'profile', 'update-profile', 'tabs', 'verify-email', 'reset-password', 'resend-verification'];
+        return ['login', 'signup', 'profile', 'update-profile', 'tabs', 'verify-email', 'reset-password', 'resend-verification', 'get-users'];
     }
     
     public function actionLogin()
@@ -201,6 +201,63 @@ class ApiController extends Controller
         }
         
         $result = Api::resetPassword($data->username, $data->email);
+        
+        return $result;
+    }
+    
+    /**
+     * Get list of users (admin only)
+     * GET /api/get-users
+     * 
+     * Query parameters:
+     * - page: int (default: 1)
+     * - limit: int (default: 20)
+     * - status: int (user status)
+     * - search: string (search in username, name, email)
+     * - role: string|int (role code or ID)
+     * - role_id: int (alternative role filter)
+     * - role_ids: array (multiple role IDs)
+     * - subject_id: int (filter roles by subject)
+     * - date_from: string (YYYY-MM-DD)
+     * - date_to: string (YYYY-MM-DD)
+     * - sort_by: string (id, username, name, email, status, created_at, updated_at)
+     * - sort_direction: string (ASC, DESC)
+     * - with_full_roles: bool (include full role objects)
+     * - with_profile: bool (include user profile)
+     */
+    public function actionGetUsers()
+    {
+        if (!$this->checkPermission('admin')) {
+            header("HTTP/1.0 403 Forbidden");
+            return ['error' => 'Insufficient permissions'];
+        }
+        
+        $params = Yii::$app->request->get();
+        $page = $params['page'] ?? 1;
+        $limit = $params['limit'] ?? 20;
+        
+        // Prepare filters
+        $filters = [];
+        $filterFields = ['status', 'search', 'role', 'role_id', 'role_ids', 'subject_id', 
+                         'date_from', 'date_to', 'sort_by', 'sort_direction', 
+                         'with_full_roles', 'with_profile'];
+        
+        foreach ($filterFields as $field) {
+            if (isset($params[$field])) {
+                $filters[$field] = $params[$field];
+            }
+        }
+        
+        // Validate and sanitize input
+        if ($limit > 100) {
+            $limit = 100; // Max limit
+        }
+        
+        if ($page < 1) {
+            $page = 1;
+        }
+        
+        $result = Api::getUsers($page, $limit, $filters);
         
         return $result;
     }
