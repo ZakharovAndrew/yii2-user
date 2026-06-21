@@ -361,6 +361,227 @@ class Api
         ];
     }
 
+    /**
+     * Get list of users with pagination and filtering
+     * 
+     * @param int $page Page number (default: 1)
+     * @param int $limit Number of records per page (default: 20)
+     * @param array $filters Filter parameters (status, role, search, date_from, date_to, role_id, subject_id)
+     * @return array Result with users list and pagination info
+     */
+    static function getUsers($page = 1, $limit = 20, $filters = [])
+    {
+        $userClass = Yii::$app->getModule('user')->apiUserClass;
+        
+        // Build base query
+        $query = $userClass::find()
+            ->select([
+                'id', 
+                'username', 
+                'name', 
+                'email', 
+                'avatar', 
+                'sex', 
+                'status', 
+                'created_at',
+                'updated_at'
+            ])
+            ->andWhere(['!=', 'status', $userClass::STATUS_DELETED]);
+        
+        // Apply status filter
+        if (!empty($filters['status'])) {
+            $query->andWhere(['status' => $filters['status']]);
+        }
+        
+        // Apply search filter (username, name, email)
+        if (!empty($filters['search'])) {
+            $search = trim($filters['search']);
+            $query->andWhere([
+                'or',
+                ['like', 'username', $search],
+                ['like', 'name', $search],
+                ['like', 'email', $search]
+            ]);
+        }
+        
+        // Apply date range filters
+        if (!empty($filters['date_from'])) {
+            $query->andWhere(['>=', 'created_at', $filters['date_from']]);
+        }
+        
+        if (!empty($filters['date_to'])) {
+            $query->andWhere(['<=', 'created_at', $filters['date_to']]);
+        }
+        
+        // Apply role filter using UserRoles model
+        if (!empty($filters['role'])) {
+            $roleFilter = $filters['role'];
+            
+            // Get users with specific role
+            $subQuery = UserRoles::find()
+                ->select('user_roles.user_id')
+                ->leftJoin('roles', 'user_roles.role_id = roles.id');
+            
+            // Filter by role code or ID
+            if (is_numeric($roleFilter)) {
+                $subQuery->andWhere(['user_roles.role_id' => $roleFilter]);
+            } else {
+                $subQuery->andWhere(['roles.code' => $roleFilter]);
+            }
+            
+            // Apply subject filter if specified
+            if (!empty($filters['subject_id'])) {
+                $subQuery->andWhere([
+                    'or',
+                    ['user_roles.subject_id' => $filters['subject_id']],
+                    ['user_roles.subject_id' => null]
+                ]);
+            }
+            
+            $userIds = ArrayHelper::getColumn($subQuery->asArray()->all(), 'user_id');
+            
+            if (empty($userIds)) {
+                // No users with this role
+                return [
+                    'success' => true,
+                    'data' => [],
+                    'pagination' => [
+                        'page' => $page,
+                        'limit' => $limit,
+                        'total_count' => 0,
+                        'total_pages' => 0
+                    ]
+                ];
+            }
+            
+            $query->andWhere(['in', 'id', $userIds]);
+        }
+        
+        // Filter by role ID directly (alternative filter)
+        if (!empty($filters['role_id'])) {
+            $userIds = UserRoles::find()
+                ->select('user_roles.user_id')
+                ->where(['user_roles.role_id' => $filters['role_id']]);
+            
+            if (!empty($filters['subject_id'])) {
+                $userIds->andWhere([
+                    'or',
+                    ['user_roles.subject_id' => $filters['subject_id']],
+                    ['user_roles.subject_id' => null]
+                ]);
+            }
+            
+            $userIds = ArrayHelper::getColumn($userIds->asArray()->all(), 'user_id');
+            
+            if (empty($userIds)) {
+                return [
+                    'success' => true,
+                    'data' => [],
+                    'pagination' => [
+                        'page' => $page,
+                        'limit' => $limit,
+                        'total_count' => 0,
+                        'total_pages' => 0
+                    ]
+                ];
+            }
+            
+            $query->andWhere(['in', 'id', $userIds]);
+        }
+        
+        // Filter by multiple role IDs
+        if (!empty($filters['role_ids']) && is_array($filters['role_ids'])) {
+            $userIds = UserRoles::find()
+                ->select('user_roles.user_id')
+                ->where(['in', 'user_roles.role_id', $filters['role_ids']]);
+            
+            if (!empty($filters['subject_id'])) {
+                $userIds->andWhere([
+                    'or',
+                    ['user_roles.subject_id' => $filters['subject_id']],
+                    ['user_roles.subject_id' => null]
+                ]);
+            }
+            
+            $userIds = ArrayHelper::getColumn($userIds->asArray()->all(), 'user_id');
+            
+            if (empty($userIds)) {
+                return [
+                    'success' => true,
+                    'data' => [],
+                    'pagination' => [
+                        'page' => $page,
+                        'limit' => $limit,
+                        'total_count' => 0,
+                        'total_pages' => 0
+                    ]
+                ];
+            }
+            
+            $query->andWhere(['in', 'id', $userIds]);
+        }
+        
+        // Apply sorting
+        $sortField = $filters['sort_by'] ?? 'created_at';
+        $sortDirection = $filters['sort_direction'] ?? 'DESC';
+        
+        // Validate sort field to prevent SQL injection
+        $allowedSortFields = ['id', 'username', 'name', 'email', 'status', 'created_at', 'updated_at'];
+        if (in_array($sortField, $allowedSortFields)) {
+            $query->orderBy([$sortField => $sortDirection === 'ASC' ? SORT_ASC : SORT_DESC]);
+        } else {
+            $query->orderBy(['created_at' => SORT_DESC]);
+        }
+        
+        // Get total count for pagination
+        $totalCount = $query->count();
+        
+        // Apply pagination
+        $offset = ($page - 1) * $limit;
+        $users = $query->offset($offset)
+            ->limit($limit)
+            ->all();
+        
+        // Enrich users with roles information
+        $resultData = [];
+        foreach ($users as $user) {
+            $userData = $user->toArray();
+            
+            // Get user roles with their details
+            $userRoles = UserRoles::getUserRoles($user->id);
+            $userData['roles'] = $userRoles;
+            
+            // Get role IDs for quick access
+            $roleIds = UserRoles::getUserRolesIds($user->id);
+            $userData['role_ids'] = $roleIds;
+            
+            // Get full role objects (if needed)
+            if (!empty($filters['with_full_roles'])) {
+                $fullRoles = Roles::getRolesByUserId($user->id);
+                $userData['full_roles'] = $fullRoles;
+            }
+            
+            // Add additional user data if requested
+            if (!empty($filters['with_profile'])) {
+                $userData['profile'] = self::profile($user->id);
+            }
+            
+            $resultData[] = $userData;
+        }
+        
+        return [
+            'success' => true,
+            'data' => $resultData,
+            'pagination' => [
+                'page' => (int)$page,
+                'limit' => (int)$limit,
+                'total_count' => (int)$totalCount,
+                'total_pages' => (int)ceil($totalCount / $limit)
+            ],
+            'filters_applied' => $filters
+        ];
+    }
+
     
     /**
      * Validate date format and optional minimum date constraint
