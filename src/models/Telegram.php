@@ -14,11 +14,44 @@ use ZakharovAndrew\user\models\User;
 class Telegram extends \yii\base\Model
 {
     private $token;
+    private $proxy; // proxy settings array
     
     const BASE_API_URL = 'https://api.telegram.org/bot';
     
-    function __construct($token) {
+    /**
+     * Constructor
+     * 
+     * @param string $token Bot token
+     * @param array|null $proxy Proxy configuration, e.g.:
+     *   [
+     *       'host' => '127.0.0.1',
+     *       'port' => 8080,
+     *       'type' => CURLPROXY_HTTP, // or CURLPROXY_SOCKS5
+     *       'auth' => 'user:pass',    // optional
+     *   ]
+     */
+    public function __construct($token, $proxy = null)
+    {
         $this->token = $token;
+        if ($proxy !== null) {
+            $this->setProxy($proxy);
+        }
+    }
+
+    /**
+     * Set proxy settings
+     * 
+     * @param array $config
+     */
+    public function setProxy($config)
+    {
+        $defaults = [
+            'host' => null,
+            'port' => null,
+            'type' => CURLPROXY_HTTP,
+            'auth' => null,
+        ];
+        $this->proxy = array_merge($defaults, $config);
     }
 
     /**
@@ -260,7 +293,8 @@ class Telegram extends \yii\base\Model
             $data = json_encode($data);
         }
         
-        curl_setopt_array($ch, [
+        // Base cURL options
+        $options = [
             CURLOPT_URL => $url,
             CURLOPT_POST => true,
             CURLOPT_POSTFIELDS => $data,
@@ -268,7 +302,20 @@ class Telegram extends \yii\base\Model
             CURLOPT_SSL_VERIFYPEER => false,
             CURLOPT_TIMEOUT => 30,
             CURLOPT_CONNECTTIMEOUT => 10,
-        ]);
+        ];
+        
+        // Apply proxy if configured
+        if ($this->proxy && isset($this->proxy['host'], $this->proxy['port'])) {
+            $options[CURLOPT_PROXY] = $this->proxy['host'];
+            $options[CURLOPT_PROXYPORT] = $this->proxy['port'];
+            $options[CURLOPT_PROXYTYPE] = $this->proxy['type'] ?? CURLPROXY_HTTP;
+            
+            if (!empty($this->proxy['auth'])) {
+                $options[CURLOPT_PROXYUSERPWD] = $this->proxy['auth'];
+            }
+        }
+        
+        curl_setopt_array($ch, $options);
         
         $response = curl_exec($ch);
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
