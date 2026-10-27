@@ -255,6 +255,27 @@ Advanced usage with custom parameters:
 ]); ?>
 ```
 
+## 🎃 Halloween Garland Widget
+
+Permalink: 🎃 Halloween Garland Widget
+
+Display a festive, animated Halloween-themed garland under your navbar during the Halloween season (October 20 - November 5 by default).
+
+### Usage
+
+Permalink: Usage
+
+Add this to your main layout file (e.g., `@app/views/layouts/main.php`) right after your navbar:
+
+```php
+<?= \ZakharovAndrew\user\widgets\HalloweenGarlandWidget::widget([
+    'forceShow' => YII_DEBUG, // Auto-enables in debug mode for easy testing
+    'startDate' => '10-20',   // Start date in 'MM-DD' format
+    'endDate' => '11-05',     // End date in 'MM-DD' format
+    'itemsCount' => 14,       // Number of elements in the garland
+    'elementTypes' => ['🎃', '🦇', '👻', '💀', '🕷️'], // Custom hanging elements
+]) ?>
+
 ## 👤 User Menu Widget
 
 Add a user menu to your navigation bar with avatar, name and dropdown options:
