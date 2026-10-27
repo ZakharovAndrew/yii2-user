@@ -275,6 +275,7 @@ Add this to your main layout file (e.g., `@app/views/layouts/main.php`) right af
     'itemsCount' => 14,       // Number of elements in the garland
     'elementTypes' => ['🎃', '🦇', '👻', '💀', '🕷️'], // Custom hanging elements
 ]) ?>
+```
 
 ## 👤 User Menu Widget
 
