@@ -55,10 +55,10 @@ class HalloweenGarlandWidget extends Widget
         if ($this->forceShow || YII_DEBUG) {
             return true;
         }
-
-        $currentDate = date('m-d');
-        $start = $this->startDate;
-        $end = $this->endDate;
+        
+        $currentDate = (int)date('md');
+        $start = (int)str_replace('-', '', $this->startDate);
+        $end = (int)str_replace('-', '', $this->endDate);
 
         // Handle periods that cross over the new year (e.g., December to January)
         if ($start > $end) {
