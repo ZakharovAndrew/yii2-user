@@ -13,6 +13,7 @@ use yii\helpers\ArrayHelper;
  * @property int|null $user_id
  * @property int|null $role_id
  * @property string|null $note
+ * @property int|null $subject_id
  * @property string|null $created_at
  */
 class UserRoles extends \yii\db\ActiveRecord

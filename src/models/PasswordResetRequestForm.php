@@ -59,7 +59,7 @@ class PasswordResetRequestForm extends Model
      */
     public function sendEmail()
     {
-        /* @var $user User */
+        /** @var User|null $user */
         $user = User::find()
                 ->where(['email' => $this->email, 'username' => $this->username])
                 ->andWhere(['<>', 'status', User::STATUS_DELETED])

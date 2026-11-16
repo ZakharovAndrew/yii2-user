@@ -12,9 +12,11 @@ use yii\helpers\Json;
  *
  * @property int $id
  * @property string $title
+ * @property string $code
  * @property string|null $description
  * @property string|null $created_at
  * @property string|null $parameters
+ * @property string|null $function_to_get_all_subjects
  */
 class Roles extends \yii\db\ActiveRecord
 {

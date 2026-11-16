@@ -2,6 +2,15 @@
 
 namespace ZakharovAndrew\user\models;
 
+/**
+ * This is the model class for table "user_activity".
+ *
+ * @property int $id
+ * @property int $user_id
+ * @property string $date_at
+ * @property string|null $start_activity
+ * @property string|null $stop_activity
+ */
 class UserActivity extends \yii\db\ActiveRecord
 {
     /**

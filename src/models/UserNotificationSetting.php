@@ -7,6 +7,18 @@ use yii\db\ActiveRecord;
 use ZakharovAndrew\user\models\User;
 use ZakharovAndrew\user\models\Notification;
 
+/**
+ * This is the model class for table "user_notification_settings".
+ *
+ * @property int $id
+ * @property int $user_id
+ * @property int $notification_id
+ * @property int|null $send_email
+ * @property int|null $send_telegram
+ * @property int|null $send_push
+ * @property string|null $created_at
+ * @property string|null $updated_at
+ */
 class UserNotificationSetting extends ActiveRecord
 {
     public static function tableName()

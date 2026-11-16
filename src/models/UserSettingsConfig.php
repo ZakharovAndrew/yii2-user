@@ -16,6 +16,7 @@ use yii\helpers\ArrayHelper;
  * @property int|null $type
  * @property int|null $access_level
  * @property string|null $values
+ * @property string $hidden_for_roles
  */
 class UserSettingsConfig extends \yii\db\ActiveRecord
 {

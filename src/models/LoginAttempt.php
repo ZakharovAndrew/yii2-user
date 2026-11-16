@@ -15,6 +15,12 @@ use ZakharovAndrew\user\Module;
 /**
  * Class for logging authorization attempts and blocking IP access if unsuccessful
  *
+ * @property int $id
+ * @property string $username
+ * @property string $ip_address
+ * @property string|null $attempt_time
+ * @property int $successful
+ *
  * @author Andrey Zakharov
  * @since 0.5.7
  */
