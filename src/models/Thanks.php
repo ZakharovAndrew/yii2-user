@@ -6,6 +6,15 @@ use Yii;
 use yii\db\ActiveRecord;
 use ZakharovAndrew\user\Module;
 
+/**
+ * This is the model class for table "thanks".
+ *
+ * @property int $id
+ * @property int $user_id
+ * @property int|null $author_id
+ * @property string|null $text
+ * @property string|null $created_at
+ */
 class Thanks extends ActiveRecord
 {
     public static function tableName()

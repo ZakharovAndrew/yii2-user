@@ -11,6 +11,15 @@ use ZakharovAndrew\user\Module;
 /**
  * This is the model class for table "notifications".
  * It represents a notification and its associated roles, group, and settings.
+ *
+ * @property int $id
+ * @property int $notification_group_id
+ * @property string $name
+ * @property string|null $code_name
+ * @property string|null $function_to_call
+ * @property string|null $description
+ * @property string|null $created_at
+ * @property string|null $updated_at
  */
 class Notification extends ActiveRecord
 {

@@ -26,6 +26,13 @@ use ZakharovAndrew\user\models\Friendship;
  * @property int $sex
  * @property string $created_at
  * @property string $updated_at
+ * @property int|null $telegram_id
+ * @property string $telegram_code
+ * @property string|null $phone
+ * @property int|null $created_by
+ * @property string|null $email_verification_code
+ * @property int|null $coins
+ * @property int $friends_count Friends count
  */
 class User extends \yii\db\ActiveRecord implements IdentityInterface
 {

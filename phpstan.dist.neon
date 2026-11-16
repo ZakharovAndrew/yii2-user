@@ -1,0 +1,65 @@
+includes:
+    - vendor/mspirkov/yii2-phpstan/extension.neon
+    - phpstan-baseline.neon
+
+parameters:
+    level: 0
+    paths:
+        - src
+        - migrations
+    excludePaths:
+        # TODO: analyse views after fixing the errors in them
+        - src/views
+        - src/widgets/views
+        - src/components/views
+        - src/mail
+    bootstrapFiles:
+        - vendor/yiisoft/yii2/Yii.php
+    ignoreErrors:
+        # TODO: remove after updating Yii2 to 2.0.56
+        -
+            message: '#^Object option "(pagination|sort)" for yii\\data\\ActiveDataProvider must be .+, array<.+> given\.$#'
+            identifier: mspirkovYii2.baseObjectInstantiationValidation
+        # Missing views. Not in the baseline because their messages contain absolute paths
+        # TODO: add missing views
+        -
+            message: '#^View "index" does not exist at "[^"]+/src/views/birthday-greeting/index\.php"\.#'
+            identifier: mspirkovYii2.controllerViewExistenceValidation
+            path: src/controllers/BirthdayGreetingController.php
+        -
+            message: '#^View "update" does not exist at "[^"]+/src/views/user/update\.php"\.#'
+            identifier: mspirkovYii2.controllerViewExistenceValidation
+            path: src/controllers/UserController.php
+        -
+            message: '#^View "my-deputies" does not exist at "[^"]+/src/views/user-deputy/my-deputies\.php"\.#'
+            identifier: mspirkovYii2.controllerViewExistenceValidation
+            path: src/controllers/UserDeputyController.php
+        -
+            message: '#^View "team" does not exist at "[^"]+/src/views/vacation/team\.php"\.#'
+            identifier: mspirkovYii2.controllerViewExistenceValidation
+            path: src/controllers/VacationController.php
+        -
+            message: '#^View "view" does not exist at "[^"]+/src/views/vacation-type/view\.php"\.#'
+            identifier: mspirkovYii2.controllerViewExistenceValidation
+            path: src/controllers/VacationTypeController.php
+        -
+            message: '#^View "view" does not exist at "[^"]+/src/views/wallpaper-admin/view\.php"\.#'
+            identifier: mspirkovYii2.controllerViewExistenceValidation
+            path: src/controllers/WallpaperAdminController.php
+    mspirkovYii2:
+        enableAllRules: false
+        enableValidationRules: true
+        aliases:
+            '@vendor/zakharov-andrew/yii2-user': .
+            '@user': src
+        yiiAppTypes:
+            -
+                paths:
+                    - src
+                type: yii\web\Application<ZakharovAndrew\user\models\User>
+                nullable: false
+            -
+                paths:
+                    - migrations
+                type: yii\console\Application
+                nullable: false

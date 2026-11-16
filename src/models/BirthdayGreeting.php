@@ -112,7 +112,7 @@ class BirthdayGreeting extends ActiveRecord
      */
     public function sendEmail()
     {
-        /* @var $user User */
+        /** @var User|null $user */
         $user = User::findOne($this->user_id);
  
         if (!$user) {

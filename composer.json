@@ -11,10 +11,20 @@
             "role": "Developer"
         }
     ],
+    "scripts": {
+        "phpstan": "vendor/bin/phpstan"
+    },
     "require": {
         "php": ">=7.2",
-        "firebase/php-jwt" : "*"
+        "firebase/php-jwt" : "*",
+        "yiisoft/yii2": "*"
     },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://asset-packagist.org"
+        }
+    ],
     "autoload": {
         "psr-4": {
             "ZakharovAndrew\\user\\": "src"
@@ -22,5 +32,14 @@
     },
     "fxp-asset": {
         "enabled": false
+    },
+    "config": {
+        "allow-plugins": {
+            "yiisoft/yii2-composer": true
+        }
+    },
+    "require-dev": {
+        "phpstan/phpstan": "^2.3",
+        "mspirkov/yii2-phpstan": "^0.18.0"
     }
 }

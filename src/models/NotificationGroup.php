@@ -6,6 +6,16 @@ use Yii;
 use yii\db\ActiveRecord;
 use ZakharovAndrew\user\models\Notification;
 
+/**
+ * This is the model class for table "notification_groups".
+ *
+ * @property int $id
+ * @property string $name
+ * @property string|null $description
+ * @property int $position
+ * @property string|null $created_at
+ * @property string|null $updated_at
+ */
 class NotificationGroup extends ActiveRecord
 {
     public static function tableName()
