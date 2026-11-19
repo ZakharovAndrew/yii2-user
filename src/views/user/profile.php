@@ -68,20 +68,30 @@ $this->title = Module::t('Profile');
                 </a><a href="<?= Url::to(['delete-avatar']) ?>" class='user-avatar-delete' data-bs-toggle="tooltip" title="Remove delete">X</a>
                 <?php }?>
             </div>
-            <div style="-webkit-flex: 0 1 100%;   flex: 0 1 100%;">
-                <h3><?= $model->name ?></h3>
-                <p><?= Module::t('City'). ' : ' . $model->city ?></p>
-                <p><?= Module::t('Birthday'). ' : ' . (empty($model->birthday) ? Module::t('Not specified') : date('d.m.Y', strtotime($model->birthday))) ?>
-                    <?php
-                // Happy Birthday button
-                if ($model->isBirthdayToday() && $model->id != Yii::$app->user->id) {
-                    echo' <a href="'.Url::to(['/user/birthday-greeting/send', 'id' => $model->id]).'" title="'.Module::t('Send birthday congratulations').'">🎁</a>';
-                }
-                ?></p>
-                <p><?= Module::t('Sex'). ' : ' . User::getSexList()[$model->sex] ?? Module::t('Not specified') ?></p> 
-                <?php if (!empty($model->phone)) {
-                    echo '<p>'. Module::t('Phone'). ' : ' . $model->phone .'</p>';
-                } ?>
+            <?php
+            $sexList = User::getSexList();
+            ?>
+            <div style="-webkit-flex: 0 1 100%; flex: 0 1 100%;">
+                <h3><?= Html::encode($model->name) ?></h3>
+            
+                <p><?= Module::t('City') . ' : ' . Html::encode($model->city) ?></p>
+            
+                <p>
+                    <?= Module::t('Birthday') . ' : ' . (empty($model->birthday)
+                        ? Module::t('Not specified')
+                        : date('d.m.Y', strtotime($model->birthday))) ?>
+                    <?php if ($model->isBirthdayToday() && $model->id != Yii::$app->user->id): ?>
+                        <?= Html::a('🎁', ['/user/birthday-greeting/send', 'id' => $model->id], [
+                            'title' => Module::t('Send birthday congratulations'),
+                        ]) ?>
+                    <?php endif; ?>
+                </p>
+            
+                <p><?= Module::t('Sex') . ' : ' . Html::encode($sexList[$model->sex] ?? Module::t('Not specified')) ?></p>
+            
+                <?php if (!empty($model->phone)): ?>
+                    <p><?= Module::t('Phone') . ' : ' . Html::encode($model->phone) ?></p>
+                <?php endif; ?>
             </div>
             <div class="profile-action-block">
                 <?php 
