@@ -1,8 +1,9 @@
 {
     "name": "zakharov-andrew/yii2-user",
-    "description": "Yii2 User",
+    "description": "Yii2 user module: authentication, roles and permissions, profiles, deputies, birthday widgets",
     "type": "yii2-extension",
-    "keywords": ["yii2", "extension", "module", "access", "permissions", "rights", "roles", "users", "admin", "yii 2", "profile"],
+    "keywords": ["yii2", "extension", "module", "access", "permissions", "rights", "roles", "users", "admin", "profile", "yii 2"],
+    "homepage": "https://github.com/ZakharovAndrew/yii2-user",
     "license": "MIT",
     "authors": [
         {
@@ -11,9 +12,14 @@
             "role": "Developer"
         }
     ],
+    "support": {
+        "issues": "https://github.com/ZakharovAndrew/yii2-user/issues",
+        "source": "https://github.com/ZakharovAndrew/yii2-user"
+    },
     "require": {
-        "php": ">=7.2",
-        "firebase/php-jwt" : "*"
+        "php": ">=7.4",
+        "yiisoft/yii2": "~2.0.45",
+        "firebase/php-jwt": "^6.0"
     },
     "autoload": {
         "psr-4": {
