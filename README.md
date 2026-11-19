@@ -55,7 +55,7 @@ return [
             'class' => 'yii\console\controllers\MigrateController',
             'migrationPath' => [
                 '@console/migrations', // Default migration folder
-                '@vendor/zakharov-andrew/yii2-user/src/migrations'
+                '@vendor/zakharov-andrew/yii2-user/migrations'
             ]
         ]
         // ...
@@ -309,10 +309,10 @@ Customize the display for non-authenticated users:
 <?= \ZakharovAndrew\user\widgets\UserMenuWidget::widget([
     'guestContent' => '
         <div class="d-flex gap-2">
-            <a href="' . \yii\helpers\Url::to(['/user/auth/login']) . '" class="btn btn-outline-light btn-sm">
+            <a href="' . \yii\helpers\Url::to(['/user/user/login']) . '" class="btn btn-outline-light btn-sm">
                 ' . \ZakharovAndrew\user\Module::t('Login') . '
             </a>
-            <a href="' . \yii\helpers\Url::to(['/user/auth/signup']) . '" class="btn btn-primary btn-sm">
+            <a href="' . \yii\helpers\Url::to(['/user/user/signup']) . '" class="btn btn-primary btn-sm">
                 ' . \ZakharovAndrew\user\Module::t('Signup') . '
             </a>
         </div>
@@ -411,4 +411,4 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## 📄 License
 
-**yii2-user** it is available under a MIT License. Detailed information can be found in the `LICENSE.md`.
+**yii2-user** it is available under a MIT License. Detailed information can be found in the `LICENSE`.
